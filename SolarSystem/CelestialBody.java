@@ -75,8 +75,8 @@ public class CelestialBody {
     }
 
     public void setPosition(int rowIndex) {
-        this.x1 = state.positions[rowIndex][0];
-        this.x2 = state.positions[rowIndex][1];
+        this.x1 = State.positions[rowIndex][0];
+        this.x2 = State.positions[rowIndex][1];
         //this.x3 = state.positions[rowIndex][2];
     }
 

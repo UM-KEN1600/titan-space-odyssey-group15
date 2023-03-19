@@ -2,8 +2,8 @@ package EulerSolver;
 
 public class State {
 
-    double[][] positions = new double[7][3];
-    double[][] velocities = new double[7][3];
+    public double[][] positions = new double[7][3];
+    public double[][] velocities = new double[7][3];
 
     public State()
     {

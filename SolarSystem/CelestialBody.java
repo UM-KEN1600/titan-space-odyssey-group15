@@ -8,19 +8,24 @@ public class CelestialBody {
     String color;
     double mass;
     double radius;
-    double[] initialPos = new double[3];
-    double[] initialVel = new double[3];
+    
+    CelestialBody(String name, String color, double mass, double radius){
 
-    CelestialBody(String name, String color, double[] initialPos, double initialVel[], double mass, double radius){
         this.name = name;
-        this.color = color;
+        this.color= color;
         this.mass = mass;
-
-        for (int i = 0; i < 3; i++) {
-            this.initialPos[i] = initialPos[i];
-            this.initialVel[i] = initialVel[i];      
-        }       
+        this.radius = radius;
     }
 
-    
+    public String getName() {
+        return name;
+    }
+    public String getColor() {
+        return color;
+    }
+    public double getMass() {
+        return mass;
+    }public double getRadius() {
+        return radius;
+    }
 }

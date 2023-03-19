@@ -2,25 +2,42 @@ package EulerSolver;
 
 import SolarSystem.CelestialBody;
 
-// represents differential equation we want to solve
-
+/**
+ * This class contains all numerical methods that are used for computations.
+ */
 public class Functions {
 
-    double G = 6.6743e-20;
+    double G = Math.pow(6.6743, -20);
     
-    public double[] forceCalculator(CelestialBody bodyA, CelestialBody bodyB)
-    {   
+    /**
+     * 
+     * @param bodyA
+     * @param bodyB
+     * @return
+     */
+    public double[] forceCalculator(CelestialBody bodyA, CelestialBody bodyB){
+
         double[] vectorA = State.positions[bodyA.rowInState];
         double[] vectorB = State.positions[bodyB.rowInState];
 
         double a = G * bodyA.mass * bodyB.mass;
 
-        double[] b = Vector3D.vectorDivision(Vector3D.vectorSubtraction(vectorA, vectorB), Vector3D.euclideanForm(vectorA, vectorB)) ;
+        double[] b = VectorOperations.vectorScalarDivision(VectorOperations.vectorSubtraction(vectorA, vectorB), VectorOperations.euclideanForm(vectorA, vectorB));
 
-        double[] finalForce = Vector3D.vectorDivision(b, 1/a);
+        double[] finalForce = VectorOperations.vectorScalarMultiplication(b, a);
 
         return finalForce;
     }
 
-    public double[] fullForce()
+    public double[] forceOnSpaceship(CelestialBody[] celestialBodies, double[][] positions, CelestialBody spaceship){
+        
+        double[] fullForce = new double[3];
+
+        for(CelestialBody planet : celestialBodies)
+        {
+            fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(planet, spaceship));
+        }
+
+        return VectorOperations.vectorScalarMultiplication(fullForce, -1);
+    }
 }

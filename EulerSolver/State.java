@@ -1,9 +1,12 @@
 package EulerSolver;
 
+/**
+ * Holds a matrix with the position and velocity of each celestial body: Sun, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan and Spaceship respectively
+ */
 public class State {
 
-    public double[][] positions = new double[7][3];
-    public double[][] velocities = new double[7][3];
+    public static double[][] positions = new double[8][3];
+    public double[][] velocities = new double[8][3];
 
     public State()
     {
@@ -44,6 +47,11 @@ public class State {
         positions[6][1] = -761340299.067828;
         positions[6][2] = -36309613.8378104;
 
+        //Spaceship
+        positions[7][0] = 0;
+        positions[7][1] = 0;
+        positions[7][2] = 0;
+
         //velocity here
         //Sun first row again
 
@@ -81,5 +89,10 @@ public class State {
         velocities[7][0] = 8.99593229549645;
         velocities[7][1] = 11.1085713608453;
         velocities[7][2] = -2.25130986174761;
+
+        //Spaceship
+        velocities[7][0] = 0;
+        velocities[7][1] = 0;
+        velocities[7][2] = 0;
     }
 }

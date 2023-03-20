@@ -7,13 +7,13 @@ import SolarSystem.CelestialBody;
  */
 public class Functions {
 
-    double G = Math.pow(6.6743, -20);
+    double G = 6.6743 * Math.pow(10, -20);
     
     /**
-     * 
+     * calculates the force of one celestial body on another celestial body
      * @param bodyA
      * @param bodyB
-     * @return
+     * @return Force of bodies in three dimensions
      */
     public double[] forceCalculator(CelestialBody bodyA, CelestialBody bodyB){
 
@@ -24,12 +24,18 @@ public class Functions {
 
         double[] b = VectorOperations.vectorScalarDivision(VectorOperations.vectorSubtraction(vectorA, vectorB), VectorOperations.euclideanForm(vectorA, vectorB));
 
-        double[] finalForce = VectorOperations.vectorScalarMultiplication(b, a);
+        double[] force = VectorOperations.vectorScalarMultiplication(b, a);
 
-        return finalForce;
+        return force;
     }
 
-    public double[] forceOnSpaceship(CelestialBody[] celestialBodies, double[][] positions, CelestialBody spaceship){
+    /**
+     * calculates the sum of the forces the celestial bodies have on the space ship
+     * @param celestialBodies
+     * @param spaceship
+     * @return sum of all forces on the spaceship
+     */
+    public double[] forceOnSpaceship(CelestialBody[] celestialBodies, CelestialBody spaceship){
         
         double[] fullForce = new double[3];
 

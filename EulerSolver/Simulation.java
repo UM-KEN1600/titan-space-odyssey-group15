@@ -8,8 +8,18 @@ public class Simulation {
         Functions functions = new Functions();
         CelestialBody.setupCelestialBodies();
 
-        double t = 0.1;
+        double t = 1000000;
 
+        double[] a = {1,2,3};
+        double b = 0;
+        b = VectorOperations.euclideanForm(a, VectorOperations.vectorScalarMultiplication(a, 2));
+
+        for(int i = 0; i < 3; i++)
+        {
+            System.out.println(a[i]);
+        }
+
+        //System.out.println(b);
 
         State.printPositions();
 
@@ -19,14 +29,14 @@ public class Simulation {
             {
                 State.setForce(j, functions.forceOnPlanet(CelestialBody.list[j]));
             }
-
+    
             for(int j = 1; j < 8; j++)
             {
                 State.setVelocity(j, functions.velocityOfBody(t, CelestialBody.list[j]));
 
                 State.setPosition(j, functions.newPositionOfBody(t, CelestialBody.list[j]));
             }
-            System.out.println("I wanna die");
+            //System.out.println("I wanna die");
         }
 
         System.out.println("New Positions:");

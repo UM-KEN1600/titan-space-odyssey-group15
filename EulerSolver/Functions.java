@@ -73,7 +73,7 @@ public class Functions {
     }
 
     /**
-     * calculates the velocity of the spaceship at a certain time
+     * calculates the velocity of a planet at a certain time
      * @param time
      * @param spaceShip
      * @return
@@ -82,8 +82,11 @@ public class Functions {
     {
         double[] velocity = new double[3];
 
+        velocity = VectorOperations.vectorScalarDivision(State.getForce(body.rowInState), body.mass);
+
+        velocity = VectorOperations.vectorScalarMultiplication(velocity, time);
         //velocity1 = velocity0 + (Force/mass) * time
-        velocity = VectorOperations.vectorAddition(State.getVelocity(body.rowInState), VectorOperations.vectorScalarMultiplication(VectorOperations.vectorScalarDivision(forceOnPlanet(body), body.mass), time));
+        velocity = VectorOperations.vectorAddition(velocity, State.getVelocity(body.rowInState));
 
         return velocity;
     }

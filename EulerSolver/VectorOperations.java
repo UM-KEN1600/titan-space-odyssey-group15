@@ -98,6 +98,8 @@ public class VectorOperations {
      */
     public static double[] vectorScalarDivision(double[] vectorA, double value)
     {
+        double[] A = new double[3];
+
         if(value == 0)
         {
             System.out.println("Division by 0");
@@ -105,10 +107,10 @@ public class VectorOperations {
 
         for(int i = 0; i < vectorA.length; i++)
         {
-            vectorA[i] = vectorA[i] / value;
+            A[i] = vectorA[i] / value;
         }
 
-        return vectorA;
+        return A;
     }
 
     /**
@@ -119,9 +121,11 @@ public class VectorOperations {
      */
     public static double[] vectorScalarMultiplication(double[] vectorA, double scalar)
     {
+        double[] A = new double[3];
+
         for(int i = 0; i < vectorA.length; i++)
         {
-            vectorA[i] = vectorA[i] * scalar;
+            A[i] = vectorA[i] * scalar;
         }
 
         return vectorA;

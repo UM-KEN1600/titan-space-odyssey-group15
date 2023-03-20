@@ -22,7 +22,7 @@ public class Functions {
 
         double a = G * bodyA.mass * bodyB.mass;
 
-        double[] b = VectorOperations.vectorScalarDivision(VectorOperations.vectorSubtraction(vectorA, vectorB), VectorOperations.euclideanForm(vectorA, vectorB));
+        double[] b = VectorOperations.vectorScalarDivision(VectorOperations.vectorSubtraction(vectorA, vectorB), Math.pow(VectorOperations.euclideanForm(vectorA, vectorB), 3));
 
         double[] force = VectorOperations.vectorScalarMultiplication(b, a);
 

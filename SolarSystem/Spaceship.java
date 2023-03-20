@@ -64,16 +64,5 @@ public class Spaceship extends CelestialBody {
         //this.x3 += distZ;
     }
 
-    public boolean checkCollision (CelestialBody celestialBody) {
-        if (celestialBody.setCoordinates(x1, x2) == this.setCoordinates(x1, x2)) {
-            return true;
-        }
-        return false;
-    }
-
-    public void computeAcceleration(double initialVelocity, double finalVelocity, double time) {
-        double deltaV = (finalVelocity = initialVelocity);
-        acceleration = (deltaV / time);
-    }
 
 }

@@ -1,16 +1,16 @@
 package SolarSystem;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Point2D;
-
-import javax.swing.JPanel;
-
+import javax.swing.*;
 import EulerSolver.*;
 
-//represents comets, asteroids, moons etc
+/**
+ * represents planets, sun, extends spaceship
+ * contains all methods, properties and getters and setters for celestial bodoes
+ */
 
-public class CelestialBody extends JPanel {
+public class CelestialBody extends JPanel{
     public double mass;
     public double radius;
 
@@ -22,11 +22,8 @@ public class CelestialBody extends JPanel {
     double x1;
     double x2;
     int diameter = 20;
-    double semiMajorAxisLength;
-    double semiMinorAxisLength;
     static double scaleFactor = 7.0;
     EulerSolver.State state = new State();
-
 
     CelestialBody(double mass, double radius, int rowInState, String name, Color color){
 
@@ -36,7 +33,6 @@ public class CelestialBody extends JPanel {
         this.radius = radius;
 
         this.rowInState = rowInState;
-
     }
 
     CelestialBody() {}
@@ -73,63 +69,44 @@ public class CelestialBody extends JPanel {
         this.radius = radius;
     }
 
-
-    // public void setPosition(int rowIndex, int colIndex) {
-    //     this.x1 = State.positions[rowIndex][colIndex];
-    //     this.x2 = State.positions[rowIndex][colIndex+1];
-    //     //this.x3 = state.positions[rowIndex][colIndex+2];
-    // }
-
-
-    public Point2D.Double getCoordinates(double x1, double x2) {
-        double x = x2;
-        double y = x2;
-        return new Point2D.Double(x, y);
-    }
-
+    /**
+     * retrieves the x1 value of a celestial body stored in the 2D positions array 
+     * @param rowInState the index representing the row that the specific celestial body is in
+     * @return the x1 value stored in the 2D positions array
+     */
     public static double getX1(int rowInState) {
         return State.positions[rowInState][0];
     }
 
+     /**
+     * retrieves the x2 value of a celestial body stored in the 2D positions array 
+     * @param rowInState the index representing the row that the specific celestial body is in
+     * @return the x2 value stored in the 2D positions array
+     */
     public static double getX2(int rowInState) {
         return State.positions[rowInState][1];
     }
 
-
-
-  //  public void drawCelestialBody(Graphics2D g2) {
-
-    //   int x = (int)Math.round(scaleDownPosition(this.x1));
-      // int y = (int)Math.round(scaleDownPosition(this.x2));
-
-      // if (x != (int)Math.round(scaleDownPosition(this.x1)) && y != (int)Math.round(scaleDownPosition(this.x2))) {
-        //System.out.println("Casting from double to integer in drawCelestialBody is not correct");
-       //}
-
-            
-        //g2.setColor(this.color);
-        //g2.fillOval(x, y, diameter, diameter);
-    //}
-
+    /**
+     * reduces the x1 and x2 coordinates of each celestial body to fit onto a 1000x600 frame
+     * @param xValue the x value being scaled down
+     * @param index the index representing the row of the 2D positions array
+     * @return the x value after scaling
+     */
     public static double scaleDownPosition(double xValue, int index){
         if (index <= 4) {
-            return scaleFactor * (xValue/10000000);
+            return (scaleFactor * (xValue/10000000));
         }
         else {
-            return scaleFactor / 2.5 * (xValue/10000000);
+            return ((scaleFactor / 2.5) * (xValue/10000000));
         }
     }
-
-   
-
 
     /**
      * sets up the celestial bodies with their respective mass, radisu and row in the State matrix. They are then added to the list of celestial bodies
      */
 
-
     public static void setupCelestialBodies()
-
     {
         //temporary colour for initialization, can be changed for GUI later
         Color tempColor = new Color(0, 0, 0);
@@ -153,7 +130,6 @@ public class CelestialBody extends JPanel {
         list[6] = saturn;
         list[7] = titan;
         list[8] = spaceship;
-
         
     }
 

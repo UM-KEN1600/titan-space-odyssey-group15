@@ -12,7 +12,6 @@ public class Main {
 
     public static void main(String[] args)  {
 
-        
         //frame
         JFrame mainFrame = new JFrame("Solar System");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,10 +20,5 @@ public class Main {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(new Draw());
         mainFrame.setVisible(true);
-
-            
-        
-        
-        
     }
 }

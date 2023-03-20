@@ -1,12 +1,13 @@
 package SolarSystem;
-
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
 import EulerSolver.*;
 
-public class Spaceship {
-    
+//represents solar system with planets, celestial bodies, the sun etc.
+
+public class Spaceship extends CelestialBody {
     public double velocity;
     public final int MASS = 50000;
     public double acceleration;
@@ -15,12 +16,12 @@ public class Spaceship {
     //public double x3;
     CelestialBody celestialBody;
 
+    double mass = 50000;
 
-    public Spaceship(double x1, double x2, double velocity, double acceleration) {
-        this.x1 = x1;
-        this.x2 = x2;
-        this.velocity = velocity;
-        this.acceleration = acceleration;
+
+    public Spaceship(double mass, double radius, int rowInState, String name, Color color)
+    {
+        super(mass, radius, rowInState, name, color);
     }
 
     public Point getPosition(double x1, double x2) {
@@ -41,7 +42,7 @@ public class Spaceship {
 
     public void setVelocity(double velocity) {
         this.velocity = velocity;
-    }
+    }    
 
     public double getAcceleration() {
         return acceleration;

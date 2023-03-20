@@ -5,11 +5,13 @@ package EulerSolver;
  */
 public class State {
 
-    public static double[][] positions = new double[8][3];
-    public double[][] velocities = new double[8][3];
+    public static double[][] positions = new double[9][3];
+    public static double[][] velocities = new double[9][3];
 
     public State()
     {
+
+        //----Positions -------------------------------------
         //Sun is first row :)
     
         //Venus
@@ -23,37 +25,37 @@ public class State {
         positions[2][2] = 33746.8987977113;
 
         //Moon
-        positions[2][0] = -148458048.395164;
-        positions[2][1] = -27524868.1841142;
-        positions[2][2] = 70233.6499287411;
+        positions[3][0] = -148458048.395164;
+        positions[3][1] = -27524868.1841142;
+        positions[3][2] = 70233.6499287411;
 
         //Mars
-        positions[3][0] = -159116303.422552;
-        positions[3][1] = 189235671.561057;
-        positions[3][2] = 7870476.08522969;
+        positions[4][0] = -159116303.422552;
+        positions[4][1] = 189235671.561057;
+        positions[4][2] = 7870476.08522969;
 
         //Jupiter
-        positions[4][0] = 692722875.928222;
-        positions[4][1] = 258560760.813524;
-        positions[4][2] = -16570817.7105996;
+        positions[5][0] = 692722875.928222;
+        positions[5][1] = 258560760.813524;
+        positions[5][2] = -16570817.7105996;
 
         //Saturn
-        positions[5][0] = 1253801723.95465;
-        positions[5][1] = -760453007.810989;
-        positions[5][2] = -36697431.1565206;
+        positions[6][0] = 1253801723.95465;
+        positions[6][1] = -760453007.810989;
+        positions[6][2] = -36697431.1565206;
 
         //Titan
-        positions[6][0] = 1254501624.95946;
-        positions[6][1] = -761340299.067828;
-        positions[6][2] = -36309613.8378104;
+        positions[7][0] = 1254501624.95946;
+        positions[7][1] = -761340299.067828;
+        positions[7][2] = -36309613.8378104;
 
         //Spaceship
-        positions[7][0] = 0;
-        positions[7][1] = 0;
-        positions[7][2] = 0;
+        positions[8][0] = 0;
+        positions[8][1] = 0;
+        positions[8][2] = 0;
 
-        //velocity here
-        //Sun first row again
+        //----Velocities -------------------------------------------
+        //Sun first row all 0
 
         //Venus
         velocities[1][0] = -34.0236737066136;
@@ -91,8 +93,8 @@ public class State {
         velocities[7][2] = -2.25130986174761;
 
         //Spaceship
-        velocities[7][0] = 0;
-        velocities[7][1] = 0;
-        velocities[7][2] = 0;
+        velocities[8][0] = 0;
+        velocities[8][1] = 0;
+        velocities[8][2] = 0;
     }
 }

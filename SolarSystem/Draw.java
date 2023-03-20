@@ -9,7 +9,7 @@ import javax.swing.JComponent;
 
 public class Draw extends JComponent{
 
-    CelestialBody [] celestialBodies = new CelestialBody[10];
+    CelestialBody [] celestialBodies = new CelestialBody[8];
     Spaceship spaceship;
 
     public Draw(CelestialBody [] celestialBodies, Spaceship spaceship) {

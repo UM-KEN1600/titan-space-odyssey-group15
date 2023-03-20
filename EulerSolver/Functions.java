@@ -78,20 +78,24 @@ public class Functions {
      * @param spaceShip
      * @return
      */
-    public double[] velocityOfSpaceship(double time, CelestialBody spaceShip)
+    public double[] velocityOfBody(double time, CelestialBody body)
     {
         double[] velocity = new double[3];
 
-        //velocity1 = velocity0 + acceleration * time
-        velocity = VectorOperations.vectorScalarMultiplication(VectorOperations.vectorAddition(State.velocities[spaceShip.rowInState], VectorOperations.vectorScalarMultiplication(forceOnSpaceship(spaceShip), spaceShip.mass)), time);
+        //velocity1 = velocity0 + (Force/mass) * time
+        velocity = VectorOperations.vectorAddition(State.velocities[body.rowInState], VectorOperations.vectorScalarMultiplication(VectorOperations.vectorScalarDivision(forceOnSpaceship(body), body.mass), time));
 
         return velocity;
     }
 
-    public double[] newPositionOfSpaceship(double time, CelestialBody spaceShip)
+    /**
+     * 
+     * @param time
+     * @param spaceShip
+     * @return
+     */
+    public void newPositionOfBody(double time, CelestialBody body)
     {
-        double[] position = new double[3];
-
-        position = VectorOperations.vectorAddition(position, position) VectorOperations.vectorScalarMultiplication(State.velocities[spaceShip.rowInState], time);
+        State.positions[body.rowInState] = VectorOperations.vectorAddition(State.positions[body.rowInState], VectorOperations.vectorScalarMultiplication(State.velocities[body.rowInState], time));
     }
 }

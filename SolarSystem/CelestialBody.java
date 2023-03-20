@@ -13,8 +13,10 @@ import EulerSolver.*;
 public class CelestialBody extends JPanel {
     public double mass;
     public double radius;
-    public static int rowInState;
-    CelestialBody[] list = new CelestialBody[9];
+
+    public int rowInState;
+    public static CelestialBody[] list = new CelestialBody[9];
+
     String name;
     Color color;
     double x1;
@@ -71,11 +73,13 @@ public class CelestialBody extends JPanel {
         this.radius = radius;
     }
 
-   /* public void setPosition(int rowIndex, int colIndex) {
-        this.x1 = State.positions[rowIndex][colIndex];
-        this.x2 = State.positions[rowIndex][colIndex+1];
-        //this.x3 = state.positions[rowIndex][colIndex+2];
-    }*/
+
+    // public void setPosition(int rowIndex, int colIndex) {
+    //     this.x1 = State.positions[rowIndex][colIndex];
+    //     this.x2 = State.positions[rowIndex][colIndex+1];
+    //     //this.x3 = state.positions[rowIndex][colIndex+2];
+    // }
+
 
     public Point2D.Double getCoordinates(double x1, double x2) {
         double x = x2;
@@ -122,7 +126,10 @@ public class CelestialBody extends JPanel {
     /**
      * sets up the celestial bodies with their respective mass, radisu and row in the State matrix. They are then added to the list of celestial bodies
      */
-    public CelestialBody[] setupCelestialBodies()
+
+
+    public static void setupCelestialBodies()
+
     {
         //temporary colour for initialization, can be changed for GUI later
         Color tempColor = new Color(0, 0, 0);
@@ -147,7 +154,7 @@ public class CelestialBody extends JPanel {
         list[7] = titan;
         list[8] = spaceship;
 
-        return list;
+        
     }
 
 }

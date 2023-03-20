@@ -9,7 +9,49 @@ public class State {
 
     public static double[][] positions = new double[9][3];
     public static double[][] velocities = new double[9][3];
+    public static double[][] forces = new double[9][3];
+
     public static Color [] colors = {new Color(249,215,28), new Color(217,221,227), new Color(0, 120, 130), new Color(169,169,169), new Color(161,37,27), new Color(181,101,29), new Color(217,179,130), new Color(230,214,144), Color.BLUE};
+
+    public static double[] getPosition(int row){
+        return positions[row];
+    }
+
+    public static double[] getVelocity(int row){
+        return velocities[row];
+    }
+
+    public static double[] getForce(int row){
+        return forces[row];
+    }
+
+    public static void setPosition(int row, double[] position)
+    {
+        positions[row] = position;
+    }
+
+    public static void setVelocity(int row, double[] velocity)
+    {
+        velocities[row] = velocity;
+    }
+
+    public static void setForce(int row, double[] force)
+    {
+        forces[row] = force;
+    }
+    
+    public static void printPositions()
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                System.out.println(positions[i][j] + " ");
+            }
+
+            System.out.println("");
+        }
+    }
 
     public State()
     {

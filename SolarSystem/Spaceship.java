@@ -25,7 +25,7 @@ public class Spaceship extends CelestialBody {
         super(mass, radius, rowInState, name, color);
     }
 
-    public Point2D.Double getPosition(double x1, double x2) {
+    public Point2D.Double setCoordinates(double x1, double x2) {
         double x = x1;
         double y = x2;
         return new Point2D.Double(x, y);
@@ -65,7 +65,7 @@ public class Spaceship extends CelestialBody {
     }
 
     public boolean checkCollision (CelestialBody celestialBody) {
-        if (celestialBody.setCoordinates(x1, x2) == this.getPosition(x1, x2)) {
+        if (celestialBody.setCoordinates(x1, x2) == this.setCoordinates(x1, x2)) {
             return true;
         }
         return false;

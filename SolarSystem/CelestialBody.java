@@ -4,24 +4,25 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
+import javax.swing.JPanel;
+
 import EulerSolver.*;
 
 //represents comets, asteroids, moons etc
 
-public class CelestialBody {
+public class CelestialBody extends JPanel {
     public double mass;
     public double radius;
-    public int rowInState;
+    public static int rowInState;
     CelestialBody[] list = new CelestialBody[9];
-
     String name;
     Color color;
-
     double x1;
     double x2;
-    int diameter;
+    int diameter = 20;
     double semiMajorAxisLength;
     double semiMinorAxisLength;
+    static double scaleFactor = 7.0;
     EulerSolver.State state = new State();
 
 
@@ -35,6 +36,8 @@ public class CelestialBody {
         this.rowInState = rowInState;
 
     }
+
+    CelestialBody() {}
 
     public String getName() {
         return name;
@@ -68,74 +71,70 @@ public class CelestialBody {
         this.radius = radius;
     }
 
-    public void setPosition(int rowIndex, int colIndex) {
+   /* public void setPosition(int rowIndex, int colIndex) {
         this.x1 = State.positions[rowIndex][colIndex];
         this.x2 = State.positions[rowIndex][colIndex+1];
         //this.x3 = state.positions[rowIndex][colIndex+2];
-    }
+    }*/
 
-    public Point2D.Double setCoordinates(double x1, double x2) {
-        double x = x1;
+    public Point2D.Double getCoordinates(double x1, double x2) {
+        double x = x2;
         double y = x2;
         return new Point2D.Double(x, y);
     }
 
-    public double getX1() {
-        return x1;
+    public static double getX1(int rowInState) {
+        return State.positions[rowInState][0];
     }
 
-    public double getX2() {
-        return x2;
+    public static double getX2(int rowInState) {
+        return State.positions[rowInState][1];
     }
 
-    public void setX1 (double x1) {
-        this.x1 = x1;
-    }
-    
-    public void setX2 (double x2) {
-        this.x2 = x2;
-    }
 
-    public void setDiameter(int diameter) {
-        this.diameter = diameter;
-    }
 
-    public void drawCelestialBody(Graphics2D g2) {
+  //  public void drawCelestialBody(Graphics2D g2) {
 
-        int diameter = (int)Math.round(this.diameter);
-        int x1 = (int)Math.round(this.x1);
-        int x2 = (int)Math.round(this.x2);
+    //   int x = (int)Math.round(scaleDownPosition(this.x1));
+      // int y = (int)Math.round(scaleDownPosition(this.x2));
 
-         // checking for correct casting
-        if (diameter != (int)Math.round(this.diameter) &&  x1 != (int)Math.round(this.x1) && x2 != (int)Math.round(this.x2)) {
-            System.out.println("Casting from double to integer in paintComponent is not correct.");
-        }
+      // if (x != (int)Math.round(scaleDownPosition(this.x1)) && y != (int)Math.round(scaleDownPosition(this.x2))) {
+        //System.out.println("Casting from double to integer in drawCelestialBody is not correct");
+       //}
+
             
-        g2.setColor(this.color);
-        g2.fillOval(x1, x2, diameter, diameter);
+        //g2.setColor(this.color);
+        //g2.fillOval(x, y, diameter, diameter);
+    //}
+
+    public static double scaleDownPosition(double xValue, int index){
+        if (index <= 4) {
+            return scaleFactor * (xValue/10000000);
+        }
+        else {
+            return scaleFactor / 2.5 * (xValue/10000000);
+        }
     }
 
-    public double getSemiMajorAxisLength() {
-        return semiMajorAxisLength;
-    }
+   
 
 
     /**
      * sets up the celestial bodies with their respective mass, radisu and row in the State matrix. They are then added to the list of celestial bodies
      */
-    public void setupCelestialBodies()
+    public CelestialBody[] setupCelestialBodies()
     {
         //temporary colour for initialization, can be changed for GUI later
         Color tempColor = new Color(0, 0, 0);
 
-        CelestialBody sun = new CelestialBody(1.9885 * Math.pow(10, 30), 1, 0, "Sun", tempColor);
-        CelestialBody venus = new CelestialBody(48.685 * Math.pow(10, 23), 1, 1, "Venus", tempColor);
-        CelestialBody earth = new CelestialBody(5.97219 * Math.pow(10, 24), 6370, 2, "Earth", tempColor);
-        CelestialBody moon = new CelestialBody(7.349* Math.pow(10, 22), 1, 3, "Moon", tempColor);
-        CelestialBody mars = new CelestialBody(6.4171* Math.pow(10, 23), 1, 4, "Mars", tempColor);
-        CelestialBody jupiter = new CelestialBody(189818722* Math.pow(10, 19), 1, 5, "Jupiter", tempColor);
-        CelestialBody saturn = new CelestialBody(5.6834* Math.pow(10, 26), 1, 6, "Saturn", tempColor);
-        CelestialBody titan = new CelestialBody(13455.3* Math.pow(10, 19), 2575, 7, "Titan", tempColor);
+        CelestialBody sun = new CelestialBody(1.9885 * Math.pow(10, 30), 1, 0, "Sun", Color.YELLOW);
+        CelestialBody venus = new CelestialBody(48.685 * Math.pow(10, 23), 6051.8, 1, "Venus", Color.DARK_GRAY);
+        CelestialBody earth = new CelestialBody(5.97219 * Math.pow(10, 24), 6370, 2, "Earth", Color.GREEN);
+        CelestialBody moon = new CelestialBody(7.349* Math.pow(10, 22), 1, 3, "Moon", Color.GRAY);
+        CelestialBody mars = new CelestialBody(6.4171* Math.pow(10, 23), 3389.5, 4, "Mars", Color.RED);
+        CelestialBody jupiter = new CelestialBody(189818722* Math.pow(10, 19),69911 , 5, "Jupiter", Color.PINK);
+        CelestialBody saturn = new CelestialBody(5.6834* Math.pow(10, 26), 58232, 6, "Saturn", Color.LIGHT_GRAY);
+        CelestialBody titan = new CelestialBody(13455.3* Math.pow(10, 19), 2575, 7, "Titan", Color.ORANGE);
         CelestialBody spaceship = new Spaceship(50000, 1, 8, "Spaceship", tempColor);
 
         list[0] = sun;
@@ -148,6 +147,7 @@ public class CelestialBody {
         list[7] = titan;
         list[8] = spaceship;
 
+        return list;
     }
 
 }

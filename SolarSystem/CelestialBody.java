@@ -2,7 +2,7 @@ package SolarSystem;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.geom.Point2D;
 
 import EulerSolver.*;
 
@@ -19,7 +19,11 @@ public class CelestialBody {
 
     double x1;
     double x2;
+    int diameter;
+    double semiMajorAxisLength;
+    double semiMinorAxisLength;
     EulerSolver.State state = new State();
+
 
     CelestialBody(double mass, double radius, int rowInState, String name, Color color){
 
@@ -27,7 +31,9 @@ public class CelestialBody {
         this.color= color;
         this.mass = mass;
         this.radius = radius;
+
         this.rowInState = rowInState;
+
     }
 
     public String getName() {
@@ -62,10 +68,16 @@ public class CelestialBody {
         this.radius = radius;
     }
 
-    public Point getPosition(double x1, double x2) {
-        int x = (int)Math.round(x1);
-        int y = (int)Math.round(x2);
-        return new Point(x, y);
+    public void setPosition(int rowIndex, int colIndex) {
+        this.x1 = State.positions[rowIndex][colIndex];
+        this.x2 = State.positions[rowIndex][colIndex+1];
+        //this.x3 = state.positions[rowIndex][colIndex+2];
+    }
+
+    public Point2D.Double setCoordinates(double x1, double x2) {
+        double x = x1;
+        double y = x2;
+        return new Point2D.Double(x, y);
     }
 
     public double getX1() {
@@ -76,12 +88,6 @@ public class CelestialBody {
         return x2;
     }
 
-    public void setPosition(int rowIndex) {
-        this.x1 = State.positions[rowIndex][0];
-        this.x2 = State.positions[rowIndex][1];
-        //this.x3 = state.positions[rowIndex][2];
-    }
-
     public void setX1 (double x1) {
         this.x1 = x1;
     }
@@ -90,24 +96,29 @@ public class CelestialBody {
         this.x2 = x2;
     }
 
+    public void setDiameter(int diameter) {
+        this.diameter = diameter;
+    }
+
     public void drawCelestialBody(Graphics2D g2) {
 
-        int radius = (int)Math.round(this.radius);
+        int diameter = (int)Math.round(this.diameter);
         int x1 = (int)Math.round(this.x1);
         int x2 = (int)Math.round(this.x2);
 
          // checking for correct casting
-        if (radius != (int)Math.round(this.radius) &&  x1 != (int)Math.round(this.x1) && x2 != (int)Math.round(this.x2)) {
+        if (diameter != (int)Math.round(this.diameter) &&  x1 != (int)Math.round(this.x1) && x2 != (int)Math.round(this.x2)) {
             System.out.println("Casting from double to integer in paintComponent is not correct.");
         }
             
         g2.setColor(this.color);
-        g2.fillOval(x1, x2, radius, radius);
+        g2.fillOval(x1, x2, diameter, diameter);
     }
 
-    public void drawOrbit(Graphics2D g2) {
-        //TO DO
+    public double getSemiMajorAxisLength() {
+        return semiMajorAxisLength;
     }
+
 
     /**
      * sets up the celestial bodies with their respective mass, radisu and row in the State matrix. They are then added to the list of celestial bodies
@@ -136,6 +147,7 @@ public class CelestialBody {
         list[6] = saturn;
         list[7] = titan;
         list[8] = spaceship;
+
     }
 
 }

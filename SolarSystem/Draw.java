@@ -7,7 +7,7 @@ import EulerSolver.*;
 
 import javax.swing.JComponent;
 
-public class Draw extends JComponent{
+public class Draw extends JComponent {
 
     CelestialBody [] celestialBodies = new CelestialBody[8];
     Spaceship spaceship;
@@ -30,4 +30,6 @@ public class Draw extends JComponent{
         //drawing spaceship
         spaceship.drawSpaceship(g2d);
     }
+
+    
 }

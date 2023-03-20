@@ -7,6 +7,7 @@ public class State {
 
     public static double[][] positions = new double[9][3];
     public static double[][] velocities = new double[9][3];
+    public static double[][] forces = new double[9][3];
 
     public State()
     {

@@ -12,7 +12,7 @@ public class CelestialBody {
     public double mass;
     public double radius;
     public int rowInState;
-    CelestialBody[] list = new CelestialBody[9];
+    public static CelestialBody[] list = new CelestialBody[9];
 
     String name;
     Color color;
@@ -123,7 +123,7 @@ public class CelestialBody {
     /**
      * sets up the celestial bodies with their respective mass, radisu and row in the State matrix. They are then added to the list of celestial bodies
      */
-    public void setupCelestialBodies()
+    public static void setupCelestialBodies()
     {
         //temporary colour for initialization, can be changed for GUI later
         Color tempColor = new Color(0, 0, 0);

@@ -21,8 +21,8 @@ public class Functions {
      */
     public double[] forceCalculator(CelestialBody bodyA, CelestialBody bodyB){
 
-        double[] vectorA = State.positions[bodyA.rowInState];
-        double[] vectorB = State.positions[bodyB.rowInState];
+        double[] vectorA = State.getPosition(bodyA.rowInState);
+        double[] vectorB = State.getPosition(bodyB.rowInState);
 
         double a = G * bodyA.mass * bodyB.mass;
 
@@ -83,7 +83,7 @@ public class Functions {
         double[] velocity = new double[3];
 
         //velocity1 = velocity0 + (Force/mass) * time
-        velocity = VectorOperations.vectorAddition(State.velocities[body.rowInState], VectorOperations.vectorScalarMultiplication(VectorOperations.vectorScalarDivision(forceOnPlanet(body), body.mass), time));
+        velocity = VectorOperations.vectorAddition(State.getVelocity(body.rowInState), VectorOperations.vectorScalarMultiplication(VectorOperations.vectorScalarDivision(forceOnPlanet(body), body.mass), time));
 
         return velocity;
     }
@@ -98,7 +98,7 @@ public class Functions {
     {
         double[] position = new double[3];
 
-        position = VectorOperations.vectorAddition(State.positions[body.rowInState], VectorOperations.vectorScalarMultiplication(State.velocities[body.rowInState], time));
+        position = VectorOperations.vectorAddition(State.getPosition(body.rowInState), VectorOperations.vectorScalarMultiplication(State.getVelocity(body.rowInState), time));
 
         return position;
     }

@@ -68,11 +68,11 @@ public class CelestialBody {
         this.radius = radius;
     }
 
-    public void setPosition(int rowIndex, int colIndex) {
-        this.x1 = State.positions[rowIndex][colIndex];
-        this.x2 = State.positions[rowIndex][colIndex+1];
-        //this.x3 = state.positions[rowIndex][colIndex+2];
-    }
+    // public void setPosition(int rowIndex, int colIndex) {
+    //     this.x1 = State.positions[rowIndex][colIndex];
+    //     this.x2 = State.positions[rowIndex][colIndex+1];
+    //     //this.x3 = state.positions[rowIndex][colIndex+2];
+    // }
 
     public Point2D.Double setCoordinates(double x1, double x2) {
         double x = x1;

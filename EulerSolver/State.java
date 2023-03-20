@@ -9,6 +9,46 @@ public class State {
     public static double[][] velocities = new double[9][3];
     public static double[][] forces = new double[9][3];
 
+    public static double[] getPosition(int row){
+        return positions[row];
+    }
+
+    public static double[] getVelocity(int row){
+        return velocities[row];
+    }
+
+    public static double[] getForce(int row){
+        return forces[row];
+    }
+
+    public static void setPosition(int row, double[] position)
+    {
+        positions[row] = position;
+    }
+
+    public static void setVelocity(int row, double[] velocity)
+    {
+        velocities[row] = velocity;
+    }
+
+    public static void setForce(int row, double[] force)
+    {
+        forces[row] = force;
+    }
+    
+    public static void printPositions()
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                System.out.println(positions[i][j] + " ");
+            }
+
+            System.out.println("");
+        }
+    }
+
     public State()
     {
 

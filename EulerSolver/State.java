@@ -121,9 +121,11 @@ public class State {
         positions[10][2] = 17235283.8321992;
         
         //Spaceship
-        positions[11][0] = 0;
-        positions[11][1] = 0;
-        positions[11][2] = 0;
+        positions[11][0] = -148186906.893642;
+        positions[11][1] = -27829528.5715694;
+        positions[11][2] = 33746.8987977113;
+
+
 
         //----Velocities -------------------------------------------
         //Sun first row all 0

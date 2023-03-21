@@ -21,8 +21,8 @@ public class Functions {
      */
     public double[] forceCalculator(CelestialBody bodyA, CelestialBody bodyB){
 
-        double[] vectorA = State.getPosition(bodyA.rowInState);
-        double[] vectorB = State.getPosition(bodyB.rowInState);
+        double[] vectorA = State.getPosition(bodyA.rowInState).clone();
+        double[] vectorB = State.getPosition(bodyB.rowInState).clone();
 
         double a = G * bodyA.mass * bodyB.mass;
 
@@ -45,7 +45,7 @@ public class Functions {
 
         for(CelestialBody planet : listOfCelestialBodies)
         {
-            fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(planet, spaceship));
+            fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(spaceship, planet));
         }
 
         return VectorOperations.vectorScalarMultiplication(fullForce, -1);
@@ -64,7 +64,7 @@ public class Functions {
         {
             if(i != bodyA.rowInState)
             {
-                fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(listOfCelestialBodies[i], listOfCelestialBodies[bodyA.rowInState]));
+                fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator( listOfCelestialBodies[bodyA.rowInState], listOfCelestialBodies[i]));
             }
             
         }
@@ -73,7 +73,7 @@ public class Functions {
     }
 
     /**
-     * calculates the velocity of a planet at a certain time
+     * calculates the velocity of a planet with respect to time
      * @param time
      * @param spaceShip
      * @return
@@ -82,16 +82,16 @@ public class Functions {
     {
         double[] velocity = new double[3];
 
-        velocity = VectorOperations.vectorScalarDivision(State.getForce(body.rowInState), body.mass);
-
-        velocity = VectorOperations.vectorScalarMultiplication(velocity, time);
         //velocity1 = velocity0 + (Force/mass) * time
+        double mass = body.mass;
+        velocity = VectorOperations.vectorScalarDivision(State.getForce(body.rowInState), body.mass);
+        velocity = VectorOperations.vectorScalarMultiplication(velocity, time);
         velocity = VectorOperations.vectorAddition(velocity, State.getVelocity(body.rowInState));
 
         return velocity;
     }
 
-    /**
+    /** calculates the new position of a body
      * 
      * @param time
      * @param spaceShip
@@ -101,8 +101,9 @@ public class Functions {
     {
         double[] position = new double[3];
 
-        position = VectorOperations.vectorAddition(State.getPosition(body.rowInState), VectorOperations.vectorScalarMultiplication(State.getVelocity(body.rowInState), time));
-
+        position = VectorOperations.vectorScalarMultiplication(State.getVelocity(body.rowInState), time);
+        position = VectorOperations.vectorAddition(State.getPosition(body.rowInState), position);
+        
         return position;
     }
 }

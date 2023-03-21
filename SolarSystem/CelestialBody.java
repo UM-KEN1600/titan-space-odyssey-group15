@@ -15,7 +15,7 @@ public class CelestialBody extends JPanel{
     public double radius;
 
     public int rowInState;
-    public static CelestialBody[] list = new CelestialBody[9];
+    public static CelestialBody[] list = new CelestialBody[12];
 
     String name;
     Color color;

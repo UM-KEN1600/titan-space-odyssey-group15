@@ -8,7 +8,7 @@ public class Simulation {
         Functions functions = new Functions();
         CelestialBody.setupCelestialBodies();
 
-        double t = 1000000;
+        double t = 50;
 
         double[] a = {1,2,3};
         double b = 0;
@@ -25,12 +25,12 @@ public class Simulation {
 
         for(int i = 0 ; i < (31536000 / t); i++)
         {
-            for(int j = 1; j < 8; j++)
+            for(int j = 1; j < 11; j++)
             {
                 State.setForce(j, functions.forceOnPlanet(CelestialBody.list[j]));
             }
     
-            for(int j = 1; j < 8; j++)
+            for(int j = 1; j < 11; j++)
             {
                 State.setVelocity(j, functions.velocityOfBody(t, CelestialBody.list[j]));
 

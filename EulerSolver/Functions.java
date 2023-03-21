@@ -60,11 +60,11 @@ public class Functions {
     {
         double[] fullForce = new double[3];
 
-        for(int i = 0; i < 8; i++) //leaves out spaceship
+        for(int i = 0; i < 11; i++) //leaves out spaceship
         {
             if(i != bodyA.rowInState)
             {
-                fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator( listOfCelestialBodies[bodyA.rowInState], listOfCelestialBodies[i]));
+                fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(listOfCelestialBodies[bodyA.rowInState], listOfCelestialBodies[i]));
             }
             
         }

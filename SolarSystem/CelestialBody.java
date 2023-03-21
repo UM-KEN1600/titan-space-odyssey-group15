@@ -95,7 +95,7 @@ public class CelestialBody extends JPanel{
      */
     public static double scaleDownPosition(double xValue, int index){
         if (index <= 4) {
-            return (scaleFactor * (xValue/10000000));
+            return (3 * (xValue/10000000));
         }
         else {
             return ((scaleFactor / 2.5) * (xValue/10000000));

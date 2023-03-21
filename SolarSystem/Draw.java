@@ -22,9 +22,9 @@ public class Draw extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         setBackground(Color.black);
 
-        for (int i = 0; i < 9 ; i++) {
+        for (int i = 0; i < 8 ; i++) {
             int x = (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX1(i),i));
-            int y = (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX2(i),i));
+            int y = -(int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX2(i),i));
                   
         if (x != (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX1(i),i)) && y != (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX2(i),i))) {
              System.out.println("Casting from double to integer in Draw class is not correct");
@@ -63,7 +63,7 @@ public class Draw extends JPanel {
             radius = 10;
             break;}
          
-            g2.fillOval(x+400, y+250, radius, radius);
+            g2.fillOval(x+450, y+250, radius, radius);
 
         }
 

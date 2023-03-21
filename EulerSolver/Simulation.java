@@ -10,17 +10,6 @@ public class Simulation {
 
         double t = 50;
 
-        double[] a = {1,2,3};
-        double b = 0;
-        b = VectorOperations.euclideanForm(a, VectorOperations.vectorScalarMultiplication(a, 2));
-
-        for(int i = 0; i < 3; i++)
-        {
-            System.out.println(a[i]);
-        }
-
-        //System.out.println(b);
-
         State.printPositions();
 
         for(int i = 0 ; i < (31536000 / t); i++)
@@ -35,8 +24,13 @@ public class Simulation {
                 State.setVelocity(j, functions.velocityOfBody(t, CelestialBody.list[j]));
 
                 State.setPosition(j, functions.newPositionOfBody(t, CelestialBody.list[j]));
+
+                //this stores the positions of a planet 50 times a year
+                if(i % 630800 == 0)
+                {
+                    State.setTimedPosition(CelestialBody.list[j], State.getPosition(j));
+                }
             }
-            //System.out.println("I wanna die");
         }
 
         System.out.println("New Positions:");

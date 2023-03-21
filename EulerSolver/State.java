@@ -2,6 +2,8 @@ package EulerSolver;
 
 import java.awt.Color;
 
+import SolarSystem.CelestialBody;
+
 /**
  * Holds a matrix with the position and velocity of each celestial body: Sun, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan and Spaceship respectively
  */
@@ -11,7 +13,16 @@ public class State {
     public static double[][] velocities = new double[12][3];
     public static double[][] forces = new double[12][3];
 
+    public static double[][][] allPositions = new double[8][50][2];
+    static int iterations = 0;
+
     public static Color [] colors = {new Color(249,215,28), new Color(217,221,227), new Color(0, 120, 130), new Color(169,169,169), new Color(161,37,27), new Color(181,101,29), new Color(217,179,130), new Color(230,214,144), Color.BLUE};
+
+    public static void setTimedPosition(CelestialBody body, double[] position)
+    {
+        allPositions[body.rowInState][iterations] = position;
+        iterations++;
+    }
 
     public static double[] getPosition(int row){
         return positions[row];

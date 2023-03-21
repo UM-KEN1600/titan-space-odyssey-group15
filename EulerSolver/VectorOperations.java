@@ -128,6 +128,6 @@ public class VectorOperations {
             A[i] = vectorA[i] * scalar;
         }
 
-        return vectorA;
+        return A;
     }
 }

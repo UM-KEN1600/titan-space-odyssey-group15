@@ -11,7 +11,7 @@ public class Functions {
 
     CelestialBody listOfCelestialBodies[] = CelestialBody.list;
 
-    int rowSpaceship = 8;
+    int rowSpaceship = 11;
     
     /**
      * calculates the force of one celestial body on another celestial body

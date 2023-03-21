@@ -43,9 +43,12 @@ public class Functions {
         
         double[] fullForce = new double[3];
 
-        for(CelestialBody planet : listOfCelestialBodies)
+        for(int i = 0; i < 11; i++) //leaves out spaceship
         {
-            fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(spaceship, planet));
+            if(i != spaceship.rowInState)
+            {
+                fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(listOfCelestialBodies[spaceship.rowInState], listOfCelestialBodies[i]));
+            }
         }
 
         return VectorOperations.vectorScalarMultiplication(fullForce, -1);
@@ -83,7 +86,7 @@ public class Functions {
         double[] velocity = new double[3];
 
         //velocity1 = velocity0 + (Force/mass) * time
-        double mass = body.mass;
+
         velocity = VectorOperations.vectorScalarDivision(State.getForce(body.rowInState), body.mass);
         velocity = VectorOperations.vectorScalarMultiplication(velocity, time);
         velocity = VectorOperations.vectorAddition(velocity, State.getVelocity(body.rowInState));
@@ -91,8 +94,8 @@ public class Functions {
         return velocity;
     }
 
-    /** calculates the new position of a body
-     * 
+    /** 
+     * calculates the new position of a body
      * @param time
      * @param spaceShip
      * @return

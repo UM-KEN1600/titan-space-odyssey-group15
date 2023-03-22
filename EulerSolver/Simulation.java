@@ -27,9 +27,8 @@ public class Simulation {
     
             for(int j = 1; j < 11; j++)
             {
-                State.setVelocity(j, functions.velocityOfBody(t, CelestialBody.list[j]));
 
-                State.setPosition(j, functions.newPositionOfBody(t, CelestialBody.list[j]));
+                State.setPosition(j, Solver.solve(CelestialBody.list[j], t));
 
                 //this stores the positions of a planet 50 times a year
                 if(j < 8 && i % 12616 == 0)

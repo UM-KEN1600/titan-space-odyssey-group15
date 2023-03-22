@@ -28,6 +28,7 @@ public class Draw extends JPanel {
 
        // while (index < 50) {
         for (int i = 0; i < 8 ; i++) {
+            
             int x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
             int y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
             
@@ -71,6 +72,7 @@ public class Draw extends JPanel {
          
             
             g2.fillOval(x+450, y+250, radius, radius);
+        
         }
         index++;
       //  }

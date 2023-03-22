@@ -1,6 +1,9 @@
 package SolarSystem;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import EulerSolver.*;
 import javax.swing.*;
 import java.awt.*;
@@ -27,29 +30,24 @@ public class Main {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
         mainFrame.setVisible(true);
-        
-    //     // update the position of each celestial body every 100 milliseconds
-    //     Timer timer = new Timer(100, new ActionListener() {
-    //         @Override
-    //         public void actionPerformed(ActionEvent e) {
-    //             for (int i = 0; i < 9; i++) {
-    //                 double[] newPosition = functions.newPositionOfBody(0.1, CelestialBody.list[i]);
-    //                 CelestialBody.list[i].updatePosition(newPosition, i);
-    //             }
-    //             drawPanel.repaint();
-    //         }
-    //     });
-    //     timer.start();
-    // }
-
-        Timer t = new Timer(200, new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                drawPanel.repaint();
-            }
-        }); 
-        
-        t.start();
     
+        
+        Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            int a = 0;
+            @Override
+            public void run() {
+                drawPanel.repaint();
+                if(a == 48)
+                {
+                    t.cancel();
+                }
+                a++;
+            }
+            
+        };
+
+        t.schedule(tt, 0, 200);
     }
 
 }

@@ -24,7 +24,7 @@ public class Solver {
     public static double[] accelerationCalculation(double mass, double[] force) {
         double[] acceleration = new double[3];
         acceleration = VectorOperations.vectorScalarDivision(force, mass);
-        System.out.println(acceleration);
+      //  System.out.println(acceleration);
         return acceleration;
     
     }
@@ -33,7 +33,7 @@ public class Solver {
         double[] nextPosition = new double[3];
         nextPosition = VectorOperations.vectorAddition(currentPosition, VectorOperations.vectorScalarMultiplication(currentVelocity, timestep));
         currentPosition = nextPosition;
-        System.out.println(currentPosition);
+    //    System.out.println(currentPosition);
         return currentPosition;
     }
 
@@ -42,7 +42,7 @@ public class Solver {
         nextVelocity = VectorOperations.vectorAddition(currentVelocity, VectorOperations.vectorScalarMultiplication(acceleration, timestep)); 
         currentVelocity = nextVelocity;
         
-        System.out.println(currentVelocity);
+      //  System.out.println(currentVelocity);
         return currentVelocity; 
     }
 

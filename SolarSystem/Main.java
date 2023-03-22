@@ -41,7 +41,7 @@ public class Main {
     //     });
     //     timer.start();
     // }
-        
+
         Timer t = new Timer(200, new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 drawPanel.repaint();
@@ -49,6 +49,7 @@ public class Main {
         }); 
         
         t.start();
+    
     }
 
 }

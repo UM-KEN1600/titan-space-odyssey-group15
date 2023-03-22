@@ -21,7 +21,7 @@ public class Draw extends JPanel {
     }
 
     public void paintComponent (Graphics g) {
-       // super.paintComponent(g);
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         setBackground(Color.black);
@@ -42,7 +42,7 @@ public class Draw extends JPanel {
         switch(i){
             //sun
             case 0: 
-            radius = 100;
+            radius = 20;
             break;
             //venus
             case 1:

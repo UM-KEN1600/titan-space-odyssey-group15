@@ -14,7 +14,7 @@ public class State {
     public static double[][] forces = new double[12][3];
 
     static int framesPer10Seconds =100;
-    public static double[][][] allPositions = new double[8][framesPer10Seconds][2]; //used to store the positions 50 times a year
+    public static double[][][] allPositions = new double[9][framesPer10Seconds][2]; //used to store the positions 50 times a year
     public static int iterations = 0;
 
     public static Color [] colors = {new Color(249,215,28), new Color(217,221,227), new Color(0, 120, 130), new Color(169,169,169), new Color(161,37,27), new Color(181,101,29), new Color(217,179,130), new Color(230,214,144), Color.BLUE};

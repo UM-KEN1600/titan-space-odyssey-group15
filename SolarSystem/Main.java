@@ -27,20 +27,6 @@ public class Main {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
         mainFrame.setVisible(true);
-        
-    //     // update the position of each celestial body every 100 milliseconds
-    //     Timer timer = new Timer(100, new ActionListener() {
-    //         @Override
-    //         public void actionPerformed(ActionEvent e) {
-    //             for (int i = 0; i < 9; i++) {
-    //                 double[] newPosition = functions.newPositionOfBody(0.1, CelestialBody.list[i]);
-    //                 CelestialBody.list[i].updatePosition(newPosition, i);
-    //             }
-    //             drawPanel.repaint();
-    //         }
-    //     });
-    //     timer.start();
-    // }
 
         Timer t = new Timer(200, new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -49,7 +35,24 @@ public class Main {
         }); 
         
         t.start();
+
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            t.start();
+            }
+        });
+            mainFrame.add(startButton, BorderLayout.NORTH);
     
+        // // Add a "Stop" button to the UI
+        // JButton stopButton = new JButton("Stop");
+        // stopButton.addActionListener(new ActionListener() {
+        // public void actionPerformed(ActionEvent e) {
+        //     t.stop(); // Stop the timer
+        // }
+        // });
+        //     mainFrame.add(stopButton, BorderLayout.SOUTH);
+
     }
 
 }

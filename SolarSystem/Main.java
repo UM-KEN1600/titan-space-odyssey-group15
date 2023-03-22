@@ -27,7 +27,7 @@ public class Main {
         mainFrame.add(new CelestialBody(0, 0, 0, null, null));
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
-        
+
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {
             int a = 0;
@@ -40,20 +40,19 @@ public class Main {
                 }
                 a++;
             }
-            
         };
-
         t.schedule(tt, 0, 100);
 
-        // JButton startButton = new JButton("Start");
-        // startButton.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //     t.schedule(tt, 0, 200);;
-        //     }
-        // });
-        //     mainFrame.add(startButton, BorderLayout.NORTH);
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        mainFrame.add(startButton, BorderLayout.SOUTH);
 
-            mainFrame.setVisible(true);
+        mainFrame.setVisible(true);
 
 }
 

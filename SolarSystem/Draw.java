@@ -88,18 +88,18 @@ public class Draw extends JPanel {
             g2.setColor(State.colors[i]);
             
 
-             x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
-             y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
+            x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
+            y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
             
+    
+            if (x != (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i)) || y !=  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i))){
+                System.out.println("Casting for " + i + " is not correct.");
+            }
             
-
-       
-        
-
         switch(i){
             //sun
             case 0: 
-            radius = 30;
+            radius = 35;
             finalIm = sun;
             break;
             //venus
@@ -109,8 +109,8 @@ public class Draw extends JPanel {
             break;
             //earth
             case 2:
-            radius = 25;
-            finalIm =earth;
+            radius = 20;
+            finalIm = earth;
             break;
             //moon
             case 3: 
@@ -124,7 +124,7 @@ public class Draw extends JPanel {
             break;
             //jupiter
             case 5: 
-            radius = 60;
+            radius = 70;
             finalIm = jupiter;
             break;
             //saturn
@@ -137,18 +137,18 @@ public class Draw extends JPanel {
             radius = 10;
             finalIm = titan;
             break;
+            //spaceship
             case 8:
             radius = 10;
             finalIm = spaceship;
             break; }
+
         
             g2.drawImage(finalIm, x+450-radius, y+250-radius, null);
         
-        
         }
         index++;
-      //  }
-    }
+        }
     }
     
 

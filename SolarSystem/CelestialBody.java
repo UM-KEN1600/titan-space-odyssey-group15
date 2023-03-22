@@ -105,19 +105,6 @@ public class CelestialBody extends JPanel{
         }
     }
 
-    public void updatePosition(double [] newPosition, int index) {
-        this.newX = (int)Math.round(scaleDownPosition(newPosition[0],index));
-        this.newY = (int)Math.round(scaleDownPosition(newPosition[1],index));
-    }
-
-    public int getNewX() {
-        return this.newX;
-    }
-
-    public int getNewY() {
-        return this.newY;
-    }
-
     /**
      * sets up the celestial bodies with their respective mass, radisu and row in the State matrix. They are then added to the list of celestial bodies
      */

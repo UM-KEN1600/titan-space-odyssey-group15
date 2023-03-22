@@ -52,7 +52,7 @@ public class Main {
         });
         mainFrame.add(startButton, BorderLayout.SOUTH);
 
-        mainFrame.setVisible(true);
+         mainFrame.setVisible(true);
 
 }
 

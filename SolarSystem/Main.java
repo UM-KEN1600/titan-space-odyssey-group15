@@ -33,7 +33,7 @@ public class Main {
             @Override
             public void run() {
                 drawPanel.repaint();
-                if(a == 48)
+                if(a == 98)
                 {
                     t.cancel();
                 }
@@ -42,7 +42,7 @@ public class Main {
             
         };
 
-        t.schedule(tt, 0, 200);
+        t.schedule(tt, 0, 100);
 
         JButton startButton = new JButton("Start");
         startButton.addActionListener(new ActionListener() {

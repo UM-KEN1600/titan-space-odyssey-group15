@@ -32,10 +32,7 @@ public class Draw extends JPanel {
             int x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
             int y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
             
-                  
-        // if (x != (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX1(i),i)) && y != (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX2(i),i))) {
-        //      System.out.println("Casting from double to integer in Draw class is not correct");
-        // }
+            
 
         g2.setColor(State.colors[i]);
         

@@ -27,7 +27,7 @@ public class Draw extends JPanel {
         setBackground(Color.black);
 
        // while (index < 50) {
-        for (int i = 0; i < 8 ; i++) {
+        for (int i = 0; i < 9 ; i++) {
             
             int x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
             int y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
@@ -47,6 +47,10 @@ public class Draw extends JPanel {
             break;
             //venus
             case 1:
+            radius = 15;
+            break;
+            //earth
+            case 2:
             radius = 20;
             break;
             //moon
@@ -68,7 +72,11 @@ public class Draw extends JPanel {
             //titan
             case 7: 
             radius = 10;
-            break;}
+            break;
+            //spaceship
+            case 8:
+            radius = 5;
+            break; }
          
             
             g2.fillOval(x+450, y+250, radius, radius);

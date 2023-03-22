@@ -1,5 +1,6 @@
 package SolarSystem;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,9 +15,6 @@ public class Main {
 
     public static CelestialBody body = new CelestialBody();
     public static Draw drawPanel = new Draw();
-  //  State state = new State();
-  //  static Functions functions = new Functions();
-  //  double [] newPositions;
 
     public static void main(String[] args)  {
 
@@ -29,26 +27,6 @@ public class Main {
         mainFrame.add(new CelestialBody(0, 0, 0, null, null));
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
-        mainFrame.setVisible(true);
-
-        // Timer t = new Timer(200, new ActionListener(){
-        //     public void actionPerformed(ActionEvent e){
-        //         drawPanel.repaint();
-        //     }
-        // }); 
-        
-        // t.start();
-    
-        // // Add a "Stop" button to the UI
-        // JButton stopButton = new JButton("Stop");
-        // stopButton.addActionListener(new ActionListener() {
-        // public void actionPerformed(ActionEvent e) {
-        //     t.stop(); // Stop the timer
-        // }
-        // });
-        //     mainFrame.add(stopButton, BorderLayout.SOUTH);
-
-    
         
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {
@@ -74,6 +52,8 @@ public class Main {
         //     }
         // });
         //     mainFrame.add(startButton, BorderLayout.NORTH);
+
+            mainFrame.setVisible(true);
 
 }
 

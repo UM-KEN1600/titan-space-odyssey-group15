@@ -3,7 +3,7 @@ package EulerSolver;
 import SolarSystem.CelestialBody;
 
 public class Simulation {
-    public static void main(String[] args) {
+    public static void planetarySetUp() {
         State state = new State();
         Functions functions = new Functions();
         CelestialBody.setupCelestialBodies();
@@ -12,7 +12,7 @@ public class Simulation {
 
         State.printPositions();
         
-        for(int j = 1; j < 11; j++)
+        for(int j = 1; j < 8; j++)
         {
             State.setTimedPosition(CelestialBody.list[j], State.getPosition(j));
         }
@@ -31,7 +31,7 @@ public class Simulation {
                 State.setPosition(j, functions.newPositionOfBody(t, CelestialBody.list[j]));
 
                 //this stores the positions of a planet 50 times a year
-                if(i % 630800 == 0)
+                if(j < 8 && i % 12616 == 0)
                 {
                     State.setTimedPosition(CelestialBody.list[j], State.getPosition(j));
                 }
@@ -42,5 +42,9 @@ public class Simulation {
 
         State.printPositions();
         
+    }
+
+    public static void main(String[] args) {
+        planetarySetUp();
     }
 }

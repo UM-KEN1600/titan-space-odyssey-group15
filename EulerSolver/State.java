@@ -20,8 +20,10 @@ public class State {
 
     public static void setTimedPosition(CelestialBody body, double[] position)
     {
+        if (iterations < 50) {
         allPositions[body.rowInState][iterations] = position;
         iterations++;
+        }
     }
 
     public static double[] getPosition(int row){

@@ -11,11 +11,13 @@ public class Main {
 
     public static CelestialBody body = new CelestialBody();
     public static Draw drawPanel = new Draw();
-    State state = new State();
-    static Functions functions = new Functions();
-    double [] newPositions;
+  //  State state = new State();
+  //  static Functions functions = new Functions();
+  //  double [] newPositions;
 
     public static void main(String[] args)  {
+
+        Simulation.planetarySetUp();
 
         //frame
         JFrame mainFrame = new JFrame("Solar System");
@@ -24,25 +26,6 @@ public class Main {
         mainFrame.add(new CelestialBody(0, 0, 0, null, null));
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
-
-        // AnimationListener Listener
-		class AnimationListener implements ActionListener{
-			public void actionPerformed(ActionEvent e){
-				for (int i = 0; i < 9 ; i++) {
-                    double [] newPositions = functions.newPositionOfBody(50, CelestialBody.list[i]);
-                CelestialBody.list[i].updatePosition(newPositions, i);
-                }
-				mainFrame.repaint();
-			}
-		}
-
- 		
-		AnimationListener animationListener = new AnimationListener();
-		final int TIME = 200;
-		Timer t = new Timer(TIME, animationListener); 	// TIME in milliseconds
-		t.start(); 
-
- 		
         mainFrame.setVisible(true);
         
     //     // update the position of each celestial body every 100 milliseconds
@@ -58,6 +41,14 @@ public class Main {
     //     });
     //     timer.start();
     // }
+        
+        Timer t = new Timer(200, new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                drawPanel.repaint();
+            }
+        }); 
+        
+        t.start();
     }
 
 }

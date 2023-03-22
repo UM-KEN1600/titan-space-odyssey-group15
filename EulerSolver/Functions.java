@@ -11,7 +11,7 @@ public class Functions {
 
     CelestialBody listOfCelestialBodies[] = CelestialBody.list;
 
-    int rowSpaceship = 11;
+    int rowSpaceship = 8;
     
     /**
      * calculates the force of one celestial body on another celestial body
@@ -43,9 +43,9 @@ public class Functions {
         
         double[] fullForce = new double[3];
 
-        for(int i = 0; i < 11; i++) //leaves out spaceship
+        for(int i = 0; i < 12; i++) 
         {
-            if(i != spaceship.rowInState)
+            if(i != rowSpaceship)//leaves out spaceship
             {
                 fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(listOfCelestialBodies[spaceship.rowInState], listOfCelestialBodies[i]));
             }
@@ -63,9 +63,9 @@ public class Functions {
     {
         double[] fullForce = new double[3];
 
-        for(int i = 0; i < 11; i++) //leaves out spaceship
+        for(int i = 0; i < 12; i++)
         {
-            if(i != bodyA.rowInState)
+            if(i != bodyA.rowInState && i != rowSpaceship) //leaves out spaceship
             {
                 fullForce = VectorOperations.vectorAddition(fullForce, forceCalculator(listOfCelestialBodies[bodyA.rowInState], listOfCelestialBodies[i]));
             }

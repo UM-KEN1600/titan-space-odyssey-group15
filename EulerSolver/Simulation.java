@@ -14,7 +14,7 @@ public class Simulation {
 
         //State.printPositions();
         
-        for(int j = 1; j < 8; j++)
+        for(int j = 1; j < 9; j++)
         {
             State.setTimedPosition(CelestialBody.list[j]);
         }

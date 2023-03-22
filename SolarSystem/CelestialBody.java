@@ -148,10 +148,11 @@ public class CelestialBody extends JPanel{
         list[5] = jupiter;
         list[6] = saturn;
         list[7] = titan;
-        list[8] = mercury;
-        list[9] = neptune;
-        list[10] = uranus;
-        list[11] = spaceship;
+        list[8] = spaceship;
+        list[9] = mercury;
+        list[10] = neptune;
+        list[11] = uranus;
+        
         
     }
 

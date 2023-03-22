@@ -140,6 +140,7 @@ public class CelestialBody extends JPanel{
         CelestialBody neptune = new CelestialBody(102.409* Math.pow(10, 24), 24622, 10, "Neptune", Color.BLUE);
         CelestialBody uranus = new CelestialBody(86.813* Math.pow(10, 24), 25362, 11, "Uranus", Color.CYAN);
 
+        //list of planets for the simulation 
         list[0] = sun;
         list[1] = venus;
         list[2] = earth;

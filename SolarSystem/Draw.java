@@ -1,9 +1,7 @@
 package SolarSystem;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import EulerSolver.*;
 import javax.swing.*;
 
@@ -27,6 +25,7 @@ public class Draw extends JPanel {
     Image saturn;
     Image titan;
 
+    //Constructor for adding images of the given planets to its body
     public Draw() {
         ImageIcon e = new ImageIcon("earth.png");
         Image edit = e.getImage();
@@ -70,106 +69,104 @@ public class Draw extends JPanel {
          
     
     }
+    
 
+
+    /**
+     * Displays one frame for the given coordinates
+     * @param Graphics 
+     * @return 
+     */
     public void paintComponent (Graphics g) {
+
+
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
+
+        //for higher resolution
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         setBackground(Color.black);
 
-       // while (index < 50) {
+        //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {
             g2.setColor(State.colors[i]);
             
-
+            //stores the x and y coordinates of the given celestial body, which is given by the index
              x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
              y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
             
-            
-                
+            switch(i){
+                //sun
+                case 0: 
+                radius = 30;
+                finalIm = sun;
+                break;
+                //venus
+                case 1:
+                radius = 15;
+                finalIm = venus;
+                break;
+                //earth
+                case 2:
+                radius = 25;
+                finalIm =earth;
+                break;
+                //moon
+                case 3: 
+                radius = 10;
+                finalIm = moon;
+                break;
+                //mars
+                case 4:
+                radius = 30;
+                finalIm = mars;
+                break;
+                //jupiter
+                case 5: 
+                radius = 60;
+                finalIm = jupiter;
+                break;
+                //saturn
+                case 6:
+                radius = 60;
+                finalIm = saturn;
+                break;
+                //titan
+                case 7: 
+                radius = 10;
+                finalIm = titan;
+                break;
+                case 8:
+                radius = 5;
+                break; }
 
+                //responsiple for leaving a line behind the space probe to track the trajectory of the probe
+                if(i==8){
+                    for (int j = 0; j < index; j++) {
+                        
+                        //casting to an integer to draw a dot in the image later
+                        int x2 = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][0],i));
+                        int y2 =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][1],i));
+                        int index1 = x2+450;
+                        int index2 = y2+250;
+                        
+                        g2.drawLine(index1, index2, index1, index2);
+                        
                     
+                }
 
-       
-        
-
-        switch(i){
-            //sun
-            case 0: 
-            radius = 30;
-            finalIm = sun;
-            break;
-            //venus
-            case 1:
-            radius = 15;
-            finalIm = venus;
-            break;
-            //earth
-            case 2:
-            radius = 25;
-            finalIm =earth;
-            break;
-            //moon
-            case 3: 
-            radius = 10;
-            finalIm = moon;
-            break;
-            //mars
-            case 4:
-            radius = 30;
-            finalIm = mars;
-            break;
-            //jupiter
-            case 5: 
-            radius = 60;
-            finalIm = jupiter;
-            break;
-            //saturn
-            case 6:
-            radius = 60;
-            finalIm = saturn;
-            break;
-            //titan
-            case 7: 
-            radius = 10;
-            finalIm = titan;
-            break;
-            case 8:
-            radius = 5;
-            break; }
-
-            if(i==8){
-                for (int j = 0; j < index; j++) {
-                    
-                    int x2 = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][0],i));
-                    int y2 =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][1],i));
-                    int index1 = x2+450;
-                    int index2 = y2+250;
-                    
-                    g2.drawLine(index1, index2, index1, index2);
-                    
-                
+                } 
+            //necesary shiftings to display the celestial body properly
+            if(i==6){
+                g2.drawImage(finalIm, x+400, y+200, null);
             }
-
-            }
-           if(i==6){
-            g2.drawImage(finalIm, x+400, y+200, null);
-           }
-           else{
-            g2.drawImage(finalIm, x+450, y+250, null);
-           }
-           
-                
-
-            
-        
-            
-        
-        
-        
+            else{
+                g2.drawImage(finalIm, x+450, y+250, null);
+            } 
         }
+        //for each call of the method the index gets incremented to get new coordinates for the next call
         index++;
-      //  }
     }
     }
     

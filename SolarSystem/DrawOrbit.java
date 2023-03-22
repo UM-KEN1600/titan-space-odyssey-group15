@@ -28,8 +28,8 @@ public class DrawOrbit extends Canvas{
 
     public void paint(Graphics2D g2) {
         super.paint(g2);
-        
- }
+    
+    }
 }
 
 

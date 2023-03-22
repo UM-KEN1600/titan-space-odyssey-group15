@@ -78,18 +78,14 @@ public class Draw extends JPanel {
         setBackground(Color.black);
 
        // while (index < 50) {
-        for (int i = 0; i < 8 ; i++) {
+        for (int i = 0; i < 9 ; i++) {
             g2.setColor(State.colors[i]);
-            g2.setStroke(new BasicStroke(3));
             
 
              x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
              y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
             
-                  
-        // if (x != (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX1(i),i)) && y != (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX2(i),i))) {
-        //      System.out.println("Casting from double to integer in Draw class is not correct");
-        // }
+            
 
        
         
@@ -102,7 +98,7 @@ public class Draw extends JPanel {
             break;
             //venus
             case 1:
-            radius = 20;
+            radius = 15;
             finalIm = venus;
             break;
             //earth
@@ -134,12 +130,14 @@ public class Draw extends JPanel {
             case 7: 
             radius = 10;
             finalIm = titan;
-            break;}
-
-            
-         
-           // g2.fillOval(x+450, y+250, radius, radius);
+            break;
+            case 8:
+            radius = 5;
+            break; }
+        
             g2.drawImage(finalIm, x+450-radius, y+250-radius, null);
+        
+        
         }
         index++;
       //  }

@@ -13,14 +13,15 @@ public class State {
     public static double[][] velocities = new double[12][3];
     public static double[][] forces = new double[12][3];
 
-    public static double[][][] allPositions = new double[8][50][2]; //used to store the positions 50 times a year
+    static int framesPer10Seconds =100;
+    public static double[][][] allPositions = new double[9][framesPer10Seconds][2]; //used to store the positions 50 times a year
     public static int iterations = 0;
 
     public static Color [] colors = {new Color(249,215,28), new Color(217,221,227), new Color(0, 120, 130), new Color(169,169,169), new Color(161,37,27), new Color(181,101,29), new Color(217,179,130), new Color(230,214,144), Color.BLUE};
 
     public static void setTimedPosition(CelestialBody body)
     {
-        if (iterations < 50) {
+        if (iterations < framesPer10Seconds) {
         allPositions[body.rowInState][iterations][0] = positions[body.rowInState][0];
         allPositions[body.rowInState][iterations][1] = positions[body.rowInState][1];
         }
@@ -107,27 +108,26 @@ public class State {
         positions[7][1] = -761340299.067828;
         positions[7][2] = -36309613.8378104;
 
+        //Spaceship
+        positions[8][0] = -148186906.893642;
+        positions[8][1] = -27829528.5715694;
+        positions[8][2] = 33746.8987977113;
+
         //Mercury
-        positions[8][0] = 7833268.43923962;
-        positions[8][1] = 44885949.3703908;
-        positions[8][2] = 2867693.20054382;
+        positions[9][0] = 7833268.43923962;
+        positions[9][1] = 44885949.3703908;
+        positions[9][2] = 2867693.20054382;
         
         //Neptune
-        positions[9][0] = 4454487339.09447;
-        positions[9][1] = -397895128.763904;
-        positions[9][2] = -94464151.3421107;
+        positions[10][0] = 4454487339.09447;
+        positions[10][1] = -397895128.763904;
+        positions[10][2] = -94464151.3421107;
         
         //Uranus
-        positions[10][0] = 1958732435.99338; 
-        positions[10][1] = 2191808553.21893;
-        positions[10][2] = 17235283.8321992;
+        positions[11][0] = 1958732435.99338; 
+        positions[11][1] = 2191808553.21893;
+        positions[11][2] = 17235283.8321992;
         
-        //Spaceship
-        positions[11][0] = -148186906.893642;
-        positions[11][1] = -27829528.5715694;
-        positions[11][2] = 33746.8987977113;
-
-
 
         //----Velocities -------------------------------------------
         //Sun first row all 0
@@ -167,27 +167,25 @@ public class State {
         velocities[7][1] = 11.1085713608453;
         velocities[7][2] = -2.25130986174761;
 
+        //Spaceship
+        velocities[8][0] = 0;
+        velocities[8][1] = 0;
+        velocities[8][2] = 0;
+
         //Mercury
-        velocities[8][0] = -57.4967480139828;
-        velocities[8][1] = 11.52095127176;
-        velocities[8][2] = 6.21695374334136;
+        velocities[9][0] = -57.4967480139828;
+        velocities[9][1] = 11.52095127176;
+        velocities[9][2] = 6.21695374334136;
         
         //Neptune
-        velocities[9][0] = 0.447991656952326;
-        velocities[9][1] = 5.44610697514907;
-        velocities[9][2] = -0.122638125365954;
+        velocities[10][0] = 0.447991656952326;
+        velocities[10][1] = 5.44610697514907;
+        velocities[10][2] = -0.122638125365954;
         
         //Uranus
-        velocities[10][0] = -5.12766216337626;
-        velocities[10][1] = 4.22055347264457;
-        velocities[10][2] = 0.0821190336403063;
-
-        //Spaceship
-        velocities[11][0] = 0;
-        velocities[11][1] = 0;
-        velocities[11][2] = 0;
-
-    
+        velocities[11][0] = -5.12766216337626;
+        velocities[11][1] = 4.22055347264457;
+        velocities[11][2] = 0.0821190336403063;
     }
 
     public Color[] getColours() {

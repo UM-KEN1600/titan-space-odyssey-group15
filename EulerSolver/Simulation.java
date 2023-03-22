@@ -8,17 +8,19 @@ public class Simulation {
         Functions functions = new Functions();
         CelestialBody.setupCelestialBodies();
 
-        double t = 50;
+        int t = 50;
+        int timesPerYear = 31536000 / t;
+        int framesPer10Seconds = timesPerYear / 100 + ((timesPerYear/t)%100);
 
         //State.printPositions();
         
-        for(int j = 1; j < 8; j++)
+        for(int j = 1; j < 9; j++)
         {
             State.setTimedPosition(CelestialBody.list[j]);
         }
         State.iterations++; 
                             //63072
-        for(int i = 0 ; i < (31536000 / t); i++)
+        for(int i = 0 ; i < (timesPerYear); i++)
         {
             for(int j = 1; j < 11; j++)
             {
@@ -31,13 +33,13 @@ public class Simulation {
                 State.setPosition(j, Solver.solve(CelestialBody.list[j], t));
 
                 //this stores the positions of a planet 50 times a year
-                if(j < 8 && i % 12616 == 0)
+                if(j < 8 && i % framesPer10Seconds == 0)
                 {
                     State.setTimedPosition(CelestialBody.list[j]);
                 }
             }
 
-            if(i % 12616 == 0)
+            if(i % framesPer10Seconds == 0)
             {
                 State.iterations++;
             }

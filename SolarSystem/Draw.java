@@ -67,7 +67,7 @@ public class Draw extends JPanel {
         Image finalImg7 = edit7.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
          titan = new ImageIcon(finalImg7).getImage(); 
          
-    
+
     }
     
 

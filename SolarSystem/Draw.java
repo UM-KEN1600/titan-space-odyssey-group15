@@ -12,7 +12,7 @@ import javax.swing.*;
 public class Draw extends JPanel {
 
     CelestialBody [] celestialBodies;
-    Spaceship ship;
+    Spaceship spaceship;
     int radius = 40;    //size of earth (default)
     static int index = 0;
     int x = 0;
@@ -26,7 +26,6 @@ public class Draw extends JPanel {
     Image jupiter;
     Image saturn;
     Image titan;
-    Image spaceship;
 
     public Draw() {
         ImageIcon e = new ImageIcon("earth.png");
@@ -68,11 +67,6 @@ public class Draw extends JPanel {
         Image edit7 = t.getImage();
         Image finalImg7 = edit7.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
          titan = new ImageIcon(finalImg7).getImage(); 
-
-         ImageIcon sp = new ImageIcon("spaceship.png");
-        Image edit8 = sp.getImage();
-        Image finalImg8 = edit8.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
-         spaceship = new ImageIcon(finalImg8).getImage(); 
          
     
     }
@@ -96,6 +90,7 @@ public class Draw extends JPanel {
                 System.out.println("Casting for " + i + " is not correct.");
             }
             
+
         switch(i){
             //sun
             case 0: 
@@ -139,13 +134,30 @@ public class Draw extends JPanel {
             break;
             //spaceship
             case 8:
-            radius = 10;
-            finalIm = spaceship;
+            radius = 5;
             break; }
 
-        
-            g2.drawImage(finalIm, x+450-radius, y+250-radius, null);
-        
+            if(i==8){
+                for (int j = 0; j < index; j++) {
+                    
+                    int x2 = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][0],i));
+                    int y2 =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][1],i));
+                    int index1 = x2+450;
+                    int index2 = y2+250;
+                    
+                    g2.drawLine(index1, index2, index1, index2);
+                    
+                
+            }
+
+            }
+           if(i==6){
+            g2.drawImage(finalIm, x+400, y+200, null);
+           }
+           else{
+            g2.drawImage(finalIm, x+450, y+250, null);
+           }
+    
         }
         index++;
         }
@@ -153,5 +165,6 @@ public class Draw extends JPanel {
     
 
   
+
 
 

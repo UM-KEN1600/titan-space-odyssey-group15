@@ -1,7 +1,6 @@
 package SolarSystem;
 
 import java.awt.*;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,8 +15,60 @@ public class Draw extends JPanel {
     Spaceship spaceship;
     int radius = 40;    //size of earth (default)
     static int index = 0;
+    int x = 0;
+    int y = 0;
+    Image earth;
+    Image sun;
+    Image venus;
+    Image moon;
+    Image finalIm;
+    Image mars;
+    Image jupiter;
+    Image saturn;
+    Image titan;
 
     public Draw() {
+        ImageIcon e = new ImageIcon("earth.png");
+        Image edit = e.getImage();
+        Image finalImg = edit.getScaledInstance(25,25,java.awt.Image.SCALE_SMOOTH);
+         earth = new ImageIcon(finalImg).getImage(); 
+        
+        ImageIcon s = new ImageIcon("sun.png");
+        Image edit1 = s.getImage();
+        Image finalImg1 = edit1.getScaledInstance(30,30,java.awt.Image.SCALE_SMOOTH);
+        sun = new ImageIcon(finalImg1).getImage(); 
+
+        ImageIcon v = new ImageIcon("venus.png");
+        Image edit2 = v.getImage();
+        Image finalImg2 = edit2.getScaledInstance(20,20,java.awt.Image.SCALE_SMOOTH);
+        venus = new ImageIcon(finalImg2).getImage(); 
+
+        ImageIcon m = new ImageIcon("moon.png");
+        Image edit3 = m.getImage();
+        Image finalImg3 = edit3.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
+        moon = new ImageIcon(finalImg3).getImage(); 
+
+        ImageIcon m1 = new ImageIcon("mars.png");
+        Image edit4 = m1.getImage();
+        Image finalImg4 = edit4.getScaledInstance(30,30,java.awt.Image.SCALE_SMOOTH);
+        mars = new ImageIcon(finalImg4).getImage(); 
+
+        ImageIcon j = new ImageIcon("jupiter.png");
+        Image edit5 = j.getImage();
+        Image finalImg5 = edit5.getScaledInstance(60,60,java.awt.Image.SCALE_SMOOTH);
+         jupiter = new ImageIcon(finalImg5).getImage(); 
+
+         ImageIcon s1 = new ImageIcon("saturn.png");
+         Image edit6 = s1.getImage();
+         Image finalImg6 = edit6.getScaledInstance(130,130,java.awt.Image.SCALE_SMOOTH);
+          saturn = new ImageIcon(finalImg6).getImage(); 
+
+        ImageIcon t = new ImageIcon("titan.png");
+        Image edit7 = t.getImage();
+        Image finalImg7 = edit7.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
+         titan = new ImageIcon(finalImg7).getImage(); 
+         
+    
     }
 
     public void paintComponent (Graphics g) {
@@ -28,49 +79,67 @@ public class Draw extends JPanel {
 
        // while (index < 50) {
         for (int i = 0; i < 8 ; i++) {
-            int x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
-            int y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
+            g2.setColor(State.colors[i]);
+            g2.setStroke(new BasicStroke(3));
+            
+
+             x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
+             y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
             
                   
         // if (x != (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX1(i),i)) && y != (int)Math.round(CelestialBody.scaleDownPosition(CelestialBody.getX2(i),i))) {
         //      System.out.println("Casting from double to integer in Draw class is not correct");
         // }
 
-        g2.setColor(State.colors[i]);
+       
         
 
         switch(i){
             //sun
             case 0: 
-            radius = 20;
+            radius = 30;
+            finalIm = sun;
             break;
             //venus
             case 1:
             radius = 20;
+            finalIm = venus;
+            break;
+            //earth
+            case 2:
+            radius = 25;
+            finalIm =earth;
             break;
             //moon
             case 3: 
             radius = 10;
+            finalIm = moon;
             break;
             //mars
             case 4:
             radius = 30;
+            finalIm = mars;
             break;
             //jupiter
             case 5: 
             radius = 60;
+            finalIm = jupiter;
             break;
             //saturn
             case 6:
             radius = 60;
+            finalIm = saturn;
             break;
             //titan
             case 7: 
             radius = 10;
+            finalIm = titan;
             break;}
-         
+
             
-            g2.fillOval(x+450, y+250, radius, radius);
+         
+           // g2.fillOval(x+450, y+250, radius, radius);
+            g2.drawImage(finalIm, x+450-radius, y+250-radius, null);
         }
         index++;
       //  }
@@ -78,16 +147,6 @@ public class Draw extends JPanel {
     }
     
 
-    // public void startTimer() {
-    //     Timer t = new Timer(TIME, new ActionListener(){
-    //         public void actionPerformed(ActionEvent e){
-    //             repaint();
-	// 		}
-    //     }); 
-
-	// 	// TIME in milliseconds
-	// 	t.start();
-    // }
-
+  
 
 

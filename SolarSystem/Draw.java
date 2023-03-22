@@ -12,7 +12,7 @@ import javax.swing.*;
 public class Draw extends JPanel {
 
     CelestialBody [] celestialBodies;
-    Spaceship spaceship;
+    Spaceship ship;
     int radius = 40;    //size of earth (default)
     static int index = 0;
     int x = 0;
@@ -26,6 +26,7 @@ public class Draw extends JPanel {
     Image jupiter;
     Image saturn;
     Image titan;
+    Image spaceship;
 
     public Draw() {
         ImageIcon e = new ImageIcon("earth.png");
@@ -67,6 +68,11 @@ public class Draw extends JPanel {
         Image edit7 = t.getImage();
         Image finalImg7 = edit7.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
          titan = new ImageIcon(finalImg7).getImage(); 
+
+         ImageIcon sp = new ImageIcon("spaceship.png");
+        Image edit8 = sp.getImage();
+        Image finalImg8 = edit8.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
+         spaceship = new ImageIcon(finalImg8).getImage(); 
          
     
     }
@@ -132,7 +138,8 @@ public class Draw extends JPanel {
             finalIm = titan;
             break;
             case 8:
-            radius = 5;
+            radius = 10;
+            finalIm = spaceship;
             break; }
         
             g2.drawImage(finalIm, x+450-radius, y+250-radius, null);

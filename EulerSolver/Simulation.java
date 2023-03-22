@@ -10,12 +10,13 @@ public class Simulation {
 
         double t = 50;
 
-        State.printPositions();
+        //State.printPositions();
         
         for(int j = 1; j < 8; j++)
         {
-            State.setTimedPosition(CelestialBody.list[j], State.getPosition(j));
+            State.setTimedPosition(CelestialBody.list[j]);
         }
+        State.iterations++; 
                             //63072
         for(int i = 0 ; i < (31536000 / t); i++)
         {
@@ -33,14 +34,19 @@ public class Simulation {
                 //this stores the positions of a planet 50 times a year
                 if(j < 8 && i % 12616 == 0)
                 {
-                    State.setTimedPosition(CelestialBody.list[j], State.getPosition(j));
+                    State.setTimedPosition(CelestialBody.list[j]);
                 }
+            }
+
+            if(i % 12616 == 0)
+            {
+                State.iterations++;
             }
         }
 
         System.out.println("New Positions:");
 
-        State.printPositions();
+        //State.printPositions();
         
     }
 

@@ -67,13 +67,13 @@ public class Main {
 
         t.schedule(tt, 0, 100);
 
-        JButton startButton = new JButton("Start");
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            t.schedule(tt, 0, 200);;
-            }
-        });
-            mainFrame.add(startButton, BorderLayout.NORTH);
+        // JButton startButton = new JButton("Start");
+        // startButton.addActionListener(new ActionListener() {
+        //     public void actionPerformed(ActionEvent e) {
+        //     t.schedule(tt, 0, 200);;
+        //     }
+        // });
+        //     mainFrame.add(startButton, BorderLayout.NORTH);
 
 }
 

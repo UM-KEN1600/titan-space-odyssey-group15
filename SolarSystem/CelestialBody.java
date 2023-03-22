@@ -21,9 +21,12 @@ public class CelestialBody extends JPanel{
     Color color;
     double x1;
     double x2;
+    int newX;
+    int newY;
     int diameter = 20;
     static double scaleFactor = 7.0;
-    EulerSolver.State state = new State();
+    State state = new State();
+    Functions functions;
 
     CelestialBody(double mass, double radius, int rowInState, String name, Color color){
 
@@ -95,11 +98,24 @@ public class CelestialBody extends JPanel{
      */
     public static double scaleDownPosition(double xValue, int index){
         if (index <= 4) {
-            return (3 * (xValue/10000000));
+            return (scaleFactor / 2 * (xValue/10000000));
         }
         else {
             return ((scaleFactor / 2.5) * (xValue/10000000));
         }
+    }
+
+    public void updatePosition(double [] newPosition, int index) {
+        this.newX = (int)Math.round(scaleDownPosition(newPosition[0],index));
+        this.newY = (int)Math.round(scaleDownPosition(newPosition[1],index));
+    }
+
+    public int getNewX() {
+        return this.newX;
+    }
+
+    public int getNewY() {
+        return this.newY;
     }
 
     /**

@@ -15,18 +15,18 @@ public class Draw extends JPanel {
     CelestialBody [] celestialBodies;
     Spaceship spaceship;
     int radius = 40;    //size of earth (default)
-    int index = 0;
+    static int index = 0;
 
     public Draw() {
     }
 
     public void paintComponent (Graphics g) {
-        //super.paintCo(g);
+       // super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         setBackground(Color.black);
 
-        
+       // while (index < 50) {
         for (int i = 0; i < 8 ; i++) {
             int x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
             int y =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
@@ -73,7 +73,8 @@ public class Draw extends JPanel {
             g2.fillOval(x+450, y+250, radius, radius);
         }
         index++;
-        }
+      //  }
+    }
     }
     
 

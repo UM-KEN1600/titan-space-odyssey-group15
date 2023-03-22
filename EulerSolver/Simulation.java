@@ -31,7 +31,7 @@ public class Simulation {
                 State.setPosition(j, functions.newPositionOfBody(t, CelestialBody.list[j]));
 
                 //this stores the positions of a planet 50 times a year
-                if(i % 630800 == 0)
+                if(i % 12616 == 0)
                 {
                     State.setTimedPosition(CelestialBody.list[j], State.getPosition(j));
                 }

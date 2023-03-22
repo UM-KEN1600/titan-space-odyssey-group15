@@ -135,10 +135,10 @@ public class CelestialBody extends JPanel{
         CelestialBody jupiter = new CelestialBody(189818722* Math.pow(10, 19),69911 , 5, "Jupiter", Color.PINK);
         CelestialBody saturn = new CelestialBody(5.6834* Math.pow(10, 26), 58232, 6, "Saturn", Color.LIGHT_GRAY);
         CelestialBody titan = new CelestialBody(13455.3* Math.pow(10, 19), 2575, 7, "Titan", Color.ORANGE);
-        CelestialBody spaceship = new Spaceship(50000, 1, 11, "Spaceship", tempColor);
-        CelestialBody mercury = new CelestialBody(3.302* Math.pow(10, 23), 2439, 8, "Mercury", Color.RED);
-        CelestialBody neptune = new CelestialBody(102.409* Math.pow(10, 24), 24622, 9, "Neptune", Color.BLUE);
-        CelestialBody uranus = new CelestialBody(86.813* Math.pow(10, 24), 25362, 10, "Uranus", Color.CYAN);
+        CelestialBody spaceship = new Spaceship(50000, 1, 8, "Spaceship", tempColor);
+        CelestialBody mercury = new CelestialBody(3.302* Math.pow(10, 23), 2439, 9, "Mercury", Color.RED);
+        CelestialBody neptune = new CelestialBody(102.409* Math.pow(10, 24), 24622, 10, "Neptune", Color.BLUE);
+        CelestialBody uranus = new CelestialBody(86.813* Math.pow(10, 24), 25362, 11, "Uranus", Color.CYAN);
 
         list[0] = sun;
         list[1] = venus;

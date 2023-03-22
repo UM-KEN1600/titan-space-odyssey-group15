@@ -22,18 +22,18 @@ public class Simulation {
                             //63072
         for(int i = 0 ; i < (timesPerYear); i++)
         {
-            for(int j = 1; j < 11; j++)
+            for(int j = 1; j < 12; j++)
             {
                 State.setForce(j, functions.forceOnPlanet(CelestialBody.list[j]));
             }
     
-            for(int j = 1; j < 11; j++)
+            for(int j = 1; j < 12; j++)
             {
 
                 State.setPosition(j, Solver.solve(CelestialBody.list[j], t));
 
                 //this stores the positions of a planet 50 times a year
-                if(j < 8 && i % framesPer10Seconds == 0)
+                if(j < 9 && i % framesPer10Seconds == 0)
                 {
                     State.setTimedPosition(CelestialBody.list[j]);
                 }

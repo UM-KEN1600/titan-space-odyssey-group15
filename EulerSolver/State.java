@@ -169,7 +169,7 @@ public class State {
 
         //Spaceship
         velocities[8][0] = 0;
-        velocities[8][1] = 0;
+        velocities[8][1] = -60;
         velocities[8][2] = 0;
 
         //Mercury

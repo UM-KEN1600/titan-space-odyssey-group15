@@ -24,6 +24,7 @@ public class Draw extends JPanel {
     Image jupiter;
     Image saturn;
     Image titan;
+    Image spaceShip;
 
     //Constructor for adding images of the given planets to its body
     public Draw() {
@@ -65,7 +66,12 @@ public class Draw extends JPanel {
         ImageIcon t = new ImageIcon("titan.png");
         Image edit7 = t.getImage();
         Image finalImg7 = edit7.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
-         titan = new ImageIcon(finalImg7).getImage(); 
+         titan = new ImageIcon(finalImg7).getImage();
+         
+         ImageIcon s2 = new ImageIcon("spaceship.png");
+        Image edit8 = s2.getImage();
+        Image finalImg8 = edit8.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
+         spaceShip = new ImageIcon(finalImg8).getImage();
     }
     
 
@@ -137,6 +143,7 @@ public class Draw extends JPanel {
                 break;
                 case 8:
                 radius = 5;
+                finalIm = spaceShip;
                 break; }
 
                     //responsiple for leaving a line behind the space probe to track the trajectory of the probe

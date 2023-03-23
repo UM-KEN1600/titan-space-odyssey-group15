@@ -5,7 +5,7 @@ This repo is split into
 
 - EulerSolver
 - SolarSysten
-- Images
+- seperate png files for the images
 
 In order to run it:
 

@@ -1,4 +1,6 @@
 package EulerSolver;
+import java.util.Arrays;
+
 import SolarSystem.CelestialBody;
 
 public class Simulation {

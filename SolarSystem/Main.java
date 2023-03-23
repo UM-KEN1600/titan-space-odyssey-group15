@@ -31,7 +31,7 @@ public class Main {
             @Override
             public void run() {
                 drawPanel.repaint();
-                if(a == 98)
+                if(a == 99)
                 {
                     t.cancel();
                 }

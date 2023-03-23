@@ -183,9 +183,9 @@ public class State {
         velocities[7][2] = -2.25130986174761;
 
         //Spaceship
-        velocities[8][0] = 0;
-        velocities[8][1] = -60;
-        velocities[8][2] = 0;
+        velocities[8][0] = 46.41;
+        velocities[8][1] = 37.95;
+        velocities[8][2] = 2.0;
 
         //Mercury
         velocities[9][0] = -57.4967480139828;

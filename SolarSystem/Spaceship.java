@@ -6,11 +6,11 @@ import java.awt.geom.Point2D;
 
 import EulerSolver.*;
 
-//represents solar system with planets, celestial bodies, the sun etc.
+//represents spaceship
 
 public class Spaceship extends CelestialBody {
+
     public double velocity;
-    public final int MASS = 50000;
     public double acceleration;
     public double x1;
     public double x2;
@@ -20,8 +20,7 @@ public class Spaceship extends CelestialBody {
     double mass = 50000;
 
 
-    public Spaceship(double mass, double radius, int rowInState, String name, Color color)
-    {
+    public Spaceship(double mass, double radius, int rowInState, String name, Color color){
         super(mass, radius, rowInState, name, color);
     }
 
@@ -52,17 +51,4 @@ public class Spaceship extends CelestialBody {
     public void setAcceleration (double acceleration) {
         this.acceleration = acceleration;
     }
-
-    public void drawSpaceship(Graphics2D g2) {
-        //TO DO
-        
-    }
-
-    public void move(double distX, double distY) {
-        this.x1 += distX;
-        this.x2 += distY;
-        //this.x3 += distZ;
-    }
-
-
 }

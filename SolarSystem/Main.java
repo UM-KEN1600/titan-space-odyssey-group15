@@ -4,7 +4,6 @@ import java.util.TimerTask;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import EulerSolver.*;
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +27,7 @@ public class Main {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
 
+        // timer to move celestial bodies
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {
             int a = 0;
@@ -43,16 +43,7 @@ public class Main {
         };
         t.schedule(tt, 0, 100);
 
-        JButton startButton = new JButton("Start");
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
-        mainFrame.add(startButton, BorderLayout.SOUTH);
-
-         mainFrame.setVisible(true);
+        mainFrame.setVisible(true);
 
 }
 

@@ -1,7 +1,5 @@
 package SolarSystem;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import EulerSolver.*;
 import javax.swing.*;
 
@@ -11,7 +9,7 @@ public class Draw extends JPanel {
 
     CelestialBody [] celestialBodies;
     Spaceship spaceship;
-    int radius = 40;    //size of earth (default)
+    int radius;
     static int index = 0;
     int x = 0;
     int y = 0;
@@ -25,9 +23,11 @@ public class Draw extends JPanel {
     Image saturn;
     Image titan;
     Image spaceShip;
+    Image bg;
 
     //Constructor for adding images of the given planets to its body
     public Draw() {
+        //scaling each planet to its appropriate size
         ImageIcon e = new ImageIcon("earth.png");
         Image edit = e.getImage();
         Image finalImg = edit.getScaledInstance(25,25,java.awt.Image.SCALE_SMOOTH);
@@ -72,10 +72,13 @@ public class Draw extends JPanel {
         Image edit8 = s2.getImage();
         Image finalImg8 = edit8.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
         spaceShip = new ImageIcon(finalImg8).getImage();
+
+        ImageIcon b = new ImageIcon("space.png");
+        Image edit9 = b.getImage();
+        Image finalImg9 = edit9.getScaledInstance(1000,600,java.awt.Image.SCALE_SMOOTH);
+        bg = new ImageIcon(finalImg9).getImage();
     }
     
-
-
     /**
      * Displays one frame for the given coordinates which are retrieved from the allPositions array in the State class
      * @param Graphics 
@@ -87,9 +90,10 @@ public class Draw extends JPanel {
         Graphics2D g2 = (Graphics2D)g;
 
         //for higher resolution
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        setBackground(Color.black);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);       
+       
+        g2.drawImage(bg, 0, 0, null);
+        //setBackground(Color.black);
 
         //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {

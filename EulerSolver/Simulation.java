@@ -1,10 +1,8 @@
 package EulerSolver;
-
 import SolarSystem.CelestialBody;
 
 public class Simulation {
     public static void planetarySetUp() {
-        State state = new State();
         Functions functions = new Functions();
         CelestialBody.setupCelestialBodies();
 

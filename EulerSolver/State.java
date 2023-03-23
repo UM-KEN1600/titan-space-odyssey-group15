@@ -9,6 +9,15 @@ import SolarSystem.CelestialBody;
  */
 public class State {
 
+    //change spaceship starting coordinates and veloctiy here
+    double xCoor = -148186906.893642;
+    double yCoor = -27829528.5715694;
+    double zCoor = 33746.8987977113;
+
+    double velocity1 = 35;
+    double velocity2 = -55;
+    double velocity3 = 0;
+
     public static double[][] positions = new double[12][3];
     public static double[][] velocities = new double[12][3];
     public static double[][] forces = new double[12][3];
@@ -115,9 +124,9 @@ public class State {
         positions[7][2] = -36309613.8378104;
 
         //Spaceship
-        positions[8][0] = -148186906.893642;
-        positions[8][1] = -27829528.5715694;
-        positions[8][2] = 33746.8987977113;
+        positions[8][0] = xCoor;
+        positions[8][1] = yCoor;
+        positions[8][2] = zCoor;
 
         //Mercury
         positions[9][0] = 7833268.43923962;
@@ -174,9 +183,9 @@ public class State {
         velocities[7][2] = -2.25130986174761;
 
         //Spaceship
-        velocities[8][0] = 0;
-        velocities[8][1] = -60;
-        velocities[8][2] = 0;
+        velocities[8][0] = velocity1;
+        velocities[8][1] = velocity2;
+        velocities[8][2] = velocity3;
 
         //Mercury
         velocities[9][0] = -57.4967480139828;

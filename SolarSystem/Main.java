@@ -21,6 +21,9 @@ public class Main {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
 
+        ImageIcon icon = new ImageIcon("icon.jpg");
+        mainFrame.setIconImage(icon.getImage());
+
         // timer to move celestial bodies
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {

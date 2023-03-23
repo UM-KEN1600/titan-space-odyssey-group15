@@ -130,4 +130,10 @@ public class VectorOperations {
 
         return A;
     }
+    
+    public static double magnitude(double vectorx, double vectory, double vectorz){
+        double first = Math.pow(vectorx, 2) + Math.pow(vectory, 2) + Math.pow(vectorz, 2);
+        double magnitude = Math.sqrt(first);
+        return magnitude; 
+    }
 }

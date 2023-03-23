@@ -116,7 +116,7 @@ public class State {
 
         //Spaceship
         positions[8][0] = -148186906.893642;
-        positions[8][1] = -27829528.5715694;
+        positions[8][1] = -27816787.5716;
         positions[8][2] = 33746.8987977113;
 
         //Mercury
@@ -173,10 +173,10 @@ public class State {
         velocities[7][1] = 11.1085713608453;
         velocities[7][2] = -2.25130986174761;
 
-        //Spaceship
-        velocities[8][0] = 0;
-        velocities[8][1] = -60;
-        velocities[8][2] = 0;
+        //Spaceship, , 
+        velocities[8][0] = 47;
+        velocities[8][1] = 34;
+        velocities[8][2] = 14;
 
         //Mercury
         velocities[9][0] = -57.4967480139828;

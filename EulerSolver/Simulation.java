@@ -1,7 +1,5 @@
 package EulerSolver;
 
-import java.util.Arrays;
-
 import SolarSystem.CelestialBody;
 
 public class Simulation {
@@ -11,7 +9,7 @@ public class Simulation {
         CelestialBody.setupCelestialBodies();
 
         int t = 50;
-        int timesPerYear = 31536000 / t;    //63072
+        int timesPerYear = 31536000 / t;
         int framesPer10Seconds = timesPerYear / 100 + ((timesPerYear/t)%100);
 
         //State.printPositions();
@@ -48,7 +46,8 @@ public class Simulation {
         }
 
         System.out.println("New Positions:");
-        State.printPositions();
+
+        //State.printPositions();
         
     }
 

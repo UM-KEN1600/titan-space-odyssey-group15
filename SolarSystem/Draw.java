@@ -1,7 +1,9 @@
 package SolarSystem;
 import java.awt.*;
-import EulerSolver.*;
+
 import javax.swing.*;
+
+import PhysicsEngine.*;
 
 //represents the drawing of the celestialbodies
 

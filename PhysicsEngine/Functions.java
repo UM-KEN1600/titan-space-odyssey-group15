@@ -1,4 +1,4 @@
-package EulerSolver;
+package PhysicsEngine;
 
 import SolarSystem.CelestialBody;
 

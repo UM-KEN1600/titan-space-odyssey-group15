@@ -1,8 +1,10 @@
 package SolarSystem;
 import java.util.Timer;
 import java.util.TimerTask;
-import EulerSolver.*;
+
 import javax.swing.*;
+
+import PhysicsEngine.*;
 
 public class Main {
 

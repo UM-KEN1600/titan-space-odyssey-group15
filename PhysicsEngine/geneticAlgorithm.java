@@ -1,4 +1,4 @@
-package EulerSolver;
+package PhysicsEngine;
 
 import java.util.Arrays;
 import java.util.Random;

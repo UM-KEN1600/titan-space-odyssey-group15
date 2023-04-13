@@ -1,7 +1,8 @@
 package SolarSystem;
 import java.awt.*;
 import javax.swing.*;
-import EulerSolver.*;
+
+import PhysicsEngine.*;
 
 /**
  * represents planets, sun, extends spaceship

@@ -1,4 +1,4 @@
-package EulerSolver;
+package PhysicsEngine;
 /**
  * 3 dimensional vectors
  */

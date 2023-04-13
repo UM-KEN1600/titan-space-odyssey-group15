@@ -1,11 +1,11 @@
-package EulerSolver;
+package PhysicsEngine;
 import SolarSystem.CelestialBody;
 
 
 //implementation of Euler's method
 
-public class Solver {
-    // need initial values for x and y, coordinates I guess
+public class EulerSolver {
+    // need initial values for x and y
    
     public static double[] nextVelocity = new double[3];
     

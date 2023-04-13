@@ -1,4 +1,4 @@
-package EulerSolver;
+package PhysicsEngine;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -46,7 +46,7 @@ public class SimulationHelp {
             for(int j = 1; j < 12; j++)
             {
 
-                State.setPosition(j, Solver.solve(CelestialBody.list[j], t));
+                State.setPosition(j, EulerSolver.solve(CelestialBody.list[j], t));
                 
                 //this stores the positions of a planet 50 times a year
                 if(j < 9 && i % framesPer10Seconds == 0)

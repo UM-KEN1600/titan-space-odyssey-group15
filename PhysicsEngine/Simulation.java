@@ -11,6 +11,7 @@ public class Simulation {
     EulerSolver eulerSolver = new EulerSolver();
 
     double timeStep; // in seconds
+    int lengthOfSimulation = 31536000; //seconds of one year
 
     public Simulation(double timeStep)
     {
@@ -21,8 +22,8 @@ public class Simulation {
     {
         CelestialBody.setupCelestialBodies();
 
-        int timesPerYear = (int) Math.ceil(31536000 / timeStep);
-        int framesPer10Seconds = (int) Math.ceil(timesPerYear / 100 + ((timesPerYear/timeStep)%100));
+        int timesPerSimulation = (int) Math.ceil(lengthOfSimulation / timeStep);
+        int framesPer10Seconds = (int) Math.ceil(timesPerSimulation / 100 + ((timesPerSimulation/timeStep)%100));
 
         //State.printPositions();
         
@@ -33,7 +34,7 @@ public class Simulation {
 
         State.iterations++; 
                             //63072
-        for(int i = 0 ; i < (timesPerYear); i++)
+        for(int i = 0 ; i < (timesPerSimulation); i++)
         {
             for(int j = 1; j < 12; j++)
             {
@@ -73,7 +74,7 @@ public class Simulation {
             System.out.println("Distance:");
             System.out.println(distance);
         }
-        
+
         //System.out.println("New Positions:");
         //State.printPositions();
 

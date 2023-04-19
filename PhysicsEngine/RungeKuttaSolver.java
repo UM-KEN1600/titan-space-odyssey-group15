@@ -12,7 +12,6 @@ public class RungeKuttaSolver implements iSolver {
 
     public double[] solve(CelestialBody body, double timestep)
     {
-        double d = heunValue;
         return null;
     }
 }

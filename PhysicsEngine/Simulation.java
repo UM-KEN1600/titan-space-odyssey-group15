@@ -4,13 +4,25 @@ import java.util.Arrays;
 import SolarSystem.CelestialBody;
 
 public class Simulation {
-    public static void planetarySetUp() {
-        Functions functions = new Functions();
+
+    final boolean SHOWENDPOSITIONS = true;
+
+    Functions functions = new Functions();
+    EulerSolver eulerSolver = new EulerSolver();
+
+    double timeStep; // in seconds
+
+    public Simulation(double timeStep)
+    {
+        this.timeStep = timeStep;
+    }
+
+    public void planetarySetUp() 
+    {
         CelestialBody.setupCelestialBodies();
 
-        int t = 50;
-        int timesPerYear = 31536000 / t;
-        int framesPer10Seconds = timesPerYear / 100 + ((timesPerYear/t)%100);
+        int timesPerYear = (int) Math.ceil(31536000 / timeStep);
+        int framesPer10Seconds = (int) Math.ceil(timesPerYear / 100 + ((timesPerYear/timeStep)%100));
 
         //State.printPositions();
         
@@ -18,6 +30,7 @@ public class Simulation {
         {
             State.setTimedPosition(CelestialBody.list[j]);
         }
+
         State.iterations++; 
                             //63072
         for(int i = 0 ; i < (timesPerYear); i++)
@@ -30,9 +43,9 @@ public class Simulation {
             for(int j = 1; j < 12; j++)
             {
 
-                State.setPosition(j, EulerSolver.solve(CelestialBody.list[j], t));
+                State.setPosition(j, eulerSolver.solve(CelestialBody.list[j], timeStep));
 
-                //this stores the positions of a planet 50 times a year
+                //this stores the positions of a planet 100 times a year
                 if(j < 9 && i % framesPer10Seconds == 0)
                 {
                     State.setTimedPosition(CelestialBody.list[j]);
@@ -45,25 +58,26 @@ public class Simulation {
             }
         }
 
-        double[] probePosition = State.getPosition(8);
-        double[] titanPosition = State.getPosition(7);
+        if(SHOWENDPOSITIONS)
+        {
+            double[] probePosition = State.getPosition(8);
+            double[] titanPosition = State.getPosition(7);
 
-        System.out.println("Probe:");
-        System.out.println(Arrays.toString(probePosition));
-        System.out.println("Titan:");
-        System.out.println(Arrays.toString(titanPosition));
+            System.out.println("Probe:");
+            System.out.println(Arrays.toString(probePosition));
+            System.out.println("Titan:");
+            System.out.println(Arrays.toString(titanPosition));
 
-        double firstPart = Math.pow(probePosition[0] - titanPosition[0], 2) + Math.pow(probePosition[1] - titanPosition[1], 2) + Math.pow(probePosition[2] - titanPosition[2], 2);
-        double distance = Math.sqrt(firstPart);
-        System.out.println("Distance:");
-        System.out.println(distance);
+            double firstPart = Math.pow(probePosition[0] - titanPosition[0], 2) + Math.pow(probePosition[1] - titanPosition[1], 2) + Math.pow(probePosition[2] - titanPosition[2], 2);
+            double distance = Math.sqrt(firstPart);
+            System.out.println("Distance:");
+            System.out.println(distance);
+        }
+        
         //System.out.println("New Positions:");
         //State.printPositions();
 
         
     }
 
-    public static void main(String[] args) {
-        planetarySetUp();
-    }
 }

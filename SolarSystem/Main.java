@@ -13,7 +13,9 @@ public class Main {
 
     public static void main(String[] args)  {
 
-        Simulation.planetarySetUp();
+        double timeStep = 10;
+        Simulation simulation = new Simulation(timeStep);
+        simulation.planetarySetUp();
 
         //frame
         JFrame mainFrame = new JFrame("Solar System");

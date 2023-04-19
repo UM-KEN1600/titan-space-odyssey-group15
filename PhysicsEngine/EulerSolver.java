@@ -4,18 +4,10 @@ import SolarSystem.CelestialBody;
 
 //implementation of Euler's method
 
-public class EulerSolver {
+public class EulerSolver implements iSolver{
     // need initial values for x and y
    
     public static double[] nextVelocity = new double[3];
-    
-
-    public static void main(String[] args) {
-        
-      
-        
-    }
-
 
     /**
      * calculates the acceleration of a particular celestial body
@@ -23,7 +15,7 @@ public class EulerSolver {
      * @param force the force of the celestial body
      * @return a vector array containing the acceleration
      */
-    public static double[] accelerationCalculation(double mass, double[] force) {
+    public double[] accelerationCalculation(double mass, double[] force) {
         double[] acceleration = new double[3];
         acceleration = VectorOperations.vectorScalarDivision(force, mass);
         //System.out.println(acceleration);
@@ -38,7 +30,7 @@ public class EulerSolver {
      * @param timestep the timestep used in the vector calculation
      * @return a vector array containing the new position of the body
      */
-    public static double[] nextPosition(double[] currentPosition, double[] currentVelocity, double timestep) {
+    public double[] nextPosition(double[] currentPosition, double[] currentVelocity, double timestep) {
         double[] nextPosition = new double[3];
         nextPosition = VectorOperations.vectorAddition(currentPosition, VectorOperations.vectorScalarMultiplication(currentVelocity, timestep));
         currentPosition = nextPosition;
@@ -53,7 +45,7 @@ public class EulerSolver {
      * @param timestep the timestep used for the vector calculation
      * @return a vector array containing the new velocity of the body
      */
-    public static double[] nextVelocity(double[] currentVelocity, double[] acceleration, double timestep){
+    public double[] nextVelocity(double[] currentVelocity, double[] acceleration, double timestep){
         double[] nextVelocity = new double[3];
         nextVelocity = VectorOperations.vectorAddition(currentVelocity, VectorOperations.vectorScalarMultiplication(acceleration, timestep)); 
         currentVelocity = nextVelocity;
@@ -67,7 +59,7 @@ public class EulerSolver {
      * @param timestep the timestep used in vector calculations
      * @return a vector array containing a new position of the body
      */
-    public static double[] solve(CelestialBody body, double timestep){
+    public double[] solve(CelestialBody body, double timestep){
         double[] acceleration = accelerationCalculation(body.getMass(), State.getForce(body.rowInState));
         double[] velocity = nextVelocity(State.getVelocity(body.rowInState), acceleration, timestep);
         State.setVelocity(body.rowInState, velocity);

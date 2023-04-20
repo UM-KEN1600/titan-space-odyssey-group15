@@ -21,7 +21,7 @@ public class SimulationHelp {
         State.velocities[8][1] = valuey;
         State.velocities[8][2] = valuez;
         
-        
+        EulerSolver euler = new EulerSolver();
 
         int t = 50;
         int timesPerYear = 31536000 / t;
@@ -46,7 +46,7 @@ public class SimulationHelp {
             for(int j = 1; j < 12; j++)
             {
 
-                State.setPosition(j, EulerSolver.solve(CelestialBody.list[j], t));
+                State.setPosition(j, euler.solve(CelestialBody.list[j], t));
                 
                 //this stores the positions of a planet 50 times a year
                 if(j < 9 && i % framesPer10Seconds == 0)

@@ -13,7 +13,10 @@ public class Main {
 
     public static void main(String[] args)  {
 
+        //Enter time step in seconds here:
         double timeStep = 10;
+        //--------------------------------------
+
         Simulation simulation = new Simulation(timeStep);
         simulation.planetarySetUp();
 

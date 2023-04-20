@@ -32,7 +32,7 @@ public class Simulation {
             State.setTimedPosition(CelestialBody.list[j]);
         }
 
-        State.iterations++; 
+        State.iterations++; //to increase the position of the GUIposition vector
                             //63072
         for(int i = 0 ; i < (timesPerSimulation); i++)
         {

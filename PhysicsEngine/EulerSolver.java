@@ -1,4 +1,6 @@
 package PhysicsEngine;
+import java.util.Arrays;
+
 import SolarSystem.CelestialBody;
 
 
@@ -49,7 +51,7 @@ public class EulerSolver implements iSolver{
         double[] nextVelocity = new double[3];
         nextVelocity = VectorOperations.vectorAddition(currentVelocity, VectorOperations.vectorScalarMultiplication(acceleration, timestep)); 
         currentVelocity = nextVelocity;
-        //System.out.println(currentVelocity);
+        //System.out.println(currentVelocity)
         return currentVelocity; 
     }
 
@@ -59,11 +61,16 @@ public class EulerSolver implements iSolver{
      * @param timestep the timestep used in vector calculations
      * @return a vector array containing a new position of the body
      */
-    public double[] solve(CelestialBody body, double timestep){
-        double[] acceleration = accelerationCalculation(body.getMass(), State.getForce(body.rowInState));
-        double[] velocity = nextVelocity(State.getVelocity(body.rowInState), acceleration, timestep);
-        State.setVelocity(body.rowInState, velocity);
-        return (nextPosition(State.getPosition(body.rowInState), velocity, timestep));
+    public double[][] solve(CelestialBody body, double timestep){
+        double[][] nextState = new double[2][3];
+        nextState[1] = accelerationCalculation(body.getMass(), State.getForce(body.rowInState));
+        nextState[0] = nextVelocity(State.getVelocity(body.rowInState), nextState[1], timestep);
+        System.out.println(Arrays.deepToString(nextState));
+
+        State.setPosition(body.rowInState, nextState[0]);
+        State.setVelocity(body.rowInState, nextState[1]);
+
+        return nextState;
     }
 
     public double[][] solve(CelestialBody body, double timestep, double[][] stateMatrix)

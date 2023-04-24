@@ -9,6 +9,7 @@ public class Simulation {
 
     Functions functions = new Functions();
     EulerSolver eulerSolver = new EulerSolver();
+    State state = new State();
 
     double timeStep; // in seconds
     int lengthOfSimulation = 31536000; //seconds of one year
@@ -43,8 +44,14 @@ public class Simulation {
     
             for(int j = 1; j < 12; j++)
             {
+                double[][] nextState = new double[2][3];
+                nextState[0] = State.getPosition(j);
+                nextState[1] = State.getVelocity(j);
 
-                State.setPosition(j, eulerSolver.solve(CelestialBody.list[j], timeStep));
+                nextState = eulerSolver.solve(CelestialBody.list[j], timeStep, nextState);
+
+                State.setPosition(j, nextState[0]);
+                State.setVelocity(j, nextState[1]);
 
                 //this stores the positions of a planet 100 times a year
                 if(j < 9 && i % framesPer10Seconds == 0)

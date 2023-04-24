@@ -1,5 +1,6 @@
 package PhysicsEngine;
 
+import java.util.Vector;
 
 public class Thrust {
 
@@ -19,5 +20,10 @@ public class Thrust {
         return impulse; //returns how much velocity has to be added 
     }
 
-    public double fuelConsumption()
+    //method to calculate fuel consumption
+    //based on the formula ||I||*1ms^-1
+    public double fuelConsumption(double[] impulse){
+        double magnitude = VectorOperations.magnitude(impulse[0], impulse[1], impulse[2]);
+        return magnitude; //return is the amount of kg of fuel used
+    }
 }

@@ -28,8 +28,6 @@ public class State {
     public static double[][][] allPositions = new double[9][framesPer10Seconds][2]; 
     public static int iterations = 0;
 
-    public static Color [] colors = {new Color(249,215,28), new Color(217,221,227), new Color(0, 120, 130), new Color(169,169,169), new Color(161,37,27), new Color(181,101,29), new Color(217,179,130), new Color(230,214,144), Color.WHITE};
-
     /**
      * updates the allPositions array with new coordinates of the celestial bodies
      * @param body the celestial body whose coordinates are being updated
@@ -39,6 +37,7 @@ public class State {
         if (iterations < framesPer10Seconds) {
         allPositions[body.rowInState][iterations][0] = positions[body.rowInState][0];
         allPositions[body.rowInState][iterations][1] = positions[body.rowInState][1];
+        
         }
     }
 
@@ -201,9 +200,5 @@ public class State {
         velocities[11][0] = -5.12766216337626;
         velocities[11][1] = 4.22055347264457;
         velocities[11][2] = 0.0821190336403063;
-    }
-
-    public Color[] getColours() {
-        return colors;
     }
 }

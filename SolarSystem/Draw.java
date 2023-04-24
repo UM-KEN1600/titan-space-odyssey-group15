@@ -30,53 +30,53 @@ public class Draw extends JPanel {
     //Constructor for adding images of the given planets to its body
     public Draw() {
         //scaling each planet to its appropriate size
-        ImageIcon e = new ImageIcon("earth.png");
-        Image edit = e.getImage();
+        ImageIcon temp = new ImageIcon("earth.png");
+        Image edit = temp.getImage();
         Image finalImg = edit.getScaledInstance(25,25,java.awt.Image.SCALE_SMOOTH);
         earth = new ImageIcon(finalImg).getImage(); 
         
-        ImageIcon s = new ImageIcon("sun.png");
-        Image edit1 = s.getImage();
+        temp = new ImageIcon("sun.png");
+        Image edit1 = temp.getImage();
         Image finalImg1 = edit1.getScaledInstance(30,30,java.awt.Image.SCALE_SMOOTH);
         sun = new ImageIcon(finalImg1).getImage(); 
 
-        ImageIcon v = new ImageIcon("venus.png");
-        Image edit2 = v.getImage();
+        temp = new ImageIcon("venus.png");
+        Image edit2 = temp.getImage();
         Image finalImg2 = edit2.getScaledInstance(20,20,java.awt.Image.SCALE_SMOOTH);
         venus = new ImageIcon(finalImg2).getImage(); 
 
-        ImageIcon m = new ImageIcon("moon.png");
-        Image edit3 = m.getImage();
+        temp = new ImageIcon("moon.png");
+        Image edit3 = temp.getImage();
         Image finalImg3 = edit3.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
         moon = new ImageIcon(finalImg3).getImage(); 
 
-        ImageIcon m1 = new ImageIcon("mars.png");
-        Image edit4 = m1.getImage();
+        temp = new ImageIcon("mars.png");
+        Image edit4 = temp.getImage();
         Image finalImg4 = edit4.getScaledInstance(30,30,java.awt.Image.SCALE_SMOOTH);
         mars = new ImageIcon(finalImg4).getImage(); 
 
-        ImageIcon j = new ImageIcon("jupiter.png");
-        Image edit5 = j.getImage();
+        temp = new ImageIcon("jupiter.png");
+        Image edit5 = temp.getImage();
         Image finalImg5 = edit5.getScaledInstance(60,60,java.awt.Image.SCALE_SMOOTH);
         jupiter = new ImageIcon(finalImg5).getImage(); 
 
-        ImageIcon s1 = new ImageIcon("saturn.png");
-        Image edit6 = s1.getImage();
+        temp = new ImageIcon("saturn.png");
+        Image edit6 = temp.getImage();
         Image finalImg6 = edit6.getScaledInstance(130,130,java.awt.Image.SCALE_SMOOTH);
         saturn = new ImageIcon(finalImg6).getImage(); 
 
-        ImageIcon t = new ImageIcon("titan.png");
-        Image edit7 = t.getImage();
+        temp = new ImageIcon("titan.png");
+        Image edit7 = temp.getImage();
         Image finalImg7 = edit7.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
         titan = new ImageIcon(finalImg7).getImage();
          
-        ImageIcon s2 = new ImageIcon("spaceship.png");
-        Image edit8 = s2.getImage();
+        temp = new ImageIcon("spaceship.png");
+        Image edit8 = temp.getImage();
         Image finalImg8 = edit8.getScaledInstance(10,10,java.awt.Image.SCALE_SMOOTH);
         spaceShip = new ImageIcon(finalImg8).getImage();
 
-        ImageIcon b = new ImageIcon("space.png");
-        Image edit9 = b.getImage();
+        temp = new ImageIcon("space.png");
+        Image edit9 = temp.getImage();
         Image finalImg9 = edit9.getScaledInstance(1000,600,java.awt.Image.SCALE_SMOOTH);
         bg = new ImageIcon(finalImg9).getImage();
     }
@@ -99,7 +99,7 @@ public class Draw extends JPanel {
 
         //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {
-            g2.setColor(State.colors[i]);
+         
             
             //stores the scaled down and casted x and y coordinates of the given celestial body, which is given by the index
              x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
@@ -155,7 +155,7 @@ public class Draw extends JPanel {
                     //responsiple for leaving a line behind the space probe to track the trajectory of the probe
                 if(i==8){
                     for (int j = 0; j < index; j++) {
-   
+                        g2.setColor(Color.WHITE);
                         //casting to an integer to draw a dot in the image later
                         int x2 = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][0],i));
                         int y2 =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][1],i));

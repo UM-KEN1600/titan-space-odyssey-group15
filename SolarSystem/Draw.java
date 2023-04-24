@@ -146,10 +146,11 @@ public class Draw extends JPanel {
                 radius = 10;
                 finalIm = titan;
                 break;
+                //spaceship
                 case 8:
                 radius = 5;
                 finalIm = spaceShip;
-                break; }
+                break;}
 
                     //responsiple for leaving a line behind the space probe to track the trajectory of the probe
                 if(i==8){

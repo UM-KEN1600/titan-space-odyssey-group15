@@ -11,7 +11,7 @@ public class RungeKuttaSolver implements iSolver {
         this.a = a;
     }
 
-    public double[][] solve(CelestialBody body, double timestep)
+    public double[][] solve(CelestialBody body, double timestep, double[][] oldState)
     {
         //aids to understand what is being calculated
         int position = 0;
@@ -20,8 +20,8 @@ public class RungeKuttaSolver implements iSolver {
         int acceleration = 1;
 
         double[][] newState = new double[2][3];
-        newState[position] = State.getPosition(body.rowInState);
-        newState[velocity1] = State.getVelocity(body.rowInState);
+        newState[position] = oldState[0];
+        newState[velocity1] = oldState[1];
 
         
         double[][] k1 = new double[2][3]; // stores velocities and accelerations

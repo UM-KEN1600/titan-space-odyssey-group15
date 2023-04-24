@@ -8,7 +8,7 @@ public class Simulation {
     final boolean SHOWENDPOSITIONS = true;
 
     Functions functions = new Functions();
-    EulerSolver eulerSolver = new EulerSolver();
+    iSolver solver = new EulerSolver();
     State state = new State();
 
     double timeStep; // in seconds
@@ -48,7 +48,7 @@ public class Simulation {
                 nextState[0] = State.getPosition(j);
                 nextState[1] = State.getVelocity(j);
 
-                nextState = eulerSolver.solve(CelestialBody.list[j], timeStep, nextState);
+                nextState = solver.solve(CelestialBody.list[j], timeStep, nextState);
 
                 State.setPosition(j, nextState[0]);
                 State.setVelocity(j, nextState[1]);

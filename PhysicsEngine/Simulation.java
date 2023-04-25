@@ -8,7 +8,11 @@ public class Simulation {
     final boolean SHOWENDPOSITIONS = true;
 
     Functions functions = new Functions();
+<<<<<<< Updated upstream
     iSolver solver = new EulerSolver();
+=======
+    iSolver solver = new RungeKutta4Solver();
+>>>>>>> Stashed changes
     State state = new State();
 
     double timeStep; // in seconds

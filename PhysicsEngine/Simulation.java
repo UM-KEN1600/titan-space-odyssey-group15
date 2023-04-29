@@ -8,7 +8,7 @@ public class Simulation {
     final boolean SHOWENDPOSITIONS = true;
 
     Functions functions = new Functions();
-    iSolver solver = new RungeKuttaSolver(1/2.0);
+    iSolver solver = new RungeKutta4Solver();
     State state = new State();
 
     double timeStep; // in seconds

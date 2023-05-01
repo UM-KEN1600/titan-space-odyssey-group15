@@ -25,6 +25,7 @@ public class Simulation {
 
         int timesPerSimulation = (int) Math.ceil(lengthOfSimulation / timeStep);
         int framesPer10Seconds = (int) Math.ceil(timesPerSimulation / 100 + ((timesPerSimulation/timeStep)%100));
+        
 
         //State.printPositions();
         

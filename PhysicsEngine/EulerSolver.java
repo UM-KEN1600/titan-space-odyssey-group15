@@ -84,4 +84,10 @@ public class EulerSolver implements iSolver{
         return newState;
     }
 
+    @Override
+    public double[][][] solve(double timestep, double[][][] oldState) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'solve'");
+    }
+
 }

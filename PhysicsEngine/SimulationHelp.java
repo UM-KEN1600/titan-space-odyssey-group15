@@ -31,7 +31,7 @@ public class SimulationHelp {
         
         for(int j = 1; j < 9; j++)
         {
-            State.setTimedPosition(CelestialBody.list[j]);
+            State.setTimedPosition(CelestialBody.bodyList[j]);
         }
         
         State.iterations++; 
@@ -40,18 +40,18 @@ public class SimulationHelp {
         {
             for(int j = 1; j < 12; j++)
             {
-                State.setForce(j, functions.forceOnPlanet(CelestialBody.list[j]));
+                State.setForce(j, functions.forceOnPlanet(CelestialBody.bodyList[j]));
             }
     
             for(int j = 1; j < 12; j++)
             {
 
-                State.setPosition(j, euler.solve(CelestialBody.list[j], t));
+                State.setPosition(j, euler.solve(CelestialBody.bodyList[j], t));
                 
                 //this stores the positions of a planet 50 times a year
                 if(j < 9 && i % framesPer10Seconds == 0)
                 {
-                    State.setTimedPosition(CelestialBody.list[j]);
+                    State.setTimedPosition(CelestialBody.bodyList[j]);
                 }
             }
 

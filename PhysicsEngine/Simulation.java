@@ -27,44 +27,26 @@ public class Simulation {
         int framesPer10Seconds = (int) Math.ceil(timesPerSimulation / 100 + ((timesPerSimulation/timeStep)%100));
         
 
-        //State.printPositions();
-        
-        for(int j = 1; j < 9; j++)
-        {
-            State.setTimedPosition(CelestialBody.list[j]);
-        }
+        state.setTimedPosition();
 
-        State.iterations++; //to increase the position of the GUIposition vector
+        double[][][] nextState = new double[12][2][3];
                             //63072
         for(int i = 0 ; i < (timesPerSimulation); i++)
         {
             for(int j = 1; j < 12; j++)
             {
-                State.setForce(j, functions.forceOnPlanet(CelestialBody.list[j]));
-            }
-    
-            for(int j = 1; j < 12; j++)
-            {
-                double[][] nextState = new double[2][3];
-                nextState[0] = State.getPosition(j);
-                nextState[1] = State.getVelocity(j);
-
-                nextState = solver.solve(CelestialBody.list[j], timeStep, nextState);
-
-                State.setPosition(j, nextState[0]);
-                State.setVelocity(j, nextState[1]);
-
-                //this stores the positions of a planet 100 times a year
-                if(j < 9 && i % framesPer10Seconds == 0)
-                {
-                    State.setTimedPosition(CelestialBody.list[j]);
-                }
+                State.setForce(j, functions.forceOnPlanet(CelestialBody.bodyList[j]));
             }
 
-            if(i % framesPer10Seconds == 0)
-            {
-                State.iterations++;
-            }
+            nextState = solver.solve(timeStep, state.getState());
+
+            state.setState(nextState);
+
+             //this stores the positions of a planet 100 times a year
+             if(i % framesPer10Seconds == 0)
+             {
+                state.setTimedPosition();
+             }
         }
 
         if(SHOWENDPOSITIONS)

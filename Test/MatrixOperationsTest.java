@@ -74,6 +74,8 @@ public class MatrixOperationsTest {
         Assert.assertArrayEquals(vectorHalfA, VectorOperations.vectorScalarMultiplication(matrixA[0], 2),0.000001);
     }
 
+    
+
 }
 
 

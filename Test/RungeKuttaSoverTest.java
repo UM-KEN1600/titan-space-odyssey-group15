@@ -1,11 +1,6 @@
-package PhysicsEngine;
+package Test;
 
-import org.junit.Test;
-
-public class RungeKuttaSoverTest {
-
- 
-}
+public class RungeKuttaSoverTest {}
 
 
 

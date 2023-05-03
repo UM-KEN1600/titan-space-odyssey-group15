@@ -30,23 +30,18 @@ public class Simulation {
         state.setTimedPosition();
 
         double[][][] nextState = new double[12][2][3];
-                            //63072
+
         for(int i = 0 ; i < (timesPerSimulation); i++)
         {
-            for(int j = 1; j < 12; j++)
-            {
-                State.setForce(j, functions.forceOnPlanet(CelestialBody.bodyList[j]));
-            }
-
             nextState = solver.solve(timeStep, state.getState());
 
             state.setState(nextState);
 
-             //this stores the positions of a planet 100 times a year
-             if(i % framesPer10Seconds == 0)
-             {
+            //this stores the positions of a planet 100 times a year
+            if(i % framesPer10Seconds == 0)
+            {
                 state.setTimedPosition();
-             }
+            }
         }
 
         if(SHOWENDPOSITIONS)
@@ -66,7 +61,7 @@ public class Simulation {
         }
 
         //System.out.println("New Positions:");
-        //State.printPositions();
+        //state.printPositions();
 
         
     }

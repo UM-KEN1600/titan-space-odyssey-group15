@@ -12,50 +12,75 @@ public class RungeKuttaSolver implements iSolver {
     }
 
     @Override
-    public double[][] solve(CelestialBody body, double timestep, double[][] oldState)
+    public double[][][] solve(double timestep, double[][][] oldState) 
     {
         //aids to understand what is being calculated
-        int position = 0;
-        int velocity1 = 1;
-        int velocity2 = 0;
-        int acceleration = 1;
+    int position = 0;
+    int velocity1 = 1;
+    int velocity2 = 0;
+    int acceleration = 1;
 
-        double[][] newState = new double[2][3];
-        newState[position] = oldState[position];
-        newState[velocity1] = oldState[velocity1];
+    double[][][] newState = new double[12][2][3];
+    
+    double[][][] k1 = new double[12][2][3]; // stores velocities and accelerations
+    double[][][] k2 = new double[12][2][3];
 
-        
-        double[][] k1 = new double[2][3]; // stores velocities and accelerations
-        double[][] k2 = new double[2][3];
 
-        //k1 = f(ti, wi) or the derivative at that position (velocity and acceleration since we do not have a function)
-        k1[velocity2] = oldState[velocity1];
-        k1[acceleration] = VectorOperations.vectorScalarDivision(State.getForce(body.rowInState), body.getMass());
+    //used to store temporary positions for acceleration calculation
+    double[][] tempPositions = new double[12][3];
 
-        //k1 * h
-        k1 = MatrixOperations.matrixScalarMultiplication(k1, timestep);
-
-        //k2 = f( (ti + a*hi), (pi + k1*a) )
-        k2 = euler.solve(body, a*timestep, MatrixOperations.matrixScalarMultiplication(k1, a));
-
-        //k2 * h
-        k2 = MatrixOperations.matrixScalarMultiplication(k2, timestep);
-
-        //k2 = k2 * (1/2*a)
-        k2 = MatrixOperations.matrixScalarMultiplication(k2, 1/2*a);
-
-        //k1 = k1 * (1 - 1/2 *a)
-        k1 = MatrixOperations.matrixScalarMultiplication(k1, 1 - 1/2*a);
-
-        //w (i+1) = w(i) + k1 + k2
-        newState = MatrixOperations.matrixAddition(oldState, MatrixOperations.matrixAddition(k1, k2));
-
-        return newState;
+    for(int body = 0; body < oldState.length; body++)
+    {
+      tempPositions[body] = oldState[body][position];
     }
 
-    @Override
-    public double[][][] solve(double timestep, double[][][] oldState) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solve'");
+    double[][] updatedForces = Functions.forceCalculator(tempPositions);
+
+    //k1 = f(ti, wi) or the derivative at that position (velocity and acceleration since we do not have a function)
+    for(int body = 0; body < oldState.length; body++)
+    {
+        k1[body][velocity2] = oldState[body][velocity1];
+        k1[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+    }
+
+    //k1 = k1 * h     &&    storing the new positions at w(i) + h*k1
+    for(int body = 0; body < oldState.length; body++)
+    {
+        k1[body] = MatrixOperations.matrixScalarMultiplication(k1[body], timestep);
+        tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k1[body][velocity2]);
+    }
+
+    //updating the forces for position w(i) + h*k1
+    updatedForces = Functions.forceCalculator(tempPositions);
+    for(int body = 0; body < oldState.length; body++)
+    {
+      //euler step k2 = w(i) + 1/2*k1
+        k2[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k1[body][acceleration], a));
+        k2[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+
+        //k2 * h
+        k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], timestep);
+
+        //storing the new positions of k2
+        tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k2[body][velocity2]);
+    }
+
+    
+
+    for(int body = 0; body < oldState.length; body++)
+    {
+        // //k2 *2 and k3 *2
+        k1[body] = MatrixOperations.matrixScalarMultiplication(k1[body], 1 - 1/2*a);
+        k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], 1/2*a);
+    }
+
+
+    //w (i+1) = w(i) + (k1 + k2 + k3 + k4) (k2, k3 times 2, all * 1/6 happens above)
+    for(int body = 0; body < oldState.length; body++)
+    {
+        newState[body] = MatrixOperations.matrixAddition(oldState[body],(MatrixOperations.matrixAddition(k1[body], k2[body])));
+    }
+
+    return newState;
     }
 }

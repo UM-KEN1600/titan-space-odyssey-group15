@@ -85,9 +85,39 @@ public class EulerSolver implements iSolver{
     }
 
     @Override
-    public double[][][] solve(double timestep, double[][][] oldState) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solve'");
+    public double[][][] solve(double timestep, double[][][] oldState) 
+    {
+        int position = 0;
+        int velocity1 = 1;
+        int velocity2 = 0;
+        int acceleration = 1;
+    
+        double[][][] newState = new double[12][2][3];
+        
+    
+        //used to store temporary positions for acceleration calculation
+        double[][] tempPositions = new double[12][3];
+    
+        for(int body = 0; body < oldState.length; body++)
+        {
+          tempPositions[body] = oldState[body][position];
+        }
+    
+        double[][] updatedForces = Functions.forceCalculator(tempPositions);
+    
+        //k1 = f(ti, wi) or the derivative at that position (velocity and acceleration since we do not have a function)
+        for(int body = 0; body < oldState.length; body++)
+        {
+            newState[body][velocity2] = oldState[body][velocity1];
+            newState[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+        }
+    
+        for(int body = 0; body < oldState.length; body++)
+        {
+            newState[body] = MatrixOperations.matrixAddition(oldState[body], newState[body]);
+        }
+        
+        return newState;
     }
 
 }

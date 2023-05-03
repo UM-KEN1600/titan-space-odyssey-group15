@@ -15,9 +15,9 @@ public class State {
     double yCoor = -27829528.5715694;
     double zCoor = 33746.8987977113;
 
-    double velocity1 = 35;
-    double velocity2 = -55;
-    double velocity3 = 0;
+    double velocity1 = 46.41;//35;
+    double velocity2 = 37.95;//-55;
+    double velocity3 = 2.0;//0
 
     public static double[][] positions = new double[12][3];
     public static double[][] velocities = new double[12][3];
@@ -86,13 +86,13 @@ public class State {
         forces[row] = force;
     }
     
-    public static void printPositions()
+    public void printPositions()
     {
         for(int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 3; j++)
             {
-                System.out.println(positions[i][j] + " ");
+                System.out.println(state[i][0][j] + " ");
             }
 
             System.out.println("");
@@ -104,7 +104,7 @@ public class State {
         //Venus
         state[1][0][0] = -28216773.9426889;
         state[1][0][1] = 103994008.541512;
-        state[0][0][2] = 3012326.64296788;
+        state[1][0][2] = 3012326.64296788;
 
         state[1][1][0] = -34.0236737066136;
         state[1][1][1] = -8.96521274688838;
@@ -156,9 +156,9 @@ public class State {
         state[6][1][2] = -0.320745376969732;
 
         //Titan
-        state[7][0][0] = 8.99593229549645;
-        state[7][0][1] = 11.1085713608453;
-        state[7][0][2] = -2.25130986174761;
+        state[7][0][0] = 1254501624.95946;
+        state[7][0][1] = -761340299.067828;
+        state[7][0][2] = -36309613.8378104;
 
         state[7][1][0] = 8.99593229549645;
         state[7][1][1] = 11.1085713608453;

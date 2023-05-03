@@ -11,11 +11,6 @@ public class HeunsSolver implements iSolver{
         this.a = a;
     }
 
-    @Override
-    public double[][] solve(CelestialBody body, double timestep, double[][] oldState) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solve'");
-    }
 
     @Override
     public double[][][] solve(double timestep, double[][][] oldState) {

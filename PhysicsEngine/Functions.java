@@ -46,15 +46,19 @@ public class Functions {
         {
             double[] vectorA = state[bodyA];
 
-            for(int bodyB = 0; bodyB < state.length && bodyA != bodyB; bodyB++)
+            for(int bodyB = 0; bodyB < state.length; bodyB++)
             {
-                double[] vectorB = state[bodyB];
+                if(bodyB != 8  && bodyA != bodyB)
+                {
+                    double[] vectorB = state[bodyB];
 
-                double a = G * CelestialBody.bodyList[bodyA].getMass() * CelestialBody.bodyList[bodyB].getMass();
-
-                double[] b = VectorOperations.vectorScalarDivision(VectorOperations.vectorSubtraction(vectorA, vectorB), Math.pow(VectorOperations.euclideanForm(vectorA, vectorB), 3));
-
-                forces[bodyA] = VectorOperations.vectorAddition(forces[bodyA],VectorOperations.vectorScalarMultiplication(b, a));
+                    double a = G * CelestialBody.bodyList[bodyA].getMass() * CelestialBody.bodyList[bodyB].getMass();
+    
+                    double[] b = VectorOperations.vectorScalarDivision(VectorOperations.vectorSubtraction(vectorA, vectorB), Math.pow(VectorOperations.euclideanForm(vectorA, vectorB), 3));
+    
+                    forces[bodyA] = VectorOperations.vectorAddition(forces[bodyA],VectorOperations.vectorScalarMultiplication(b, a));
+                }
+                
             }
         }
 

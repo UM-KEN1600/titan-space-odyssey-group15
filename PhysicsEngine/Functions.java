@@ -7,9 +7,9 @@ import SolarSystem.CelestialBody;
  */
 public class Functions {
 
-    double G = 6.6743 * Math.pow(10, -20);
+    static double G = 6.6743 * Math.pow(10, -20);
 
-    CelestialBody listOfCelestialBodies[] = CelestialBody.list;
+    CelestialBody listOfCelestialBodies[] = CelestialBody.bodyList;
 
     int rowSpaceship = 8;
     
@@ -31,6 +31,43 @@ public class Functions {
         double[] force = VectorOperations.vectorScalarMultiplication(b, a);
 
         return force;
+    }
+
+    /**
+     * calculates the new forces based on a given state
+     * @param state
+     * @return forces with respect to the new state
+     */
+    public static double[][] forceCalculator(double[][] state)
+    {
+        double[][] forces = new double[12][3];
+
+        for(int bodyA = 0; bodyA < state.length; bodyA++)
+        {
+            double[] vectorA = state[bodyA];
+
+            for(int bodyB = 0; bodyB < state.length; bodyB++)
+            {
+                if(bodyB != 8  && bodyA != bodyB)
+                {
+                    double[] vectorB = state[bodyB];
+
+                    double a = G * CelestialBody.bodyList[bodyA].getMass() * CelestialBody.bodyList[bodyB].getMass();
+    
+                    double[] b = VectorOperations.vectorScalarDivision(VectorOperations.vectorSubtraction(vectorA, vectorB), Math.pow(VectorOperations.euclideanForm(vectorA, vectorB), 3));
+    
+                    forces[bodyA] = VectorOperations.vectorAddition(forces[bodyA],VectorOperations.vectorScalarMultiplication(b, a));
+                }
+                
+            }
+        }
+
+        for(int bodyA = 0; bodyA < state.length; bodyA++)
+        {
+            forces[bodyA] = VectorOperations.vectorScalarMultiplication(forces[bodyA], -1);
+        }
+
+        return forces;
     }
 
     /**

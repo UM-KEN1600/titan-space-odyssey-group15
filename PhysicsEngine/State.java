@@ -1,6 +1,7 @@
 package PhysicsEngine;
 
 import java.awt.Color;
+import java.io.ObjectInputStream.GetField;
 
 import SolarSystem.CelestialBody;
 
@@ -14,13 +15,15 @@ public class State {
     double yCoor = -27829528.5715694;
     double zCoor = 33746.8987977113;
 
-    double velocity1 = 35;
-    double velocity2 = -55;
-    double velocity3 = 0;
+    double velocity1 = 46.41;//35;
+    double velocity2 = 37.95;//-55;
+    double velocity3 = 2.0;//0
 
     public static double[][] positions = new double[12][3];
     public static double[][] velocities = new double[12][3];
     public static double[][] forces = new double[12][3];
+
+    public double[][][] state = new double[12][2][3];
 
     //frames which are getting displayed all 10 seconds
     static int framesPer10Seconds = 100;
@@ -32,13 +35,28 @@ public class State {
      * updates the allPositions array with new coordinates of the celestial bodies
      * @param body the celestial body whose coordinates are being updated
      */
-    public static void setTimedPosition(CelestialBody body)
+    public void setTimedPosition()
     {
-        if (iterations < framesPer10Seconds) {
-        allPositions[body.rowInState][iterations][0] = positions[body.rowInState][0];
-        allPositions[body.rowInState][iterations][1] = positions[body.rowInState][1];
-        
+        for(int i = 0; i < 9; i++)
+        {
+            if (iterations < framesPer10Seconds) 
+            {
+                allPositions[i][iterations][0] = state[i][0][0];
+                allPositions[i][iterations][1] = state[i][0][1];
+            }
         }
+
+        iterations++;
+    }
+
+    public double[][][] getState()
+    {
+        return state;
+    }
+
+    public void setState(double[][][] newState)
+    {
+        this.state = newState;
     }
 
     public static double[] getPosition(int row){
@@ -68,13 +86,13 @@ public class State {
         forces[row] = force;
     }
     
-    public static void printPositions()
+    public void printPositions()
     {
         for(int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 3; j++)
             {
-                System.out.println(positions[i][j] + " ");
+                System.out.println(state[i][0][j] + " ");
             }
 
             System.out.println("");
@@ -83,6 +101,104 @@ public class State {
 
     public State()
     {
+        //Venus
+        state[1][0][0] = -28216773.9426889;
+        state[1][0][1] = 103994008.541512;
+        state[1][0][2] = 3012326.64296788;
+
+        state[1][1][0] = -34.0236737066136;
+        state[1][1][1] = -8.96521274688838;
+        state[1][1][2] = 1.84061735279188;
+
+        //earth
+        state[2][0][0] = -148186906.893642;
+        state[2][0][1] = -27823158.5715694;
+        state[2][0][2] = 33746.8987977113;
+
+        state[2][1][0] = 5.05251577575409;
+        state[2][1][1] = -29.3926687625899;
+        state[2][1][2] = 0.00170974277401292;
+       
+        //Moon
+        state[3][0][0] = -148458048.395164;
+        state[3][0][1] = -27524868.1841142;
+        state[3][0][2] = 70233.6499287411;
+
+        state[3][1][0] = 4.34032634654904;
+        state[3][1][1] = -30.0480834180741;
+        state[3][1][2] = -0.0116103535014229;
+
+        //Mars
+        state[4][0][0] = -159116303.422552;
+        state[4][0][1] = 189235671.561057;
+        state[4][0][2] = 7870476.08522969;
+
+        state[4][1][0] = -17.6954469224752;
+        state[4][1][1] = -13.4635253412947;
+        state[4][1][2] = 0.152331928200531;
+
+        //Jupiter
+        state[5][0][0] = 692722875.928222;
+        state[5][0][1] = 258560760.813524;
+        state[5][0][2] = -16570817.7105996;
+
+        state[5][1][0] = -4.71443059866156;
+        state[5][1][1] = 12.8555096964427;
+        state[5][1][2] = 0.0522118126939208;
+
+        //Saturn
+        state[6][0][0] = 1253801723.95465;
+        state[6][0][1] = -760453007.810989;
+        state[6][0][2] = -36697431.1565206;
+
+        state[6][1][0] = 4.46781341335014;
+        state[6][1][1] = 8.23989540475628;
+        state[6][1][2] = -0.320745376969732;
+
+        //Titan
+        state[7][0][0] = 1254501624.95946;
+        state[7][0][1] = -761340299.067828;
+        state[7][0][2] = -36309613.8378104;
+
+        state[7][1][0] = 8.99593229549645;
+        state[7][1][1] = 11.1085713608453;
+        state[7][1][2] = -2.25130986174761;
+
+        //Spaceship
+        state[8][0][0] = xCoor;
+        state[8][0][1] = yCoor;
+        state[8][0][2] = zCoor;
+
+        state[8][1][0] = velocity1;
+        state[8][1][1] = velocity2;
+        state[8][1][2] = velocity3;
+
+        //Mercury
+        state[9][0][0] = 7833268.43923962;
+        state[9][0][1] = 44885949.3703908;
+        state[9][0][2] = 2867693.20054382;
+
+        state[9][1][0] = -57.4967480139828;
+        state[9][1][1] = 11.52095127176;
+        state[9][1][2] = 6.21695374334136;
+
+        //Neptune
+        state[10][0][0] = 4454487339.09447;
+        state[10][0][1] = -397895128.763904;
+        state[10][0][2] = -94464151.3421107;
+
+        state[10][1][0] = 0.447991656952326;
+        state[10][1][1] = 5.44610697514907;
+        state[10][1][2] = -0.122638125365954;
+
+        //Uranus
+        state[11][0][0] = 1958732435.99338; 
+        state[11][0][1] = 2191808553.21893;
+        state[11][0][2] = 17235283.8321992;
+
+        state[11][1][0] = -5.12766216337626;
+        state[11][1][1] = 4.22055347264457;
+        state[11][1][2] = 0.0821190336403063;
 
         //----Positions -------------------------------------
         //Sun is first row :)

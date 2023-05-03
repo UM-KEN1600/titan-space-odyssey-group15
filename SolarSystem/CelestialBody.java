@@ -14,7 +14,7 @@ public class CelestialBody extends JPanel{
     public double radius;
 
     public int rowInState;
-    public static CelestialBody[] list = new CelestialBody[12];
+    public static CelestialBody[] bodyList = new CelestialBody[12];
 
     String name;
     Color color;
@@ -126,18 +126,18 @@ public class CelestialBody extends JPanel{
         CelestialBody neptune = new CelestialBody(102.409* Math.pow(10, 24), 24622, 10, "Neptune", Color.BLUE);
         CelestialBody uranus = new CelestialBody(86.813* Math.pow(10, 24), 25362, 11, "Uranus", Color.CYAN);
 
-        list[0] = sun;
-        list[1] = venus;
-        list[2] = earth;
-        list[3] = moon;
-        list[4] = mars;
-        list[5] = jupiter;
-        list[6] = saturn;
-        list[7] = titan;
-        list[8] = spaceship;
-        list[9] = mercury;
-        list[10] = neptune;
-        list[11] = uranus;
+        bodyList[0] = sun;
+        bodyList[1] = venus;
+        bodyList[2] = earth;
+        bodyList[3] = moon;
+        bodyList[4] = mars;
+        bodyList[5] = jupiter;
+        bodyList[6] = saturn;
+        bodyList[7] = titan;
+        bodyList[8] = spaceship;
+        bodyList[9] = mercury;
+        bodyList[10] = neptune;
+        bodyList[11] = uranus;
         
         
     }

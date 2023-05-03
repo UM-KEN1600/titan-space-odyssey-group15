@@ -11,6 +11,13 @@ public class HeunsSolver implements iSolver{
         this.a = a;
     }
 
+
+    @Override
+    public double[][][] solve(double timestep, double[][][] oldState) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'solve'");
+    }
+
 // there are some bugs relatives to the moltiplication of vectors, still trying to figure out them. The logic implemented should be right hopefully
 
   /*   public double[][] solve(CelestialBody body, double timestep, double[][] oldState) {

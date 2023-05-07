@@ -5,59 +5,73 @@ import SolarSystem.*;
 // implementation of the Heun's solver 
 // Figuuring out ho
 public class HeunsSolver implements iSolver{
-    private double a;
 
-    public HeunsSolver(double a) {
-        this.a = a;
-    }
-
-
-    @Override
     public double[][][] solve(double timestep, double[][][] oldState) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solve'");
-    }
-
-// there are some bugs relatives to the moltiplication of vectors, still trying to figure out them. The logic implemented should be right hopefully
-
-  /*   public double[][] solve(CelestialBody body, double timestep, double[][] oldState) {
-        // Define the indices for the position, velocity, and acceleration
+            
+        //aids to understand what is being calculated
         int position = 0;
         int velocity1 = 1;
-        int velocity2 = 2; // Fix index for velocity2
+        int velocity2 = 0;
+        int acceleration = 1;
+
+        double[][][] newState = new double[12][2][3];
         
-        int acceleration = 2; // Fix index for acceleration
-    
-        // Create a new state array to hold the updated values
-        double[][] newState = new double[2][3];
-    
-        // Copy the old state values into the new state array
-        newState[position] = oldState[position];
-        newState[velocity1] = oldState[velocity1];
-    
-        // Calculate the first estimate of the derivative (k1)
-        double[][] k1 = new double[2][3];
-        k1[velocity2] = oldState[acceleration]; // Fix k1 velocity2
-        k1[acceleration] = VectorOperations.vectorScalarDivision(State.getForce(body.rowInState), body.getMass());
-    
-        // Calculate the second estimate of the derivative (k2)
-        double[][] k2 = new double[2][3];
-    
-        double a = 0.5; // Define the constant 'a'
-    
-        k2[velocity2] = oldState[velocity1] + a * timestep * k1[acceleration]; // Fix k2 velocity2
-        k2[acceleration] = VectorOperations.vectorScalarDivision(State.getForce(State.getNextState(body, timestep * a, oldState)), body.getMass());
-    
-        // Calculate the third estimate of the derivative (k3)
-        double[][] k3 = new double[2][3];
+        double[][][] k1 = new double[12][2][3]; // stores velocities and accelerations
+        double[][][] k2 = new double[12][2][3];
+
+        //used to store temporary positions for acceleration calculation
+        double[][] tempPositions = new double[12][3];
+
+        for(int body = 0; body < oldState.length; body++)
+        {
+        tempPositions[body] = oldState[body][position];
+        }
+
+        // calculating the force on all the bodies
+        double[][] updatedForces = Functions.forceCalculator(tempPositions);
+
+        //k1 = f(ti, wi) or the derivative at that position (velocity and acceleration since we do not have a function)
+        for(int body = 0; body < oldState.length; body++)
+        {
+            k1[body][velocity2] = oldState[body][velocity1];
+            k1[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+        }
+
+        //k1 = k1 * h     &&    storing the new positions at w(i) + h*k1
+        for(int body = 0; body < oldState.length; body++)
+        {
+            k1[body] = MatrixOperations.matrixScalarMultiplication(k1[body], timestep);
+            tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k1[body][velocity2]);
+        }
+
+        //updating the forces for position w(i) + h*k1
+        updatedForces = Functions.forceCalculator(tempPositions);
+        for(int body = 0; body < oldState.length; body++)
+        {
+            //euler step k2 = w(i) + 1/2*k1
+            k2[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k1[body][acceleration], 1/2.0));
+            k2[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+
+            //k2 * h
+            k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], timestep);
+
+            //storing the new positions of k2
+            tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k2[body][velocity2]);
+        }
         
-        k3[velocity2] = oldState[velocity1] + a * timestep * (k1[acceleration] + 4 * k2[acceleration]) / 9; // Fix k3 velocity2
-        k3[acceleration] = VectorOperations.vectorScalarDivision(State.getForce(State.getNextState(body, timestep * (2 - a), oldState)), body.getMass());
-    
-        // Calculate the new state values
-        newState[position] = oldState[position] + timestep * (oldState[velocity1] + (2 * k2[velocity2] - k1[velocity2]) / 3);
-        newState[velocity1] = oldState[velocity1] + timestep * (k1[acceleration] + 3 * k3[acceleration]) / 4;
-    
+        for(int body = 0; body < oldState.length; body++)
+    {
+        // //k2 *2 and k3 *2
+        k1[body] = MatrixOperations.matrixScalarMultiplication(k1[body], 1/2.0);
+        k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], 1/2.0);
+    }
+
+        // w(i+1) = w(i) + 1/2 * (k1 + k2)
+        for(int body = 0; body < oldState.length; body++)
+        {
+            newState[body] = MatrixOperations.matrixAddition(oldState[body],MatrixOperations.matrixAddition(k1[body], k2[body]));
+        }
+
         return newState;
-    } */
+    }
 }

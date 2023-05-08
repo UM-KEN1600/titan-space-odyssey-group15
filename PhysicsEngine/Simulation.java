@@ -8,12 +8,14 @@ public class Simulation {
     final boolean SHOWENDPOSITIONS = true;
 
     Functions functions = new Functions();
-    iSolver solver = new RungeKutta4Solver();
-    iSolver solverheuns = new HeunsSolver();
+    iSolver solverRK4 = new RungeKutta4Solver();
+    iSolver solverHeuns = new HeunsSolver();
+    AdamBashforthSolver solverAdamBashforth = new AdamBashforthSolver();
+
     State state = new State();
 
     double timeStep; // in seconds
-    int lengthOfSimulation = 33536000; //seconds of one year
+    int lengthOfSimulation = 31536000; //seconds of one year // if the simulation is runned in 333536000, the probe visually touches titan
 
     public Simulation(double timeStep)
     {
@@ -31,13 +33,30 @@ public class Simulation {
         state.setTimedPosition();
 
         double[][][] nextState = new double[12][2][3];
+
+        double[][][] previousState = new double[12][2][3];
         
+
+        //Uncomment the method to test them
         for(int i = 0 ; i < (timesPerSimulation); i++)
         {   
-            nextState = solverheuns.solve(timeStep, state.getState());// solve with heuns
+            //nextState = solverRK4.solve(timeStep, state.getState());// solve with rk4
 
-            //nextState = solver.solve(timeStep, state.getState());// solve with rk4
+            //nextState = solverHeuns.solve(timeStep, state.getState());// solve with heuns
 
+            /// AB2 needs the bootstrapping, so the first execution myust be done with another method 
+                if(i==0){
+                    previousState = state.getState(); 
+                    nextState = solverRK4.solve(timeStep, state.getState());// bootstrap with with RK4
+                }
+                else {
+                    double[][][] temp = nextState;
+                    //previouState is w(i-1), while nextState is wi
+                    nextState = solverAdamBashforth.solve(timeStep, nextState, previousState);// solve with adam bashforth
+                    previousState=temp;
+                }  
+            ///
+            
             state.setState(nextState);
 
             //this stores the positions of a planet 100 times a year
@@ -45,6 +64,7 @@ public class Simulation {
             {
                 state.setTimedPosition();
             }
+            
 
         }
 
@@ -64,7 +84,6 @@ public class Simulation {
         //System.out.println("New Positions:");
         //state.printPositions();
 
-        
     }
 
     /*

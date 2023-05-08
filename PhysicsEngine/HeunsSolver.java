@@ -60,11 +60,11 @@ public class HeunsSolver implements iSolver{
         }
         
         for(int body = 0; body < oldState.length; body++)
-    {
-        // //k2 *2 and k3 *2
-        k1[body] = MatrixOperations.matrixScalarMultiplication(k1[body], 1/2.0);
-        k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], 1/2.0);
-    }
+        {
+            // //k2 *2 and k3 *2
+            k1[body] = MatrixOperations.matrixScalarMultiplication(k1[body], 1/2.0);
+            k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], 1/2.0);
+        }
 
         // w(i+1) = w(i) + 1/2 * (k1 + k2)
         for(int body = 0; body < oldState.length; body++)

@@ -9,6 +9,7 @@ public class Thrust {
     public double[] impulse(double[] forceVector, double timestep){
         //does a check if the total force is bigger or not than the max force possible 
         if (VectorOperations.magnitude(forceVector[0], forceVector[1], forceVector[2]) > (3*10^7)){
+            System.out.println("Error: Exceeding maximal Force.");
             return null;
         }
         

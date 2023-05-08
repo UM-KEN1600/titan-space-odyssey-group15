@@ -8,10 +8,7 @@ public class Simulation {
     final boolean SHOWENDPOSITIONS = true;
 
     Functions functions = new Functions();
-    iSolver solverRK4 = new RungeKutta4Solver();
-    iSolver solverHeuns = new HeunsSolver();
-    AdamBashforthSolver solverAdamBashforth = new AdamBashforthSolver();
-
+    iSolver solver = new RungeKutta4Solver();
     State state = new State();
 
     double timeStep; // in seconds
@@ -34,28 +31,9 @@ public class Simulation {
 
         double[][][] nextState = new double[12][2][3];
 
-        double[][][] previousState = new double[12][2][3];
-        
-
-        //Uncomment the method to test them
         for(int i = 0 ; i < (timesPerSimulation); i++)
         {   
-            //nextState = solverRK4.solve(timeStep, state.getState());// solve with rk4
-
-            //nextState = solverHeuns.solve(timeStep, state.getState());// solve with heuns
-
-            /// AB2 needs the bootstrapping, so the first execution myust be done with another method 
-                if(i==0){
-                    previousState = state.getState(); 
-                    nextState = solverRK4.solve(timeStep, state.getState());// bootstrap with with RK4
-                }
-                else {
-                    double[][][] temp = nextState;
-                    //previouState is w(i-1), while nextState is wi
-                    nextState = solverAdamBashforth.solve(timeStep, nextState, previousState);// solve with adam bashforth
-                    previousState=temp;
-                }  
-            ///
+            nextState = solver.solve(timeStep, state.getState());
             
             state.setState(nextState);
 
@@ -64,8 +42,6 @@ public class Simulation {
             {
                 state.setTimedPosition();
             }
-            
-
         }
 
         if(SHOWENDPOSITIONS)

@@ -3,7 +3,7 @@ import SolarSystem.*;
 
 
 // implementation of the Heun's solver 
-// Figuuring out ho
+
 public class HeunsSolver implements iSolver{
 
     public double[][][] solve(double timestep, double[][][] oldState) {
@@ -18,6 +18,8 @@ public class HeunsSolver implements iSolver{
         
         double[][][] k1 = new double[12][2][3]; // stores velocities and accelerations
         double[][][] k2 = new double[12][2][3];
+        double[][][] k3 = new double[12][2][3];
+
 
         //used to store temporary positions for acceleration calculation
         double[][] tempPositions = new double[12][3];
@@ -48,8 +50,8 @@ public class HeunsSolver implements iSolver{
         updatedForces = Functions.forceCalculator(tempPositions);
         for(int body = 0; body < oldState.length; body++)
         {
-            //euler step k2 = w(i) + 1/2*k1
-            k2[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k1[body][acceleration], 1/2.0));
+            //euler step k2 = w(i) + 1/3*k1
+            k2[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k1[body][acceleration], 1/3.0));
             k2[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
 
             //k2 * h
@@ -59,19 +61,34 @@ public class HeunsSolver implements iSolver{
             tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k2[body][velocity2]);
         }
         
+        //updating the forces for position w(i) + 1/3*k2
+        updatedForces = Functions.forceCalculator(tempPositions);
         for(int body = 0; body < oldState.length; body++)
         {
-            // //k2 *2 and k3 *2
-            k1[body] = MatrixOperations.matrixScalarMultiplication(k1[body], 1/2.0);
-            k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], 1/2.0);
+            //euler step k3 = 2/3*k2
+            k3[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k2[body][acceleration], 2/3.0));
+            k3[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+
+            //k3 * h
+            k3[body] = MatrixOperations.matrixScalarMultiplication(k3[body], timestep);
+
+            //storing the new positions of k3
+            tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k3[body][velocity2]);
         }
 
-        // w(i+1) = w(i) + 1/2 * (k1 + k2)
         for(int body = 0; body < oldState.length; body++)
         {
-            newState[body] = MatrixOperations.matrixAddition(oldState[body],MatrixOperations.matrixAddition(k1[body], k2[body]));
+            // //k3 *3
+            k1[body] = MatrixOperations.matrixScalarMultiplication(k1[body], 1/4.0);
+            k3[body] = MatrixOperations.matrixScalarMultiplication(k3[body], 3/4.0);
+        }
+
+        //w (i+1) = w(i) + (k1 + k3) (k1 *1/4 and k3* 3/4 happen above)
+        for(int body = 0; body < oldState.length; body++)
+        {
+            newState[body] = MatrixOperations.matrixAddition(oldState[body],MatrixOperations.matrixAddition(k1[body], k3[body]));
         }
 
         return newState;
-    }
+  }
 }

@@ -66,13 +66,7 @@ public class Simulation {
      * returns the actual distance from Titan to the probe
      */
     private double getDistaceProbeTitan(){
-
-        double[] probePosition = State.getPosition(8);
-        double[] titanPosition = State.getPosition(7);
-        double firstPart = Math.pow(probePosition[0] - titanPosition[0], 2) + Math.pow(probePosition[1] - titanPosition[1], 2) + Math.pow(probePosition[2] - titanPosition[2], 2);
-        double distance = Math.sqrt(firstPart);
-
-        return distance;
+        return VectorOperations.euclideanForm(state.getState()[8][0],state.getState()[7][0]);
     }
 
     

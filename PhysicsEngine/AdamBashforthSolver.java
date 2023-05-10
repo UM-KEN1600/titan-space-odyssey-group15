@@ -3,14 +3,28 @@ import SolarSystem.CelestialBody;
 
 
 // Is not implementing the interface cause the method solve here needs also to be passed the double[][][] preOldState parameter, ill find a way to change it
-public class AdamBashforthSolver {
+public class AdamBashforthSolver implements iSolver {
 
-    public double[][][] solve(double timestep, double[][][] oldState, double[][][] preOldState) {
+    private double[][][] preOldState;
+    private boolean bootStrapped = false;
+
+    public void setPreOldState(double[][][] preOldState){
+        this.preOldState = preOldState;
+    }
+
+    public double[][][] solve(double timestep, double[][][] oldState) {
+        //multistep methods reaquires bootstrapping for compute the first value
+        if(!bootStrapped){
+            preOldState = oldState;
+            bootStrapped = true;
+            return bootStrapping(timestep, oldState);
+        }
+            
         int position = 0;
         int velocity1 = 1;
         int velocity2 = 0;
         int acceleration = 1;
-    
+
         double[][][] firstDerivativeOldState = new double[12][2][3];
         double[][][] firstDerivativePreOldState = new double[12][2][3];
         double[][][] newState = new double[12][2][3];
@@ -52,8 +66,18 @@ public class AdamBashforthSolver {
             // wi+1 = wi + h/2 * [3f(ti,wi) - f(ti-1,wi-1)]
             newState[body] = MatrixOperations.matrixAddition(oldState[body], newState[body]);
         }
-    
+
+        //updating preOldState
+        preOldState = oldState;
         return newState;
+    }
+
+
+
+    // method for bootstrapping using RK4
+    public double[][][] bootStrapping(double timestep, double[][][] oldState){
+        iSolver solve = new RungeKutta4Solver();
+        return solve(timestep,oldState);
     }
 
     

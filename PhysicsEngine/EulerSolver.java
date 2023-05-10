@@ -110,6 +110,8 @@ public class EulerSolver implements iSolver{
         {
             newState[body][velocity2] = oldState[body][velocity1];
             newState[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+
+            newState[body] = MatrixOperations.matrixScalarMultiplication(newState[body], timestep);
         }
     
         for(int body = 0; body < oldState.length; body++)

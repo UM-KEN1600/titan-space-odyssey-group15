@@ -8,7 +8,7 @@ public class Simulation {
     final boolean SHOWENDPOSITIONS = true;
 
     Functions functions = new Functions();
-    iSolver solver = new HeunsSolver();
+    iSolver solver = new AdamBashforthSolver();
     State state = new State();
 
     double timeStep; // in seconds

@@ -29,11 +29,12 @@ public class AdamBashforthSolver implements iSolver {
         double[][][] firstDerivativePreOldState = new double[12][2][3];
         double[][][] newState = new double[12][2][3];
     
-        // Calculating f(ti,wi)
+        //Calculating f(ti, wi)
         double[][] tempPositions = new double[12][3];
         for (int body = 0; body < oldState.length; body++) {
             tempPositions[body] = oldState[body][position];
         }
+
         double[][] updatedForces = Functions.forceCalculator(tempPositions);
     
         for (int body = 0; body < oldState.length; body++) {
@@ -46,6 +47,7 @@ public class AdamBashforthSolver implements iSolver {
         for (int body = 0; body < preOldState.length; body++) {
             tempPositions[body] = preOldState[body][position];
         }
+
         updatedForces = Functions.forceCalculator(tempPositions);
     
         for (int body = 0; body < preOldState.length; body++) {
@@ -56,10 +58,7 @@ public class AdamBashforthSolver implements iSolver {
     
         for (int body = 0; body < oldState.length; body++) {
             // 3f(ti,wi) - f(ti-1,wi-1)
-            newState[body] = MatrixOperations.matrixSubtraction(
-                MatrixOperations.matrixScalarMultiplication(firstDerivativeOldState[body], 3.0),
-                firstDerivativePreOldState[body]
-            );
+            newState[body] = MatrixOperations.matrixSubtraction(MatrixOperations.matrixScalarMultiplication(firstDerivativeOldState[body], 3.0),firstDerivativePreOldState[body]);
             // h/2 * [3f(ti,wi) - f(ti-1,wi-1)]
             newState[body] = MatrixOperations.matrixScalarMultiplication(newState[body], timestep / 2.0);
     

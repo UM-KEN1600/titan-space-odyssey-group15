@@ -100,7 +100,7 @@ public class CelestialBody extends JPanel{
             return (scaleFactor / 2 * (xValue/10000000));
         }
         else {
-            return ((scaleFactor / 2.5) * (xValue/10000000));
+            return (scaleFactor / 2.5 * (xValue/10000000));
         }
     }
 

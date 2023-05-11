@@ -15,9 +15,12 @@ public class Main {
 
         //Enter time step in seconds here:
         double timeStep = 50;
+
+        //Choose Solver:
+        iSolver solver = new AdamBashforthSolver();
         //--------------------------------------
 
-        Simulation simulation = new Simulation(timeStep);
+        Simulation simulation = new Simulation(timeStep, solver);
         simulation.planetarySetUp();
 
         //frame
@@ -49,6 +52,6 @@ public class Main {
 
         mainFrame.setVisible(true);
 
-}
+    }
 
 }

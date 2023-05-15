@@ -27,7 +27,7 @@ public class Main {
         JFrame mainFrame = new JFrame("Solar System");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(1000, 600);
-        mainFrame.add(new CelestialBody(0, 0, 0, null, null));
+        mainFrame.add(new CelestialBody(0, 0, 0, null));
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
 

@@ -17,7 +17,6 @@ public class CelestialBody extends JPanel{
     public static CelestialBody[] bodyList = new CelestialBody[12];
 
     String name;
-    Color color;
     double x1;
     double x2;
     int newX;
@@ -27,10 +26,9 @@ public class CelestialBody extends JPanel{
     State state = new State();
     Functions functions;
 
-    CelestialBody(double mass, double radius, int rowInState, String name, Color color){
+    CelestialBody(double mass, double radius, int rowInState, String name){
 
         this.name = name;
-        this.color= color;
         this.mass = mass;
         this.radius = radius;
 
@@ -45,14 +43,6 @@ public class CelestialBody extends JPanel{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor (Color color) {
-        this.color = color;
     }
 
     public double getMass() {
@@ -110,21 +100,19 @@ public class CelestialBody extends JPanel{
 
     public static void setupCelestialBodies()
     {
-        //temporary colour for initialization, can be changed for GUI later
-        Color tempColor = new Color(0, 0, 0);
-
-        CelestialBody sun = new CelestialBody(1.9885 * Math.pow(10, 30), 1, 0, "Sun", Color.YELLOW);
-        CelestialBody venus = new CelestialBody(48.685 * Math.pow(10, 23), 6051.8, 1, "Venus", Color.DARK_GRAY);
-        CelestialBody earth = new CelestialBody(5.97219 * Math.pow(10, 24), 6370, 2, "Earth", Color.GREEN);
-        CelestialBody moon = new CelestialBody(7.349* Math.pow(10, 22), 1, 3, "Moon", Color.GRAY);
-        CelestialBody mars = new CelestialBody(6.4171* Math.pow(10, 23), 3389.5, 4, "Mars", Color.RED);
-        CelestialBody jupiter = new CelestialBody(189818722* Math.pow(10, 19),69911 , 5, "Jupiter", Color.PINK);
-        CelestialBody saturn = new CelestialBody(5.6834* Math.pow(10, 26), 58232, 6, "Saturn", Color.LIGHT_GRAY);
-        CelestialBody titan = new CelestialBody(13455.3* Math.pow(10, 19), 2575, 7, "Titan", Color.ORANGE);
-        CelestialBody spaceship = new Spaceship(50000, 1, 8, "Spaceship", tempColor);
-        CelestialBody mercury = new CelestialBody(3.302* Math.pow(10, 23), 2439, 9, "Mercury", Color.RED);
-        CelestialBody neptune = new CelestialBody(102.409* Math.pow(10, 24), 24622, 10, "Neptune", Color.BLUE);
-        CelestialBody uranus = new CelestialBody(86.813* Math.pow(10, 24), 25362, 11, "Uranus", Color.CYAN);
+        
+        CelestialBody sun = new CelestialBody(1.9885 * Math.pow(10, 30), 1, 0, "Sun");
+        CelestialBody venus = new CelestialBody(48.685 * Math.pow(10, 23), 6051.8, 1, "Venus");
+        CelestialBody earth = new CelestialBody(5.97219 * Math.pow(10, 24), 6370, 2, "Earth");
+        CelestialBody moon = new CelestialBody(7.349* Math.pow(10, 22), 1, 3, "Moon");
+        CelestialBody mars = new CelestialBody(6.4171* Math.pow(10, 23), 3389.5, 4, "Mars");
+        CelestialBody jupiter = new CelestialBody(189818722* Math.pow(10, 19),69911 , 5, "Jupiter");
+        CelestialBody saturn = new CelestialBody(5.6834* Math.pow(10, 26), 58232, 6, "Saturn");
+        CelestialBody titan = new CelestialBody(13455.3* Math.pow(10, 19), 2575, 7, "Titan");
+        CelestialBody spaceship = new Spaceship(50000, 1, 8, "Spaceship");
+        CelestialBody mercury = new CelestialBody(3.302* Math.pow(10, 23), 2439, 9, "Mercury");
+        CelestialBody neptune = new CelestialBody(102.409* Math.pow(10, 24), 24622, 10, "Neptune");
+        CelestialBody uranus = new CelestialBody(86.813* Math.pow(10, 24), 25362, 11, "Uranus");
 
         bodyList[0] = sun;
         bodyList[1] = venus;

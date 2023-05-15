@@ -1,5 +1,4 @@
 package SolarSystem;
-import java.awt.Color;
 import java.awt.geom.Point2D;
 
 //represents spaceship
@@ -16,8 +15,8 @@ public class Spaceship extends CelestialBody {
     double mass = 50000;
 
 
-    public Spaceship(double mass, double radius, int rowInState, String name, Color color){
-        super(mass, radius, rowInState, name, color);
+    public Spaceship(double mass, double radius, int rowInState, String name){
+        super(mass, radius, rowInState, name);
     }
 
     public Point2D.Double setCoordinates(double x1, double x2) {

@@ -17,12 +17,7 @@ public class Main {
         //Enter time step in seconds here:
         double timeStep = 100;
 
-        //Choose Solver:
-<<<<<<< Updated upstream
-        iSolver solver = new RungeKutta4Solver();
-=======
->>>>>>> Stashed changes
-        //--------------------------------------
+        
 
         Simulation simulation = new Simulation(timeStep, solver);
         simulation.planetarySetUp();

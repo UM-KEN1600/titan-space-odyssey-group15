@@ -12,7 +12,8 @@ public class SolverChooser {
     public static  String[] solvers = {"Euler" , "Runge-Kutta4" , "Runge-Kutta2", "Adam-Bashforth" , "Heuns" };
     static iSolver solver;
     static Simulation sim;
-    public static void main(String[] args)  {
+    static JFrame solverChooser;
+        public static void main(String[] args)  {
 
         JLabel label = new JLabel("Select solver");
         label.setBounds(40,10,120,10);
@@ -22,9 +23,19 @@ public class SolverChooser {
         chooser.setBounds(40,30 ,120, 30);
         chooser.setSelectedItem(null);
         
-        
         JButton runButton = new JButton("Run");
         runButton.setBounds(50, 90,100, 30);
+
+        solverChooser = new JFrame();
+        solverChooser.setSize(200,200);
+        solverChooser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        solverChooser.setLocationRelativeTo(null);
+        solverChooser.setLayout(null);
+        solverChooser.add(label);
+        solverChooser.add(chooser);
+        solverChooser.add(runButton);
+        solverChooser.setVisible(true);
+        
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,20 +57,10 @@ public class SolverChooser {
                 if(value == "Heuns")
                 solver = new HeunsSolver();
 
+                solverChooser.dispose();
                 Main.run(solver);
             }
-            }});
-
-            JFrame solverChooser = new JFrame();
-            solverChooser.setSize(200,200);
-            solverChooser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            solverChooser.setLocationRelativeTo(null);
-            solverChooser.setLayout(null);
-            solverChooser.add(label);
-            solverChooser.add(chooser);
-            solverChooser.add(runButton);
-            solverChooser.setVisible(true);
-
-    
+            }
+        });
     }
 }

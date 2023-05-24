@@ -11,13 +11,10 @@ public class Main {
     public static CelestialBody body = new CelestialBody();
     public static Draw drawPanel = new Draw();
   
-
     public static void run(iSolver solver){
 
         //Enter time step in seconds here:
         double timeStep = 100;
-
-        
 
         Simulation simulation = new Simulation(timeStep, solver);
         simulation.planetarySetUp();
@@ -29,8 +26,6 @@ public class Main {
         mainFrame.add(new CelestialBody(0, 0, 0, null));
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
-
-       
 
         ImageIcon icon = new ImageIcon("icon.jpg");
         mainFrame.setIconImage(icon.getImage());

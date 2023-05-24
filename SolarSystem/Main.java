@@ -14,10 +14,10 @@ public class Main {
     public static void main(String[] args)  {
 
         //Enter time step in seconds here:
-        double timeStep = 50;
+        double timeStep = 100;
 
         //Choose Solver:
-        iSolver solver = new AdamBashforthSolver();
+        iSolver solver = new RungeKutta4Solver();
         //--------------------------------------
 
         Simulation simulation = new Simulation(timeStep, solver);
@@ -41,7 +41,7 @@ public class Main {
             @Override
             public void run() {
                 drawPanel.repaint();
-                if(a == 99)
+                if(a == 199)
                 {
                     t.cancel();
                 }

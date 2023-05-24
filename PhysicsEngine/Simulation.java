@@ -8,11 +8,11 @@ public class Simulation {
     final boolean SHOWENDPOSITIONS = true;
 
     Functions functions = new Functions();
-    iSolver solver;;
+    iSolver solver;
     State state = new State();
 
     double timeStep; // in seconds
-    int lengthOfSimulation = 31536000; //seconds of one year // if the simulation is runned in 333536000, the probe visually touches titan
+    int lengthOfSimulation = 31536000 *2; //seconds of one year // if the simulation is runned in 333536000, the probe visually touches titan
 
     public Simulation(double timeStep, iSolver solver)
     {
@@ -25,7 +25,7 @@ public class Simulation {
         CelestialBody.setupCelestialBodies();
 
         int timesPerSimulation = (int) Math.ceil(lengthOfSimulation / timeStep);
-        int framesPer10Seconds = (int) Math.ceil(timesPerSimulation / 100 + ((timesPerSimulation/timeStep)%100));
+        int framesPer10Seconds = (int) Math.ceil(timesPerSimulation / 200 + ((timesPerSimulation/timeStep)%100));
         
 
         state.setTimedPosition();
@@ -44,6 +44,8 @@ public class Simulation {
                 state.setTimedPosition();
             }
         }
+
+        double[][][] b = State.allPositions;
 
         if(SHOWENDPOSITIONS)
         {

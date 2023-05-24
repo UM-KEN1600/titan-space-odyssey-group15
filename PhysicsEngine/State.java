@@ -26,7 +26,7 @@ public class State {
     public double[][][] state = new double[12][2][3];
 
     //frames which are getting displayed all 10 seconds
-    static int framesPer10Seconds = 100;
+    static int framesPer10Seconds = 200;
     //used to store the positions 50 times a year
     public static double[][][] allPositions = new double[9][framesPer10Seconds][2]; 
     public static int iterations = 0;

@@ -146,4 +146,31 @@ public class Functions {
         
         return position;
     }
+
+    /**
+     * calculates a velocity to bring the spacecraft into orbit
+     * @param state current state of the planets
+     * @return a velocity that brings the spacecraft into orbit, balance between veloticy and gravitational force of titan
+     */
+    public double[] getVelocityForOrbit(double[][][] state)
+    {
+        double[][] tempPositions = new double[12][3];
+
+        for(int body = 0; body < state.length; body++)
+        {
+          tempPositions[body] = state[body][0];
+        }
+
+        //Gravitiational Force between spacecraft and Titan divided by spacecraft's mass
+        return VectorOperations.vectorScalarDivision(getForceBetweenTwoBodies(state[8][0], state[7][0], CelestialBody.bodyList[8], CelestialBody.bodyList[7]),CelestialBody.bodyList[8].getMass());
+    }
+
+    private double[] getForceBetweenTwoBodies(double[] positionA, double[] positionB, CelestialBody bodyA, CelestialBody bodyB)
+    {
+        double a = G * bodyA.mass * bodyB.mass;
+
+        double[] b = VectorOperations.vectorScalarDivision(VectorOperations.vectorSubtraction(positionA, positionB), Math.pow(VectorOperations.euclideanForm(positionA, positionB), 3));
+
+        return VectorOperations.vectorScalarMultiplication(b, a);
+    }
 }

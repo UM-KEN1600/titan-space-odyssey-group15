@@ -10,7 +10,7 @@ public class Main {
 
     public static CelestialBody body = new CelestialBody();
     public static Draw drawPanel = new Draw();
-
+    public static  String[] solvers = {"Euler" , "Runge-Kutta4" , "Runge-Kutta2", "Adam-B}shforth" , "Heuns" };
     public static void main(String[] args)  {
 
         //Enter time step in seconds here:
@@ -33,6 +33,11 @@ public class Main {
 
         ImageIcon icon = new ImageIcon("icon.jpg");
         mainFrame.setIconImage(icon.getImage());
+
+       
+        JComboBox choooser = new JComboBox(solvers);
+        chooser.set
+        mainFrame.add(choooser);
 
         // timer to move celestial bodies
         Timer t = new Timer();

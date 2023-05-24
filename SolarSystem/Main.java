@@ -10,14 +10,18 @@ public class Main {
 
     public static CelestialBody body = new CelestialBody();
     public static Draw drawPanel = new Draw();
-    public static  String[] solvers = {"Euler" , "Runge-Kutta4" , "Runge-Kutta2", "Adam-B}shforth" , "Heuns" };
-    public static void main(String[] args)  {
+  
+
+    public static void run(iSolver solver){
 
         //Enter time step in seconds here:
         double timeStep = 100;
 
         //Choose Solver:
+<<<<<<< Updated upstream
         iSolver solver = new RungeKutta4Solver();
+=======
+>>>>>>> Stashed changes
         //--------------------------------------
 
         Simulation simulation = new Simulation(timeStep, solver);
@@ -31,14 +35,10 @@ public class Main {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.add(drawPanel);
 
+       
+
         ImageIcon icon = new ImageIcon("icon.jpg");
         mainFrame.setIconImage(icon.getImage());
-
-       
-        JComboBox choooser = new JComboBox(solvers);
-        chooser.set
-        mainFrame.add(choooser);
-
         // timer to move celestial bodies
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {

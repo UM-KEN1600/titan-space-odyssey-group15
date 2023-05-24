@@ -30,6 +30,7 @@ public class Draw extends JPanel {
     //Constructor for adding images of the given planets to its body
     public Draw() {
         //scaling each planet to its appropriate size
+
         ImageIcon temp = new ImageIcon("earth.png");
         Image edit = temp.getImage();
         Image finalImg = edit.getScaledInstance(25,25,java.awt.Image.SCALE_SMOOTH);

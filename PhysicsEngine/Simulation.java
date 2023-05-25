@@ -15,6 +15,8 @@ public class Simulation {
     double framesTotal = 200;
     int lengthOfSimulation = 31536000 *2; //seconds of one year //
 
+    boolean goIntoOrbit = true;
+
     public Simulation(double timeStep, iSolver solver)
     {
         this.timeStep = timeStep;
@@ -38,6 +40,8 @@ public class Simulation {
             nextState = solver.solve(timeStep, state.getState());
             
             state.setState(nextState);
+
+            orbit(); //orbits if distance is below 300
 
             //this stores the positions of a planet 100 times a year
             if(i % framesPer10Seconds == 0)
@@ -73,6 +77,14 @@ public class Simulation {
         return VectorOperations.euclideanForm(state.getState()[8][0],state.getState()[7][0]);
     }
 
+    private void orbit()
+    {
+        if(getDistaceProbeTitan() < 300 && goIntoOrbit == true)
+        {
+            state.setSpaceshipVelocity(Functions.getVelocityForOrbit(state.getState()));
+            goIntoOrbit = false;
+        }
+    }
     
 
 }

@@ -152,7 +152,7 @@ public class Functions {
      * @param state current state of the planets
      * @return a velocity that brings the spacecraft into orbit, balance between veloticy and gravitational force of titan
      */
-    public double[] getVelocityForOrbit(double[][][] state)
+    public static double[] getVelocityForOrbit(double[][][] state)
     {
         double[][] tempPositions = new double[12][3];
 
@@ -165,7 +165,7 @@ public class Functions {
         return VectorOperations.vectorScalarDivision(getForceBetweenTwoBodies(state[8][0], state[7][0], CelestialBody.bodyList[8], CelestialBody.bodyList[7]),CelestialBody.bodyList[8].getMass());
     }
 
-    private double[] getForceBetweenTwoBodies(double[] positionA, double[] positionB, CelestialBody bodyA, CelestialBody bodyB)
+    private static double[] getForceBetweenTwoBodies(double[] positionA, double[] positionB, CelestialBody bodyA, CelestialBody bodyB)
     {
         double a = G * bodyA.mass * bodyB.mass;
 

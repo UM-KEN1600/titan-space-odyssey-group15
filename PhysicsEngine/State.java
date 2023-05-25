@@ -14,10 +14,10 @@ public class State {
     double xCoor = -148186906.893642;
     double yCoor = -27829528.5715694;
     double zCoor = 33746.8987977113;
-
-    double velocity1 = 49.58329518104614;//35;
-    double velocity2 = 38.294344080007164;//-55;
-    double velocity3 = 1.9690158128535844;//0
+    
+    double velocity1 = 49.58313440693111;//35;
+    double velocity2 = 38.29506290304066;//-55;
+    double velocity3 = 1.9666588900013093;//0
 
     public static double[][] positions = new double[12][3];
     public static double[][] velocities = new double[12][3];

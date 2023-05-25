@@ -15,9 +15,9 @@ public class State {
     double yCoor = -27829528.5715694;
     double zCoor = 33746.8987977113;
 
-    double velocity1 = 46.41;//35;
-    double velocity2 = 37.95;//-55;
-    double velocity3 = 2.0;//0
+    double velocity1 = 49.58329518104614;//35;
+    double velocity2 = 38.294344080007164;//-55;
+    double velocity3 = 1.9690158128535844;//0
 
     public static double[][] positions = new double[12][3];
     public static double[][] velocities = new double[12][3];
@@ -47,6 +47,16 @@ public class State {
         }
 
         iterations++;
+    }
+
+    public void setSpaceshipVelocity(double[] newVelocity)
+    {
+        state[8][1] = newVelocity;
+    }
+
+    public double[] getSpaceshipVelocity()
+    {
+        return state[8][1];
     }
 
     public double[][][] getState()

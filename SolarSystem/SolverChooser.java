@@ -1,5 +1,7 @@
 package SolarSystem;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,21 +18,25 @@ public class SolverChooser {
         public static void main(String[] args)  {
 
         JLabel label = new JLabel("Select solver");
-        label.setBounds(40,10,120,10);
-        label.setAlignmentX(FlowLayout.CENTER);
+        label.setBackground(Color.BLACK);
+        label.setFont(new Font("DM Sans",Font.BOLD,14));
 
         JComboBox chooser = new JComboBox<>(solvers);
-        chooser.setBounds(40,30 ,120, 30);
         chooser.setSelectedItem(null);
+        chooser.setFont(new Font("DM Sans",Font.BOLD,12));
+
         
         JButton runButton = new JButton("Run");
-        runButton.setBounds(50, 90,100, 30);
+        runButton.setFont(new Font("DM Sans",Font.BOLD,12));
+
 
         solverChooser = new JFrame();
         solverChooser.setSize(200,200);
         solverChooser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         solverChooser.setLocationRelativeTo(null);
-        solverChooser.setLayout(null);
+        //solverChooser.setUndecorated(true);
+        solverChooser.setLayout(new FlowLayout(FlowLayout.CENTER,20,20));
+        solverChooser.getContentPane().setBackground(new Color(255,255,255));
         solverChooser.add(label);
         solverChooser.add(chooser);
         solverChooser.add(runButton);

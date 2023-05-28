@@ -27,4 +27,6 @@ public class Thrust {
         double magnitude = VectorOperations.magnitude(impulse[0], impulse[1], impulse[2]);
         return magnitude; //return is the amount of kg of fuel used
     }
+
+
 }

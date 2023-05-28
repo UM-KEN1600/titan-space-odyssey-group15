@@ -21,7 +21,7 @@ public class CelestialBody extends JPanel{
     int newY;
     int diameter = 20;
     static double scaleFactor = 7.0;
-    State state = new State();
+    State2 state = new State2();
     Functions functions;
 
     CelestialBody(double mass, double radius, int rowInState, String name){

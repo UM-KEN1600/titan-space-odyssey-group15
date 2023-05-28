@@ -53,7 +53,10 @@ public class Simulation {
         double[][][] b = State.allPositions;
 
         if(SHOWENDPOSITIONS)
-        {
+        {   
+            //System.out.println(state.getState());
+            state.printPositions();
+            /* 
             double[] probePosition = State.getPosition(8);
             double[] titanPosition = State.getPosition(7);
 
@@ -63,6 +66,7 @@ public class Simulation {
             System.out.println(Arrays.toString(titanPosition));
             System.out.println("distance:");
             System.out.println(getDistaceProbeTitan());
+            */
         }
 
         //System.out.println("New Positions:");

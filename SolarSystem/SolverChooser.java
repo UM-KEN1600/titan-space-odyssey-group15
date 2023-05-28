@@ -21,26 +21,30 @@ public class SolverChooser {
     static JFrame solverChooser;
         public static void main(String[] args)  {
 
+        JLabel intro = new JLabel("<html>    Project Group 15<br> A Titanic Space Odyssey!</html>") ;
+        intro.setFont(new Font("Consolas",Font.BOLD,16));
+        intro.setHorizontalTextPosition(JLabel.CENTER);
+
         JLabel label = new JLabel("Select solver");
-        label.setBackground(Color.BLACK);
-        label.setFont(new Font("Consolas",Font.BOLD,14));
+        label.setFont(new Font("Consolas",Font.PLAIN,12));
 
         JComboBox chooser = new JComboBox<>(solvers);
         chooser.setSelectedItem(null);
-        chooser.setFont(new Font("Consolas",Font.BOLD,12));
+        chooser.setFont(new Font("Consolas",Font.PLAIN,12));
 
         
         JButton runButton = new JButton("Run");
-        runButton.setFont(new Font("Consolas",Font.BOLD,12));
+        runButton.setFont(new Font("Consolas",Font.PLAIN,12));
 
 
         solverChooser = new JFrame();
-        solverChooser.setSize(200,200);
+        solverChooser.setSize(350,200);
         solverChooser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         solverChooser.setLocationRelativeTo(null);
-        //solverChooser.setUndecorated(true);
-        solverChooser.setLayout(new FlowLayout(FlowLayout.CENTER,20,20));
+        solverChooser.setUndecorated(true);
+        solverChooser.setLayout(new FlowLayout(FlowLayout.CENTER,150,20));
         solverChooser.getContentPane().setBackground(new Color(255,255,255));
+        solverChooser.add(intro);
         solverChooser.add(label);
         solverChooser.add(chooser);
         solverChooser.add(runButton);
@@ -51,7 +55,11 @@ public class SolverChooser {
             public void actionPerformed(ActionEvent e) {
                 
             if(e.getSource()== runButton){
+                if(chooser.getSelectedItem() == null)
+                JOptionPane.showMessageDialog(null, "You have not selected a valid solver", "Error", JOptionPane.INFORMATION_MESSAGE);
+                else{
                 String value = chooser.getSelectedItem().toString();
+                
                 if(value == "Euler" )
                 solver = new EulerSolver();
 
@@ -69,7 +77,7 @@ public class SolverChooser {
 
                 solverChooser.dispose();
                 Main.run(solver);
-            }
+            }}
             }
         });
     }

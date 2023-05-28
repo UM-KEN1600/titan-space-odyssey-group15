@@ -135,6 +135,12 @@ public class geneticAlgorithm {
         return findBest(population);
     }
 
+    /**
+     * Runs the hill climbing algorithm on a specificed trajectory
+     * @param velocity array from an individual
+     * @param the fitness of an individual
+     * @return the new best velocity vector and the distance all in one array
+     */
     public double[] runHillClimb(double[] velocities, double currentDistance){
         HillClimbAllAxes climbAll = new HillClimbAllAxes(velocities, currentDistance, 8, 0.1, 7);
         double[] returnValues = new double[4]; //First three are velocity, last one is distance 

@@ -1,6 +1,8 @@
-package PhysicsEngine;
+package PhysicsEngine.Algorithms;
 
 import java.util.Vector;
+
+import PhysicsEngine.VectorOperations;
 
 public class Thrust {
 

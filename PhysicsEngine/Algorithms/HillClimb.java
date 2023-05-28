@@ -1,5 +1,8 @@
-package PhysicsEngine;
+package PhysicsEngine.Algorithms;
 import java.util.Arrays;
+
+import PhysicsEngine.SimulationHelpNew;
+import PhysicsEngine.VectorOperations;
 
 public class HillClimb {
     

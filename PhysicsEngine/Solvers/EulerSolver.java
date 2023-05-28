@@ -1,6 +1,10 @@
-package PhysicsEngine;
+package PhysicsEngine.Solvers;
 import java.util.Arrays;
 
+import PhysicsEngine.Functions;
+import PhysicsEngine.MatrixOperations;
+import PhysicsEngine.State;
+import PhysicsEngine.VectorOperations;
 import SolarSystem.CelestialBody;
 
 

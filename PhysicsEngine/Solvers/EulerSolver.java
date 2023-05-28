@@ -1,6 +1,10 @@
-package PhysicsEngine;
+package PhysicsEngine.Solvers;
 import java.util.Arrays;
 
+import PhysicsEngine.Functions;
+import PhysicsEngine.Operations.MatrixOperations;
+import PhysicsEngine.States.State;
+import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
 
 
@@ -8,7 +12,7 @@ import SolarSystem.CelestialBody;
  * This class contains the implementation of Euler's method
  */
 
-public class EulerSolver implements iSolver{
+public class EulerSolver implements iSolver {
     
     // need initial values for x and y
     public static double[] nextVelocity = new double[3];

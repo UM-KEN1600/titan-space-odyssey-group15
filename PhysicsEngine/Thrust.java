@@ -11,7 +11,7 @@ public class Thrust {
      * @param timestep the timestep being used
      * @return the impulse vector
      */
-    public double[] impulse(double[] forceVector, double timestep){
+    public static double[] impulse(double[] forceVector, double timestep){
         //does a check if the total force is bigger or not than the max force possible 
         if (VectorOperations.magnitude(forceVector[0], forceVector[1], forceVector[2]) > (3*10^7)){
             System.out.println("Error: Exceeding maximal Force.");
@@ -32,7 +32,7 @@ public class Thrust {
      * @param impulse impulse vector
      * @return the fuel consumption as a double
      */
-    public double fuelConsumption(double[] impulse){
+    public static double fuelConsumption(double[] impulse){
         double magnitude = VectorOperations.magnitude(impulse[0], impulse[1], impulse[2]);
         return magnitude; //return is the amount of kg of fuel used
     }

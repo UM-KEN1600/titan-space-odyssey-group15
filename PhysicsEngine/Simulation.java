@@ -15,6 +15,9 @@ public class Simulation {
     double framesTotal = 200;
     int lengthOfSimulation = 31536000 * 2; //seconds in a year //
 
+    double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
+    double[] wayBackVelocity = {-42.6320877941698, 20.36288058367364, 2.0895448230614537};
+
     boolean goIntoOrbit = true;
 
     public Simulation(double timeStep, iSolver solver)
@@ -24,7 +27,8 @@ public class Simulation {
     }
 
     public void planetarySetUp() 
-    {
+    {   
+
         CelestialBody.setupCelestialBodies();
 
         int timesPerSimulation = (int) Math.ceil(lengthOfSimulation / timeStep);
@@ -34,9 +38,13 @@ public class Simulation {
         state.setTimedPosition();
 
         double[][][] nextState = new double[12][2][3];
+        
+        spacecraftEngine(startingVelocity);
 
         for(int i = 0 ; i < (timesPerSimulation); i++)
         {   
+            wayBack();
+
             nextState = solver.solve(timeStep, state.getState());
             
             state.setState(nextState);
@@ -88,9 +96,20 @@ public class Simulation {
     {
         if(getDistaceProbeTitan() < 300 && goIntoOrbit == true)
         {
-            state.setSpaceshipVelocity(Functions.getVelocityForOrbit(state.getState()));
+            spacecraftEngine(Functions.getVelocityForOrbit(state.getState()));
             goIntoOrbit = false;
         }
+    }
+
+    private void wayBack(){
+        if(!goIntoOrbit){
+            spacecraftEngine(wayBackVelocity);
+        }
+    }
+    public void spacecraftEngine(double[] newVelocity){
+        state.setSpaceshipVelocity(newVelocity);
+        double fuelUsed = Thrust.fuelConsumption(Functions.changeInVelocity(state.getState(), newVelocity));
+        state.fuelConsumption += fuelUsed;
     }
     
 

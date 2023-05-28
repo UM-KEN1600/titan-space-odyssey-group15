@@ -18,7 +18,7 @@ public class geneticAlgorithm {
     public double mutationRateChange;   
     public static void main(String[] args) {
 
-        geneticAlgorithm test = new geneticAlgorithm(30, 0.25, 100); //POP SIZE HAS TO BE DIVISIBLE BY NUMBEROFBEST
+        geneticAlgorithm test = new geneticAlgorithm(30, 1, 100); //POP SIZE HAS TO BE DIVISIBLE BY NUMBEROFBEST
         System.out.println(test.evolution());
     }
 

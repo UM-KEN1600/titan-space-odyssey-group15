@@ -2,10 +2,13 @@ package PhysicsEngine;
 import SolarSystem.*;
 
 
-// implementation of the Heun's solver 
+/**
+ * This class implement's Heun's method
+ */
 
 public class HeunsSolver implements iSolver{
 
+    @Override
     public double[][][] solve(double timestep, double[][][] oldState) {
             
         //aids to understand what is being calculated

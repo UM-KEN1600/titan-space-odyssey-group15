@@ -98,6 +98,9 @@ public class State {
         forces[row] = force;
     }
     
+    /**
+     * Prints positions of all celestial bodies
+     */
     public void printPositions()
     {
         for(int i = 0; i < 12; i++)

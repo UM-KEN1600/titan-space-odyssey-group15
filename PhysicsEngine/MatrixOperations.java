@@ -1,7 +1,12 @@
 package PhysicsEngine;
 
+/**
+ * This class implements operations on 3 dimensional matrices
+ */
+
 public class MatrixOperations {
-        /**
+    
+    /**
      * Adds matrix B to A
      * @param vectorA
      * @param vectorB
@@ -28,7 +33,7 @@ public class MatrixOperations {
         return A;
     }
 
-      /**
+    /**
      * Subtracts matrix B to A
      * @param vectorA
      * @param vectorB
@@ -55,7 +60,7 @@ public class MatrixOperations {
         return A;
     }
 
-       /**
+    /**
      * multiplies matrix A with scalar
      * @param matrixA
      * @param value

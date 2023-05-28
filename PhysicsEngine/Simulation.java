@@ -13,7 +13,7 @@ public class Simulation {
 
     double timeStep; // in seconds
     double framesTotal = 200;
-    int lengthOfSimulation = 31536000 *2; //seconds of one year //
+    int lengthOfSimulation = 31536000 *2; //seconds in a year //
 
     boolean goIntoOrbit = true;
 
@@ -81,6 +81,9 @@ public class Simulation {
         return VectorOperations.euclideanForm(state.getState()[8][0],state.getState()[7][0]);
     }
 
+    /**
+     * Checks if the spaceship is in orbit and within 300km of Titan, if yes, sets the spaceships velocity to that of being in an orbit
+     */
     private void orbit()
     {
         if(getDistaceProbeTitan() < 300 && goIntoOrbit == true)

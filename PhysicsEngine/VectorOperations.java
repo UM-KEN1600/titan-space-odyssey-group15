@@ -1,6 +1,6 @@
 package PhysicsEngine;
 /**
- * 3 dimensional vectors
+ * This class performs vector operations on 3 dimensional vectors
  */
 public class VectorOperations {
     double x;

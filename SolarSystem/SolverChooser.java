@@ -9,6 +9,10 @@ import javax.swing.*;
 
 import PhysicsEngine.*;
 
+/**
+ * This class represents the choosing of the solver for the GUI
+ */
+
 public class SolverChooser {
     
     public static  String[] solvers = {"Euler" , "Runge-Kutta4" , "Runge-Kutta2", "Adam-Bashforth" , "Heuns" };

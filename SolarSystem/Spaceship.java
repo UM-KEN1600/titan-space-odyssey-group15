@@ -1,7 +1,9 @@
 package SolarSystem;
 import java.awt.geom.Point2D;
 
-//represents spaceship
+/**
+ * This class represents the spaceship 
+ */
 
 public class Spaceship extends CelestialBody {
 

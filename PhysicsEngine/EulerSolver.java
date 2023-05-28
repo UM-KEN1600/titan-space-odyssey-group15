@@ -4,11 +4,13 @@ import java.util.Arrays;
 import SolarSystem.CelestialBody;
 
 
-//implementation of Euler's method
+/**
+ * This class contains the implementation of Euler's method
+ */
 
 public class EulerSolver implements iSolver{
+    
     // need initial values for x and y
-   
     public static double[] nextVelocity = new double[3];
 
     /**
@@ -73,6 +75,13 @@ public class EulerSolver implements iSolver{
         return nextState;
     }
 
+    /**
+     * A different implementation of Euler's method with an addition parameter
+     * @param body a celestial body
+     * @param timestep the timestep used in vector calculations
+     * @param stateMatrix a 2D array containing the state (position and velocity) of the celestial body
+     * @return the next state (position and velocity) of the celestial body
+     */
     public double[][] solve(CelestialBody body, double timestep, double[][] stateMatrix)
     {
         double[][] newState = new double[2][3];
@@ -87,6 +96,7 @@ public class EulerSolver implements iSolver{
     @Override
     public double[][][] solve(double timestep, double[][][] oldState) 
     {
+        //aids to understand what is being calculated
         int position = 0;
         int velocity1 = 1;
         int velocity2 = 0;

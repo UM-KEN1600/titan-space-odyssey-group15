@@ -13,7 +13,7 @@ public class Simulation {
 
     double timeStep; // in seconds
     double framesTotal = 200;
-    int lengthOfSimulation = 31536000 *2; //seconds in a year //
+    int lengthOfSimulation = 31536000 * 2; //seconds in a year //
 
     boolean goIntoOrbit = true;
 

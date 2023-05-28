@@ -25,6 +25,8 @@ public class State {
 
     public double[][][] state = new double[12][2][3];
 
+    public double fuelConsumption = 0;
+
     //frames which are getting displayed all 10 seconds
     static int framesPer10Seconds = 200;
     //used to store the positions 50 times a year

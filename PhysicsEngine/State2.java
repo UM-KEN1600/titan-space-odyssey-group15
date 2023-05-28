@@ -7,6 +7,10 @@ import SolarSystem.CelestialBody;
 
 /**
  * Holds a matrix with the position and velocity of each celestial body: Sun, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan and Spaceship respectively
+ * 
+ * THIS VERSION IS USED ONLY FOR CALCULATING THE WAY BACK FOR THE OPTIMIZATION  ALGOS
+ * 
+ * NOT USED FOR THE FINAL SIMULATION
  */
 public class State2 {
 

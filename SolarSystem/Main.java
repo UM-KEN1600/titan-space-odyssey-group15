@@ -15,7 +15,7 @@ public class Main {
     public static void run(iSolver solver){
 
         //Enter time step in seconds here:
-        double timeStep = 100;
+        double timeStep = 50;
 
         
 
@@ -41,18 +41,21 @@ public class Main {
             @Override
             public void run() {
                 drawPanel.repaint();
-                if(a == 199)
-                {
+                if (a == 99) { // change to 199, using 99 for testing
                     t.cancel();
-                    
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            FuelConsumption f = new FuelConsumption();
+                            f.setVisible(true);
+                           // mainFrame.dispose();
+                        }
+                    });
                 }
                 a++;
             }
         };
         t.schedule(tt, 0, 100);
-
-        mainFrame.setVisible(true);
         
-    }
-
+        mainFrame.setVisible(true);
+}
 }

@@ -2,6 +2,7 @@ package PhysicsEngine.Simulations;
 import java.util.Arrays;
 
 import PhysicsEngine.Functions;
+import PhysicsEngine.Thrust;
 import PhysicsEngine.Solvers.iSolver;
 import PhysicsEngine.States.State;
 import PhysicsEngine.Operations.VectorOperations;

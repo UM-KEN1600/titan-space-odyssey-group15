@@ -15,7 +15,7 @@ public class Main {
     public static void run(iSolver solver){
 
         //Enter time step in seconds here:
-        double timeStep = 100;
+        double timeStep = 50;
 
         
 

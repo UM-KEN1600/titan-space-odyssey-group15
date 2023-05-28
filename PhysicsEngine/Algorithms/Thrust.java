@@ -1,6 +1,8 @@
-package PhysicsEngine;
+package PhysicsEngine.Algorithms;
 
 import java.util.Vector;
+
+import PhysicsEngine.VectorOperations;
 
 public class Thrust {
 
@@ -27,8 +29,6 @@ public class Thrust {
     }
 
 
-    //method to calculate fuel consumption
-    //based on the formula ||I||*1ms^-1
     /**
      * Calculates the fuel consumption based on the formula ||I||*1ms^-1
      * @param impulse impulse vector

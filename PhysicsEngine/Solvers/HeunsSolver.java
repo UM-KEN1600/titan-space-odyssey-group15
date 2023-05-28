@@ -1,4 +1,7 @@
-package PhysicsEngine;
+package PhysicsEngine.Solvers;
+import PhysicsEngine.Functions;
+import PhysicsEngine.Operations.MatrixOperations;
+import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.*;
 
 
@@ -6,7 +9,7 @@ import SolarSystem.*;
  * This class implement's Heun's method
  */
 
-public class HeunsSolver implements iSolver{
+public class HeunsSolver implements iSolver {
 
     @Override
     public double[][][] solve(double timestep, double[][][] oldState) {

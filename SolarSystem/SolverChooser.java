@@ -7,7 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import PhysicsEngine.*;
+import PhysicsEngine.Simulations.Simulation;
+import PhysicsEngine.Solvers.*;
 
 /**
  * This class represents the choosing of the solver for the GUI

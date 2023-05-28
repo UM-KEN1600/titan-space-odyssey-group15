@@ -20,6 +20,7 @@ public class Simulation {
     double framesTotal = 200;
     int lengthOfSimulation = 31536000 * 2; //seconds in a year //
 
+    //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
     double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
     double[] wayBackVelocity = {-42.6320877941698, 20.36288058367364, 2.0895448230614537};
 
@@ -106,11 +107,17 @@ public class Simulation {
         }
     }
 
+    //This is used to change the velocity for the probe to get back
     private void wayBack(){
         if(!goIntoOrbit){
             spacecraftEngine(wayBackVelocity);
         }
     }
+
+    /*This method is used for any change in velocity for the probe
+     * Calculates how much fuel is consumed and changes the fuelConsumption variable
+     * Changes the velocity of the probe in state
+     */ 
     public void spacecraftEngine(double[] newVelocity){
         state.setSpaceshipVelocity(newVelocity);
         double fuelUsed = Thrust.fuelConsumption(Functions.changeInVelocity(state.getState(), newVelocity));

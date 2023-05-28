@@ -35,7 +35,7 @@ public class Functions {
 
     /**
      * calculates the new forces based on a given state
-     * @param state
+     * @param state the current state of a celestial body
      * @return forces with respect to the new state
      */
     public static double[][] forceCalculator(double[][] state)
@@ -72,8 +72,7 @@ public class Functions {
 
     /**
      * calculates the sum of the forces the celestial bodies have on the space ship
-     * @param celestialBodies
-     * @param spaceship
+     * @param spaceship the spaceship celestial bodu
      * @return sum of all forces on the spaceship
      */
     public double[] forceOnSpaceship(CelestialBody spaceship){
@@ -93,8 +92,8 @@ public class Functions {
 
     /**
      * calculates the forces of other bodies on a body A, ignoring the spaceship
-     * @param bodyA
-     * @return
+     * @param bodyA a celestial body
+     * @return a force vector representing the force of other celestial bodies on bodyA
      */
     public double[] forceOnPlanet(CelestialBody bodyA)
     {
@@ -114,9 +113,9 @@ public class Functions {
 
     /**
      * calculates the velocity of a planet with respect to time
-     * @param time
-     * @param spaceShip
-     * @return
+     * @param time the timestep used in vector calculations
+     * @param body a celestial body
+     * @return the next velocity of a celestial body
      */
     public double[] velocityOfBody(double time, CelestialBody body)
     {
@@ -133,9 +132,9 @@ public class Functions {
 
     /** 
      * calculates the new position of a body
-     * @param time
-     * @param spaceShip
-     * @return
+     * @param time timestep used in vector calculations
+     * @param body a Celestial body 
+     * @return the next position of the celestial body 
      */
     public double[] newPositionOfBody(double time, CelestialBody body)
     {
@@ -167,6 +166,14 @@ public class Functions {
         return A;
     }
 
+    /**
+     * Calculates the force between 2 celestial bodies, given their current position
+     * @param positionA position of Celestial body A
+     * @param positionB position of Celesitial body B
+     * @param bodyA Celestial body A
+     * @param bodyB Celestial body B
+     * @return a force vector representing the force between the 2 bodies
+     */
     private static double[] getForceBetweenTwoBodies(double[] positionA, double[] positionB, CelestialBody bodyA, CelestialBody bodyB)
     {
         double a = G * bodyA.mass * bodyB.mass;

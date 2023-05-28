@@ -1,11 +1,11 @@
 package PhysicsEngine;
+
 import java.util.Arrays;
 
-public class HillClimb {
-    
+public class HillClimbOneIteration {
+
     double[] velocity;
     int axis;
-    double target = 300000;
     double currentDistance;
     int numNeighbors; //should be an even number
     double changePercentage;
@@ -17,19 +17,7 @@ public class HillClimb {
 
 
 
-
-    public static void main(String[] args) {
-    double[] initialVelocity = {49.606555730731216, 38.223000000000006, 1.9999999999999996};
-    double distance = 2673178.0295476587;
-
-    HillClimb climb = new HillClimb(initialVelocity,distance,1, 8,0.1,7);
-
-    System.out.println(Arrays.toString(climb.startVelocityFinder()));
-
-    }
-
-
-    public HillClimb(double[] initialVelocity, double currentDistance,int axis,int numNeighbors,double adjustmentStepSize, double adjustmentNumber){
+    public HillClimbOneIteration(double[] initialVelocity, double currentDistance,int axis,int numNeighbors,double adjustmentStepSize, double adjustmentNumber){
         this.velocity = initialVelocity;
         this.axis = axis;
         this.numNeighbors = numNeighbors;
@@ -40,41 +28,35 @@ public class HillClimb {
     }
 
 
-    public double[] startVelocityFinder() {
+    public double VelocityFinder(double[] currentVelocity, double currentDistance) {
 
-        boolean goal = false;
+
+        velocity = Arrays.copyOf(currentVelocity,currentVelocity.length);
+        this.currentDistance = currentDistance;
+
         double[][] neighborVelocities;
-        
 
-        while(!goal){
+        neighborVelocities = neighborVelocities();
 
-            if(currentDistance<target){
-                goal = true;
-            }
-            else{
+        double[] distanceAndIndex = getBest(neighborVelocities);
 
-                neighborVelocities = neighborVelocities();
-                
-                double[] distanceAndIndex = getBest(neighborVelocities);
+        if(distanceAndIndex[0]<currentDistance){
 
-                if(distanceAndIndex[0]<currentDistance){
+            currentDistance = distanceAndIndex[0];
+            velocity = Arrays.copyOf(neighborVelocities[(int)distanceAndIndex[1]],3);
+            currentVelocity[0] = velocity[0];
+            currentVelocity[1] = velocity[1];
+            currentVelocity[2] = velocity[2];
 
-                    currentDistance = distanceAndIndex[0];
-                    velocity = neighborVelocities[(int)distanceAndIndex[1]];
-                }
-                else{
-                    changePercentage = percentageAdjustment(adjustmentStepSize);
-                    System.out.println("new change Percentage: ");
-                    System.out.println(changePercentage);
-                }        
-            }
-            System.out.println("\n");
-            System.out.println(Arrays.toString( velocity));
-            System.out.println("Current distance is:"+ currentDistance + "\n");
-            
         }
+        else{
+            changePercentage = percentageAdjustment(adjustmentStepSize);
 
-        return velocity;
+            System.out.println("new change Percentage for axis: " + axis );
+            System.out.println(changePercentage);
+        }
+        return currentDistance;
+
     }
 
     public double[][] neighborVelocities(){
@@ -88,9 +70,9 @@ public class HillClimb {
         for (int i = 0; i < numNeighbors/2; i++) {
             neighbors[i][axis] =  ((1+(i+1)*changePercentage)*velocity[axis]);
         }
-    
+
         int count = 1;
-        
+
         for (int j = numNeighbors/2; j < numNeighbors ; j++) {
             neighbors[j][axis] = ((1 - count * changePercentage) * velocity[axis]);
             count++;
@@ -99,7 +81,7 @@ public class HillClimb {
     }
 
     public double runTest(double[] velocity){
-        
+
         SimulationHelpNew simulation = new SimulationHelpNew(50);
         double[][] positions = simulation.planetarySetUp(velocity[0], velocity[1], velocity[2]);
         probePosition = positions[0];
@@ -115,49 +97,34 @@ public class HillClimb {
     public double[] getBest(double[][] velocities){
 
         double bestIndex = 0;
-        double bestDistance = runTest(velocities[(int) (bestIndex)]);
+        double bestDistance = currentDistance;
         double distanceCurrentNeighbor;
 
         for (int index = 1; index < numNeighbors; index++) {
-        
+
             distanceCurrentNeighbor = runTest(velocities[index]);
             System.out.println("Velocities belonging to the distance:");
             System.out.println(Arrays.toString(velocities[index]));
-            System.out.println("\n");
 
             if(distanceCurrentNeighbor< bestDistance){
                 bestIndex = index;
                 bestDistance = distanceCurrentNeighbor;
             }
         }
-        
+
         double[] distanceAndIndex = new double[2];
         distanceAndIndex[0] = bestDistance;
         distanceAndIndex[1] = bestIndex;
-        
+
         return distanceAndIndex;
     }
 
     public double percentageAdjustment(double adjustmentStepSize){
-       double percentageChangeNew = Math.exp(-adjustmentNumber);
-       adjustmentNumber += adjustmentStepSize;
+        System.out.println("adjustNumber: "+ adjustmentNumber);
+        double percentageChangeNew = Math.exp(-adjustmentNumber);
+        adjustmentNumber = adjustmentNumber + adjustmentStepSize;
 
-        System.out.println("Percentage got changed");
-        System.out.println(percentageChangeNew);
 
         return percentageChangeNew;
     }
-
-    public static void print2DArray(double[][] array) {
-        for (double[] row : array) {
-            for (double element : row) {
-                System.out.print(element + " ");
-            }
-            System.out.println();
-        }
-    }
 }
-    
-
-
-    

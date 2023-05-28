@@ -5,7 +5,9 @@ import javax.swing.*;
 
 import PhysicsEngine.*;
 
-//represents the drawing of the celestialbodies
+/**
+ * This class represents the drawing of the celestial bodies onto the GUI
+ */
 
 public class Draw extends JPanel {
 

@@ -2,6 +2,10 @@ package PhysicsEngine;
 
 import SolarSystem.CelestialBody;
 
+/**
+ * This class implements the general Runge-Kutta method
+ */
+
 public class RungeKuttaSolver implements iSolver {
     double a;
     EulerSolver euler = new EulerSolver();

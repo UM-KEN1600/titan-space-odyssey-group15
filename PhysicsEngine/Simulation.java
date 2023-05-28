@@ -13,7 +13,7 @@ public class Simulation {
 
     double timeStep; // in seconds
     double framesTotal = 200;
-    int lengthOfSimulation = 31536000 *2; //seconds of one year //
+    int lengthOfSimulation = 31536000 *2; //seconds in a year //
 
     boolean goIntoOrbit = true;
 
@@ -53,7 +53,10 @@ public class Simulation {
         double[][][] b = State.allPositions;
 
         if(SHOWENDPOSITIONS)
-        {
+        {   
+            //System.out.println(state.getState());
+            state.printPositions();
+            /* 
             double[] probePosition = State.getPosition(8);
             double[] titanPosition = State.getPosition(7);
 
@@ -63,6 +66,7 @@ public class Simulation {
             System.out.println(Arrays.toString(titanPosition));
             System.out.println("distance:");
             System.out.println(getDistaceProbeTitan());
+            */
         }
 
         //System.out.println("New Positions:");
@@ -80,6 +84,9 @@ public class Simulation {
     double timeInOrbit = 10200; //seconds, derived from calculations of ORBITAL TIME with respect to Titan's mass and the spaceship's distance
     double startTimeOrbit = 0;
 
+    /**
+     * Checks if the spaceship is in orbit and within 300km of Titan, if yes, sets the spaceships velocity to that of being in an orbit
+     */
     private void orbit()
     {
         if(getDistaceProbeTitan() < 300 && goIntoOrbit == true)

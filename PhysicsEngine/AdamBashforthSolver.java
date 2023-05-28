@@ -1,25 +1,39 @@
 package PhysicsEngine;
 import SolarSystem.CelestialBody;
 
+/**
+ * This class contains the implementation of the 2-stage Adams-Bashforth Method
+ */
 
-// Is not implementing the interface cause the method solve here needs also to be passed the double[][][] preOldState parameter, ill find a way to change it
 public class AdamBashforthSolver implements iSolver {
 
     private double[][][] preOldState;
     private boolean bootStrapped = false;
 
+    /**
+     * Initialises the preOldState instance field
+     * @param preOldState
+     */
     public void setPreOldState(double[][][] preOldState){
         this.preOldState = preOldState;
     }
 
+    /**
+     * an implementation of the Adams-Bashforth solver that calculates the next state of a celestial body
+     * @param timestep the timestep used in vector calculations
+     * @param oldState the previous state (position and velocity) of the celestial body 
+     * @return the next state of the celestial body
+     */
     public double[][][] solve(double timestep, double[][][] oldState) {
-        //multistep methods reaquires bootstrapping for compute the first value
+        
+        //multistep methods requires bootstrapping for computation of the first value
         if(!bootStrapped){
             preOldState = oldState;
             bootStrapped = true;
             return bootStrapping(timestep, oldState);
         }
             
+        //aids to understand what is being calculated
         int position = 0;
         int velocity1 = 1;
         int velocity2 = 0;
@@ -57,11 +71,11 @@ public class AdamBashforthSolver implements iSolver {
         }
     
         for (int body = 0; body < oldState.length; body++) {
+            
             // 3f(ti,wi) - f(ti-1,wi-1)
             newState[body] = MatrixOperations.matrixSubtraction(MatrixOperations.matrixScalarMultiplication(firstDerivativeOldState[body], 3.0),firstDerivativePreOldState[body]);
             // h/2 * [3f(ti,wi) - f(ti-1,wi-1)]
             newState[body] = MatrixOperations.matrixScalarMultiplication(newState[body], timestep / 2.0);
-    
             // wi+1 = wi + h/2 * [3f(ti,wi) - f(ti-1,wi-1)]
             newState[body] = MatrixOperations.matrixAddition(oldState[body], newState[body]);
         }
@@ -73,7 +87,12 @@ public class AdamBashforthSolver implements iSolver {
 
 
 
-    // method for bootstrapping using RK4
+    /**
+     * Bootstrapping which calculates the first step of the Adams-Bashforth method using RK4 
+     * @param timestep the timestep used in vector calculations
+     * @param oldState the previous state of a celestial body
+     * @return the next state of the celestial body
+     */
     public double[][][] bootStrapping(double timestep, double[][][] oldState){
         iSolver solve = new RungeKutta4Solver();
         return solve(timestep,oldState);

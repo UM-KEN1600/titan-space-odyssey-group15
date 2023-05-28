@@ -19,15 +19,15 @@ public class SolverChooser {
 
         JLabel label = new JLabel("Select solver");
         label.setBackground(Color.BLACK);
-        label.setFont(new Font("DM Sans",Font.BOLD,14));
+        label.setFont(new Font("Consolas",Font.BOLD,14));
 
         JComboBox chooser = new JComboBox<>(solvers);
         chooser.setSelectedItem(null);
-        chooser.setFont(new Font("DM Sans",Font.BOLD,12));
+        chooser.setFont(new Font("Consolas",Font.BOLD,12));
 
         
         JButton runButton = new JButton("Run");
-        runButton.setFont(new Font("DM Sans",Font.BOLD,12));
+        runButton.setFont(new Font("Consolas",Font.BOLD,12));
 
 
         solverChooser = new JFrame();

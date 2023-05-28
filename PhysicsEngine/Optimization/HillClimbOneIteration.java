@@ -1,4 +1,7 @@
-package PhysicsEngine;
+package PhysicsEngine.Optimization;
+
+import PhysicsEngine.Simulations.SimulationOptimization;
+import PhysicsEngine.Operations.VectorOperations;
 
 import java.util.Arrays;
 
@@ -97,7 +100,7 @@ public class HillClimbOneIteration {
      */
     public double runTest(double[] velocity){
 
-        SimulationHelpNew simulation = new SimulationHelpNew(50);
+        SimulationOptimization simulation = new SimulationOptimization(50);
         double[][] positions = simulation.planetarySetUp(velocity[0], velocity[1], velocity[2]);
         probePosition = positions[0];
         titanPosition = positions[1];

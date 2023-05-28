@@ -1,5 +1,7 @@
 package PhysicsEngine;
 
+import PhysicsEngine.Operations.VectorOperations;
+import PhysicsEngine.States.State;
 import SolarSystem.CelestialBody;
 
 /**

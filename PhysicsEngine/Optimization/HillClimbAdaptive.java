@@ -1,4 +1,7 @@
-package PhysicsEngine;
+package PhysicsEngine.Optimization;
+
+import PhysicsEngine.Simulations.SimulationOptimization;
+import PhysicsEngine.Operations.VectorOperations;
 
 import java.util.Arrays;
 
@@ -77,11 +80,11 @@ public class HillClimbAdaptive{
      * @return The distance between the probe and Titan after the simulation has run
      */
     private double getDistanceAfterSimulation(double[] velocities){
-        SimulationHelpNew simulation = new SimulationHelpNew(timestep);
+        SimulationOptimization simulation = new SimulationOptimization(timestep);
         double[][] positionsAfterSimulation = simulation.planetarySetUp(velocities[0], velocities[1], velocities[2]);
 
         //Print the distance after the first simulation
-        return VectorOperations.euclideanForm(positionsAfterSimulation[0],positionsAfterSimulation[1]);    
+        return VectorOperations.euclideanForm(positionsAfterSimulation[0],positionsAfterSimulation[1]);
     }
 
 

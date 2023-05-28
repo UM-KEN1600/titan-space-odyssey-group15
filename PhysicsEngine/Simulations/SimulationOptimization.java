@@ -1,9 +1,13 @@
-package PhysicsEngine;
-import java.util.Arrays;
+package PhysicsEngine.Simulations;
 
+import PhysicsEngine.Functions;
+import PhysicsEngine.Solvers.RungeKutta4Solver;
+import PhysicsEngine.Solvers.iSolver;
+import PhysicsEngine.States.State2;
+import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
 
-public class SimulationHelpNew {
+public class SimulationOptimization {
 
     final boolean SHOWENDPOSITIONS = true;
 
@@ -14,7 +18,7 @@ public class SimulationHelpNew {
     double timeStep; // in seconds
     int lengthOfSimulation = 31536000; //seconds of one year // if the simulation is runned in 333536000, the probe visually touches titan
 
-    public SimulationHelpNew(double timeStep)
+    public SimulationOptimization(double timeStep)
     {
         this.timeStep = timeStep;
     }

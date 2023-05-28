@@ -2,7 +2,7 @@ package Test;
 
 import org.junit.Test;
 
-import PhysicsEngine.EulerSolver;
+import PhysicsEngine.Solvers.EulerSolver;
 
 import org.junit.Assert;
 

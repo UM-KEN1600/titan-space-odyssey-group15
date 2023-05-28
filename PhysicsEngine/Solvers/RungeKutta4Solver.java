@@ -1,12 +1,15 @@
-package PhysicsEngine;
+package PhysicsEngine.Solvers;
 
+import PhysicsEngine.Functions;
+import PhysicsEngine.Operations.MatrixOperations;
+import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
 
 /**
  * This class implements the 4th order Runge-Kutta method
  */
 
-public class RungeKutta4Solver implements iSolver 
+public class RungeKutta4Solver implements iSolver
 {
   EulerSolver euler = new EulerSolver();
 

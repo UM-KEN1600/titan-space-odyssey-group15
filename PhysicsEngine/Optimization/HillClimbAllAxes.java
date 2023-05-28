@@ -1,4 +1,4 @@
-package PhysicsEngine;
+package PhysicsEngine.Optimization;
 
 import java.util.Arrays;
 

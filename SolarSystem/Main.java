@@ -4,7 +4,8 @@ import java.util.TimerTask;
 
 import javax.swing.*;
 
-import PhysicsEngine.*;
+import PhysicsEngine.Simulations.Simulation;
+import PhysicsEngine.Solvers.iSolver;
 
 public class Main {
 

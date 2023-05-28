@@ -1,10 +1,8 @@
-package PhysicsEngine;
+package PhysicsEngine.Optimization;
+import PhysicsEngine.Simulations.SimulationOptimization;
+import PhysicsEngine.Operations.VectorOperations;
 
-import java.io.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 
 public class geneticAlgorithm {
@@ -43,7 +41,7 @@ public class geneticAlgorithm {
      * @return the distance between the probe and titan at the end of the simulation
      */
     public double runTest(double[] velocity){
-        SimulationHelpNew simulation = new SimulationHelpNew(50);
+        SimulationOptimization simulation = new SimulationOptimization(50);
         System.out.println("Initial probe velocity");
         System.out.println(Arrays.toString(velocity));
         double[][] positions = simulation.planetarySetUp(velocity[0], velocity[1], velocity[2]);

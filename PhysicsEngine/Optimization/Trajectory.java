@@ -1,7 +1,6 @@
-package PhysicsEngine;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
+package PhysicsEngine.Optimization;
+import PhysicsEngine.Operations.VectorOperations;
+
 import java.util.Random;
 
 //This class is used to store the trajectory for the genetic algorithm

@@ -77,6 +77,9 @@ public class Simulation {
         return VectorOperations.euclideanForm(state.getState()[8][0],state.getState()[7][0]);
     }
 
+    double timeInOrbit = 10200; //seconds, derived from calculations of ORBITAL TIME with respect to Titan's mass and the spaceship's distance
+    double startTimeOrbit = 0;
+
     private void orbit()
     {
         if(getDistaceProbeTitan() < 300 && goIntoOrbit == true)
@@ -84,6 +87,18 @@ public class Simulation {
             state.setSpaceshipVelocity(Functions.getVelocityForOrbit(state.getState()));
             goIntoOrbit = false;
         }
+
+        if(goIntoOrbit == false)
+        {
+            startTimeOrbit += timeStep;
+        }
+
+        if(startTimeOrbit >= timeInOrbit)
+        {
+            System.out.println("Position after Orbit: " + Arrays.toString(state.getState()[8][0]));
+            System.out.println("Velocity after Orbit: " + Arrays.toString(state.getState()[8][1]));
+        }
+        
     }
     
 

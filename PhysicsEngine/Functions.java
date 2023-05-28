@@ -162,7 +162,9 @@ public class Functions {
         }
 
         //Gravitiational Force between spacecraft and Titan divided by spacecraft's mass
-        return VectorOperations.vectorScalarDivision(getForceBetweenTwoBodies(state[8][0], state[7][0], CelestialBody.bodyList[8], CelestialBody.bodyList[7]),CelestialBody.bodyList[8].getMass());
+        
+        double [] A = VectorOperations.vectorScalarDivision(getForceBetweenTwoBodies(state[8][0], state[7][0], CelestialBody.bodyList[8], CelestialBody.bodyList[7]),CelestialBody.bodyList[8].getMass());
+        return A;
     }
 
     private static double[] getForceBetweenTwoBodies(double[] positionA, double[] positionB, CelestialBody bodyA, CelestialBody bodyB)

@@ -18,7 +18,7 @@ public class geneticAlgorithm {
     public double mutationRateChange;   
     public static void main(String[] args) {
 
-        geneticAlgorithm test = new geneticAlgorithm(30, 1, 100); //POP SIZE HAS TO BE DIVISIBLE BY NUMBEROFBEST
+        geneticAlgorithm test = new geneticAlgorithm(30, 0.25, 100); //POP SIZE HAS TO BE DIVISIBLE BY NUMBEROFBEST
         System.out.println(test.evolution());
     }
 
@@ -111,7 +111,7 @@ public class geneticAlgorithm {
         
         //stores the initial velocity vector
         //Best velocity to titan:
-        double[] startingVelocity = {-42.150279043049224, 20.593907649048088, 2.0895448230614537};
+        double[] startingVelocity = {-42.22715120165412, 20.63146607501901, 2.0895448230614537};
         //creates an array to populate the population
         Trajectory[] initialTrajectoryArray = new Trajectory[5];
         

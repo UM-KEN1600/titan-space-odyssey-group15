@@ -1,9 +1,11 @@
 package PhysicsEngine;
 
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+
 
 public class geneticAlgorithm {
     
@@ -15,6 +17,7 @@ public class geneticAlgorithm {
     public final int numberOfBest = 5; //changes how many indivuals are passed on to the next generation CHECK THAT POP SIZE IS DIVISIBLE BY THIS
     public double mutationRateChange;   
     public static void main(String[] args) {
+
         geneticAlgorithm test = new geneticAlgorithm(30, 1, 100); //POP SIZE HAS TO BE DIVISIBLE BY NUMBEROFBEST
         System.out.println(test.evolution());
     }

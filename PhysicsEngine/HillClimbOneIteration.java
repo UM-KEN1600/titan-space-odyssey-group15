@@ -28,6 +28,12 @@ public class HillClimbOneIteration {
     }
 
 
+     /**
+     * Finds the optimal velocity for reaching the target distance
+     * @param currentVelocity The current velocity for the simulation
+     * @param currentDistance The current distance between the probe and the target
+     * @return The updated current distance after finding the optimal velocity
+     */
     public double VelocityFinder(double[] currentVelocity, double currentDistance) {
 
 
@@ -59,6 +65,10 @@ public class HillClimbOneIteration {
 
     }
 
+    /**
+     * Generates the neighbor velocities for the current velocity
+     * @return The array of neighbor velocities
+     */
     public double[][] neighborVelocities(){
 
         double [][] neighbors =  new double[numNeighbors][3];
@@ -80,6 +90,11 @@ public class HillClimbOneIteration {
         return neighbors;
     }
 
+    /**
+     * Runs a simulation with the given velocity
+     * @param velocity The velocity for the simulation
+     * @return The distance between the probe and the target after the simulation
+     */
     public double runTest(double[] velocity){
 
         SimulationHelpNew simulation = new SimulationHelpNew(50);
@@ -90,10 +105,21 @@ public class HillClimbOneIteration {
         return getDistance(probePosition, titanPosition);
     }
 
+    /**
+     * Calculates the distance between the probe and the target.
+     * @param probePosition  The position of the probe.
+     * @param titanPosition  The position of the target (Titan).
+     * @return The Euclidean distance between the probe and the target.
+     */
     public double getDistance(double[] probePosition, double[] titanPosition){
         return VectorOperations.euclideanForm(probePosition, titanPosition);
     }
 
+     /**
+     * Finds the best velocity among the given velocities based on the current distance
+     * @param velocities array of velocities
+     * @return An array containing the best distance and index of the best velocity
+     */
     public double[] getBest(double[][] velocities){
 
         double bestIndex = 0;
@@ -119,6 +145,11 @@ public class HillClimbOneIteration {
         return distanceAndIndex;
     }
 
+    /**
+     * Calculates the percentage adjustment based on the adjustment step size
+     * @param adjustmentStepSize The step size for the adjustment
+     * @return The percentage change for adjustment
+     */
     public double percentageAdjustment(double adjustmentStepSize){
         System.out.println("adjustNumber: "+ adjustmentNumber);
         double percentageChangeNew = Math.exp(-adjustmentNumber);

@@ -31,8 +31,8 @@ public class HillClimbAdaptive{
     }
 
     /*
-     *Runs the algorithm
-     * Wheter better inital velocities are found among the neighbours, recall itself updating @param InitialVector
+     * Runs the algorithm
+     * Whether better inital velocities are found among the neighbours, recall itself updating @param InitialVector
      * Otherwise reduce the search space (the radious @param r) and recall itself
      * Stops when @param r == radiousReached
      */
@@ -71,9 +71,10 @@ public class HillClimbAdaptive{
     }
 
 
-    /* 
-     *@param velocities define the initial velocity the probe is lauched with
-     * @returns Runs the simulation (SimulationHelperNew) and returns the distance between titan and the probe 
+    /**
+     * Calculates the distance between the probe and Titan after running a simulation with the given velocities
+     * @param velocities defines the initial velocity the probe is lauched with
+     * @return The distance between the probe and Titan after the simulation has run
      */
     private double getDistanceAfterSimulation(double[] velocities){
         SimulationHelpNew simulation = new SimulationHelpNew(timestep);
@@ -84,8 +85,10 @@ public class HillClimbAdaptive{
     }
 
 
-    /*
-     * @returns double[2] where [0] is the 0 <= number < n of the best neighbour(with lower final distance) 
+    /**
+     * Finds the fittest vector among the given vectors based on the distance after running simulations
+     * @param vectors The array of vectors
+     * @return double[2] where [0] is the 0 <= number < n of the best neighbour(with lower final distance) 
        and [0] the distance probe-titan after running the simulation with its velocities
      */
     private double[] getFittestVector(double[][] vectors){
@@ -107,10 +110,13 @@ public class HillClimbAdaptive{
         return new double[]{(double)vectorLowerDistance, distancesAfterSimulation[vectorLowerDistance] };// [0] is the number n of the neighbour and [1] its distance
     }
 
-    /*
-     * @return double[n][3], each neighbour vector n is defined within its velocities(x,y,z)
+   
+    /**
      * The vectors are derived by positioning in a even way n points on a circle in the 3d space 
-     * of radious @param r and centered in the point p from where the probe take off.
+     * of radius @param r and centered in the point p from where the probe take off.
+     * @param r the radius 
+     * @param initialVector the initial vector containing positions
+     * @return double[n][3], each neighbour vector n is defined within its velocities(x,y,z)
      */
     private double[][] findNeighbours(double r, double[] initialVector) {
         double[][] neighboursVectors = new double[n][3];

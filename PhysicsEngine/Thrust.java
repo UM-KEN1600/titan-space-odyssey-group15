@@ -27,8 +27,6 @@ public class Thrust {
     }
 
 
-    //method to calculate fuel consumption
-    //based on the formula ||I||*1ms^-1
     /**
      * Calculates the fuel consumption based on the formula ||I||*1ms^-1
      * @param impulse impulse vector

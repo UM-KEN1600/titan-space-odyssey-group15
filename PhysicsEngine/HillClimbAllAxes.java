@@ -21,6 +21,12 @@ public class HillClimbAllAxes {
         climbZ = new HillClimbOneIteration(initialVelocity, currentDistance, 2, numNeighbors,adjustmentStepSize,adjustmentNumber);
     }
 
+    /**
+     * Runs the velocity finder algorithm for all axes (X, Y, Z) and updates the current distance accordingly.
+     * @param velocities The array of velocities for the simulation.
+     * @param currentDistance The current distance between the probe and Titan.
+     * @return The updated current distance after running the velocity finder algorithm for all axes.
+     */
     public double RunAllAxesOnce(double[] velocities, double currentDistance){
 
         System.out.println("Changes for X\n");

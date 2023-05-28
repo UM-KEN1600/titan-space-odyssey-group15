@@ -1,7 +1,4 @@
-package PhysicsEngine.Solvers;
-import PhysicsEngine.Functions;
-import PhysicsEngine.MatrixOperations;
-import PhysicsEngine.VectorOperations;
+package PhysicsEngine;
 import SolarSystem.*;
 
 

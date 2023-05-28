@@ -1,4 +1,4 @@
-package PhysicsEngine.Algorithms;
+package PhysicsEngine;
 
 import java.awt.Color;
 import java.io.ObjectInputStream.GetField;

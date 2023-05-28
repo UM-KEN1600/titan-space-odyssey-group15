@@ -1,10 +1,8 @@
-package PhysicsEngine.Algorithms;
+package PhysicsEngine;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-
-import PhysicsEngine.Operations.VectorOperations;
 
 //This class is used to store the trajectory for the genetic algorithm
 class Trajectory{

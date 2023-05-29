@@ -22,7 +22,7 @@ public class Simulation {
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
     double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
-    double[] wayBackVelocity = {-50, 14.63146607501901, 2.0895448230614537};
+    double[] wayBackVelocity = {-45.78047566448307, 12.700660539107394, 2.07812621375149};
 
     boolean goIntoOrbit = true;
     boolean turnedBack = true;

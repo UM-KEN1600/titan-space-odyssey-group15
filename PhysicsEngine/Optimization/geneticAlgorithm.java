@@ -1,10 +1,8 @@
-package PhysicsEngine;
+package PhysicsEngine.Optimization;
+import PhysicsEngine.Simulations.SimulationOptimization;
+import PhysicsEngine.Operations.VectorOperations;
 
-import java.io.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 
 public class geneticAlgorithm {
@@ -13,12 +11,12 @@ public class geneticAlgorithm {
     private double mutationRate; //the amount at which the velocity vector will be changed in a generation. It dictates by how much the velocity vector will be changed each time
     private int numGenerations; //the amount of generation 
     public Trajectory population; //the population of trajectories
-    public final double finalmutationRate = 0.001; //the fitness rate that will be used for the last generation. Used to calculate by how much the mutation rate will be changed each iteration.
+    public final double finalmutationRate = 0.0001; //the fitness rate that will be used for the last generation. Used to calculate by how much the mutation rate will be changed each iteration.
     public final int numberOfBest = 5; //changes how many indivuals are passed on to the next generation CHECK THAT POP SIZE IS DIVISIBLE BY THIS
     public double mutationRateChange;   
     public static void main(String[] args) {
 
-        geneticAlgorithm test = new geneticAlgorithm(30, 1, 100); //POP SIZE HAS TO BE DIVISIBLE BY NUMBEROFBEST
+        geneticAlgorithm test = new geneticAlgorithm(30, 0.5, 100); //POP SIZE HAS TO BE DIVISIBLE BY NUMBEROFBEST
         System.out.println(test.evolution());
     }
 
@@ -43,7 +41,7 @@ public class geneticAlgorithm {
      * @return the distance between the probe and titan at the end of the simulation
      */
     public double runTest(double[] velocity){
-        SimulationHelpNew simulation = new SimulationHelpNew(50);
+        SimulationOptimization simulation = new SimulationOptimization(50);
         System.out.println("Initial probe velocity");
         System.out.println(Arrays.toString(velocity));
         double[][] positions = simulation.planetarySetUp(velocity[0], velocity[1], velocity[2]);
@@ -97,9 +95,10 @@ public class geneticAlgorithm {
                 
             }
         }
+        /* 
         double[] hillClimbResults = runHillClimb(best[0].velocity, best[0].fitness);
         best[0].fitness = hillClimbResults[3];
-        best[0].velocity = Arrays.copyOfRange(hillClimbResults, 0, 3); 
+        best[0].velocity = Arrays.copyOfRange(hillClimbResults, 0, 3);  */        
         return best;
     }
 
@@ -111,7 +110,7 @@ public class geneticAlgorithm {
         
         //stores the initial velocity vector
         //Best velocity to titan:
-        double[] startingVelocity = {-42.150279043049224, 20.593907649048088, 2.0895448230614537};
+        double[] startingVelocity = {-45.82267566768859, 12.505183285117178, 0.1537477890858314};
         //creates an array to populate the population
         Trajectory[] initialTrajectoryArray = new Trajectory[5];
         

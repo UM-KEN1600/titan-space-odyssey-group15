@@ -3,7 +3,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import PhysicsEngine.*;
+import PhysicsEngine.States.State;
 
 /**
  * This class represents the drawing of the celestial bodies onto the GUI

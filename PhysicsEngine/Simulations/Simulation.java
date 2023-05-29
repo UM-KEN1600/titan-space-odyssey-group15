@@ -1,6 +1,11 @@
-package PhysicsEngine;
+package PhysicsEngine.Simulations;
 import java.util.Arrays;
 
+import PhysicsEngine.Functions;
+import PhysicsEngine.Thrust;
+import PhysicsEngine.Solvers.iSolver;
+import PhysicsEngine.States.State;
+import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
 
 public class Simulation {
@@ -13,9 +18,14 @@ public class Simulation {
 
     double timeStep; // in seconds
     double framesTotal = 200;
-    int lengthOfSimulation = 31536000 *2; //seconds in a year //
+    int lengthOfSimulation = 31536000 * 2; //seconds in a year //
+
+    //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
+    double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
+    double[] wayBackVelocity = {-45.78047566448307, 12.700660539107394, 2.07812621375149};
 
     boolean goIntoOrbit = true;
+    boolean turnedBack = true;
 
     public Simulation(double timeStep, iSolver solver)
     {
@@ -24,7 +34,8 @@ public class Simulation {
     }
 
     public void planetarySetUp() 
-    {
+    {   
+
         CelestialBody.setupCelestialBodies();
 
         int timesPerSimulation = (int) Math.ceil(lengthOfSimulation / timeStep);
@@ -34,9 +45,13 @@ public class Simulation {
         state.setTimedPosition();
 
         double[][][] nextState = new double[12][2][3];
+        
+        spacecraftEngine(startingVelocity);
 
         for(int i = 0 ; i < (timesPerSimulation); i++)
         {   
+            wayBack();
+
             nextState = solver.solve(timeStep, state.getState());
             
             state.setState(nextState);
@@ -91,7 +106,7 @@ public class Simulation {
     {
         if(getDistaceProbeTitan() < 300 && goIntoOrbit == true)
         {
-            state.setSpaceshipVelocity(Functions.getVelocityForOrbit(state.getState()));
+            spacecraftEngine(Functions.getVelocityForOrbit(state.getState()));
             goIntoOrbit = false;
         }
 
@@ -106,6 +121,24 @@ public class Simulation {
             System.out.println("Velocity after Orbit: " + Arrays.toString(state.getState()[8][1]));
         }
         
+    }
+
+    //This is used to change the velocity for the probe to get back
+    private void wayBack(){
+        if(!goIntoOrbit && turnedBack){
+            spacecraftEngine(wayBackVelocity);
+            turnedBack = false;
+        }
+    }
+
+    /*This method is used for any change in velocity for the probe
+     * Calculates how much fuel is consumed and changes the fuelConsumption variable
+     * Changes the velocity of the probe in state
+     */ 
+    public void spacecraftEngine(double[] newVelocity){
+        state.setSpaceshipVelocity(newVelocity);
+        double fuelUsed = Thrust.fuelConsumption(Functions.changeInVelocity(state.getState(), newVelocity));
+        state.fuelConsumption += fuelUsed;
     }
     
 

@@ -1,4 +1,7 @@
-package PhysicsEngine;
+package PhysicsEngine.Optimization;
+import PhysicsEngine.Simulations.SimulationOptimization;
+import PhysicsEngine.Operations.VectorOperations;
+
 import java.util.Arrays;
 
 public class HillClimb {
@@ -40,6 +43,10 @@ public class HillClimb {
     }
 
 
+    /**
+     * Finds the start velocity that minimizes the distance to the target
+     * @return The optimized start velocity as a double array.
+     */
     public double[] startVelocityFinder() {
 
         boolean goal = false;
@@ -77,6 +84,10 @@ public class HillClimb {
         return velocity;
     }
 
+    /**
+     * Generates neighbor velocities based on the current velocity
+     * @return A 2D array of neighbor velocities.
+     */
     public double[][] neighborVelocities(){
 
         double [][] neighbors =  new double[numNeighbors][3];
@@ -98,9 +109,14 @@ public class HillClimb {
         return neighbors;
     }
 
+    /**
+     * Runs a test simulation with the given velocity and calculates the distance between the probe and Titan
+     * @param velocity The velocity array containing the x, y, and z components of the velocity
+     * @return The distance between the probe and Titan
+     */
     public double runTest(double[] velocity){
         
-        SimulationHelpNew simulation = new SimulationHelpNew(50);
+        SimulationOptimization simulation = new SimulationOptimization(50);
         double[][] positions = simulation.planetarySetUp(velocity[0], velocity[1], velocity[2]);
         probePosition = positions[0];
         titanPosition = positions[1];
@@ -108,10 +124,21 @@ public class HillClimb {
         return getDistance(probePosition, titanPosition);
     }
 
+    /**
+     * Calculates the distance between the probe and Titan based on their positions
+     * @param probePosition The position array of the probe
+     * @param titanPosition The position array of Titan
+     * @return The distance between the probe and Titan
+     */
     public double getDistance(double[] probePosition, double[] titanPosition){
         return VectorOperations.euclideanForm(probePosition, titanPosition);
     }
 
+    /**
+     * Finds the best velocity from the given array of velocities based on the calculated distance between the probe and Titan
+     * @param velocities The array of velocities
+     * @return A double array containing the best distance and its corresponding index
+     */
     public double[] getBest(double[][] velocities){
 
         double bestIndex = 0;
@@ -138,6 +165,11 @@ public class HillClimb {
         return distanceAndIndex;
     }
 
+    /**
+     * Calculates the percentage adjustment based on the adjustment step size and the current adjustment number
+     * @param adjustmentStepSize The step size for the adjustment
+     * @return The calculated percentage adjustment
+     */
     public double percentageAdjustment(double adjustmentStepSize){
        double percentageChangeNew = Math.exp(-adjustmentNumber);
        adjustmentNumber += adjustmentStepSize;
@@ -148,6 +180,10 @@ public class HillClimb {
         return percentageChangeNew;
     }
 
+    /**
+     * Prints the elements of a 2D array
+     * @param array The 2D array to be printed
+     */
     public static void print2DArray(double[][] array) {
         for (double[] row : array) {
             for (double element : row) {

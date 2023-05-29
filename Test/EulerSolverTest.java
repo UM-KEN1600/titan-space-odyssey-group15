@@ -1,8 +1,10 @@
 package Test;
 
 import org.junit.Test;
+
+import PhysicsEngine.Solvers.EulerSolver;
+
 import org.junit.Assert;
-import PhysicsEngine.EulerSolver;
 
 
 public class EulerSolverTest{

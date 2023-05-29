@@ -1,4 +1,4 @@
-package PhysicsEngine;
+package PhysicsEngine.Operations;
 
 /**
  * This class implements operations on 3 dimensional matrices

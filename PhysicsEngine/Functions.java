@@ -1,5 +1,7 @@
 package PhysicsEngine;
 
+import PhysicsEngine.Operations.VectorOperations;
+import PhysicsEngine.States.State;
 import SolarSystem.CelestialBody;
 
 /**
@@ -166,6 +168,22 @@ public class Functions {
         return A;
     }
 
+    /**
+     * calculates the amount of velocity changed for the spacecraft in each axis (used for fuel consumption)
+     * @param state current state of the planets
+     * @param newVelocity the new velocity of the spacecraft
+     * @return the absolute difference between both velocity vectors
+     */
+    public static double[] changeInVelocity(double[][][] state, double[] newVelocity){
+
+        double[] velocityChange = new double[3];
+
+        velocityChange[0] = Math.abs(state[8][1][0]) - Math.abs(newVelocity[0]);
+        velocityChange[1] = Math.abs(state[8][1][1]) - Math.abs(newVelocity[1]);
+        velocityChange[2] = Math.abs(state[8][1][2]) - Math.abs(newVelocity[2]);
+
+        return velocityChange;
+    }
     /**
      * Calculates the force between 2 celestial bodies, given their current position
      * @param positionA position of Celestial body A

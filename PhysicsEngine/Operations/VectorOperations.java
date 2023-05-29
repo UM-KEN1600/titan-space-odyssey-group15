@@ -1,4 +1,4 @@
-package PhysicsEngine;
+package PhysicsEngine.Operations;
 /**
  * This class performs vector operations on 3 dimensional vectors
  */

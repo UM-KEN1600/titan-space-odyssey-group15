@@ -6,8 +6,8 @@ import static org.junit.Assert.assertNull;
 import org.junit.Assert;
 import org.junit.Test;
 
-import PhysicsEngine.MatrixOperations;
-import PhysicsEngine.VectorOperations;
+import PhysicsEngine.Operations.MatrixOperations;
+import PhysicsEngine.Operations.VectorOperations;
 
 
 public class MatrixOperationsTest {

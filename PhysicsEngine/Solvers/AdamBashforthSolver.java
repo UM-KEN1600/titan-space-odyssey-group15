@@ -1,4 +1,7 @@
-package PhysicsEngine;
+package PhysicsEngine.Solvers;
+import PhysicsEngine.*;
+import PhysicsEngine.Operations.MatrixOperations;
+import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
 
 /**

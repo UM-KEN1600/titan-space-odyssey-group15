@@ -2,8 +2,8 @@ package Test;
 
 import org.junit.Test;
 
-import PhysicsEngine.RungeKutta4Solver;
-import PhysicsEngine.RungeKuttaSolver;
+import PhysicsEngine.Solvers.RungeKutta4Solver;
+import PhysicsEngine.Solvers.RungeKuttaSolver;
 
 public class RungeKuttaSolverTest {
 

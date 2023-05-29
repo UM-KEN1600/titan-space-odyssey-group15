@@ -1,4 +1,4 @@
-package PhysicsEngine;
+package PhysicsEngine.Solvers;
 
 import SolarSystem.CelestialBody;
 

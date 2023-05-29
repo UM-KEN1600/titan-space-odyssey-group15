@@ -4,7 +4,8 @@ import java.util.TimerTask;
 
 import javax.swing.*;
 
-import PhysicsEngine.*;
+import PhysicsEngine.Simulations.Simulation;
+import PhysicsEngine.Solvers.iSolver;
 
 public class Main {
 
@@ -41,7 +42,7 @@ public class Main {
             @Override
             public void run() {
                 drawPanel.repaint();
-                if (a == 99) { // change to 199, using 99 for testing
+                if (a == 199) { // change to 199, using 99 for testing
                     t.cancel();
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {

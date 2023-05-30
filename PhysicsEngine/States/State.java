@@ -97,6 +97,10 @@ public class State {
     {
         forces[row] = force;
     }
+
+    public double getFuelConsumption(){
+        return fuelConsumption;
+    }
     
     /**
      * Prints positions of all celestial bodies

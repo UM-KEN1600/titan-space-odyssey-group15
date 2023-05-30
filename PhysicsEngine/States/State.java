@@ -132,13 +132,16 @@ public class State {
     }
 
     public State()
-    {
+    {   
+
+        //The sun is the first row :)
+
         //Venus
-        state[1][0][0] = -28216773.9426889;
+        state[1][0][0] = -28216773.9426889; //These 3 are positions 
         state[1][0][1] = 103994008.541512;
         state[1][0][2] = 3012326.64296788;
 
-        state[1][1][0] = -34.0236737066136;
+        state[1][1][0] = -34.0236737066136; //These 3 are velocities
         state[1][1][1] = -8.96521274688838;
         state[1][1][2] = 1.84061735279188;
 

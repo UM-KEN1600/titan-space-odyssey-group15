@@ -7,6 +7,10 @@ import PhysicsEngine.States.State2;
 import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
 
+
+/* This class is used for the hillClimb and other optimization algorithms to be able to run a simulation of the solar system
+ * It is a modified but mostly copied version of the Simulation class
+ */
 public class SimulationOptimization {
 
     final boolean SHOWENDPOSITIONS = true;
@@ -54,16 +58,9 @@ public class SimulationOptimization {
 
         if(SHOWENDPOSITIONS)
         {
-            //System.out.println("Probe:");
-            //System.out.println(Arrays.toString(probePosition));
-            //System.out.println("Titan:");
-            //System.out.println(Arrays.toString(titanPosition));
             System.out.println("distance:");
             System.out.println(getDistaceProbeTitan());
         }
-
-        //System.out.println("New Positions:");
-        //state.printPositions();
 
         return twopositions;
 

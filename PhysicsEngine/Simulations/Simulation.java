@@ -132,9 +132,10 @@ public class Simulation {
      * Changes the velocity of the probe in state
      */ 
     public void spacecraftEngine(double[] newVelocity){
-        state.setSpaceshipVelocity(newVelocity);
         double fuelUsed = Thrust.fuelConsumption(Functions.changeInVelocity(state.getState(), newVelocity));
         state.fuelConsumption += fuelUsed;
+        state.setSpaceshipVelocity(newVelocity);
+       
     }
 
     static double closestDistanceToTitan = Double.MAX_VALUE;

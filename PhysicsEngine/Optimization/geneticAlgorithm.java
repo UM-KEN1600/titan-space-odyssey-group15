@@ -95,10 +95,11 @@ public class geneticAlgorithm {
                 
             }
         }
-        /* 
+        
+        //runs the hillclimb algorithm on the best one of the best one in the generation
         double[] hillClimbResults = runHillClimb(best[0].velocity, best[0].fitness);
         best[0].fitness = hillClimbResults[3];
-        best[0].velocity = Arrays.copyOfRange(hillClimbResults, 0, 3);  */        
+        best[0].velocity = Arrays.copyOfRange(hillClimbResults, 0, 3);         
         return best;
     }
 

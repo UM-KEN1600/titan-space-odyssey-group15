@@ -142,9 +142,11 @@ public class Simulation {
 
     private void checkClosestDistance()
     {
-        if(getDistaceProbeTitan() < closestDistanceToTitan)
+        double distance = getDistaceProbeTitan();
+        
+        if(distance < closestDistanceToTitan)
         {
-            closestDistanceToTitan = getClosestDistanceToTitan();
+            closestDistanceToTitan = distance;
         }
     }
 

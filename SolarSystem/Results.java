@@ -23,7 +23,7 @@ public class Results extends JFrame{
         JLabel text = new JLabel("Mission Accomplished");
         text.setFont(new Font("Consolas", Font.BOLD, 15));
         
-        JLabel fuel = new JLabel("Fuel Consumption: " + fuel2decimals );
+        JLabel fuel = new JLabel("Fuel Consumption: " + fuel2decimals + "kg" );
         
         JLabel titan = new JLabel("Distance from Titan: " + distance2decimals + "km");
         

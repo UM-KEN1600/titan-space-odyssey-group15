@@ -58,6 +58,9 @@ public class Simulation {
 
             orbit(); //orbits if distance is below 300
 
+            //checks closest distance and stores it
+            checkClosestDistance();
+
             //this stores the positions of a planet 100 times a year
             if(i % framesPer10Seconds == 0)
             {
@@ -134,6 +137,19 @@ public class Simulation {
         double fuelUsed = Thrust.fuelConsumption(Functions.changeInVelocity(state.getState(), newVelocity));
         state.fuelConsumption += fuelUsed;
     }
-    
 
+    static double closestDistanceToTitan = Double.MAX_VALUE;
+
+    private void checkClosestDistance()
+    {
+        if(getDistaceProbeTitan() < closestDistanceToTitan)
+        {
+            closestDistanceToTitan = getClosestDistanceToTitan();
+        }
+    }
+
+    static public double getClosestDistanceToTitan()
+    {
+        return closestDistanceToTitan;
+    }
 }

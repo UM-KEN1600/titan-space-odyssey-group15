@@ -9,19 +9,25 @@ This repo is split into
 - seperate png files for the images
 
 
-In order to run it:
+In order to run the simulation:
 
 Download the .zip or clone this repository to Desktop by using the command below.
 
 git clone <github repository link>
 
 
-Follow option A to run using Terminal or cmd and option B to run using an IDE or code compiler
 
+
+Follow option A to run using the jar file and option B to run using an IDE or code compiler
 
 Option A:
 
-TO BE WRITTEN
+
+
+
+
+
+
 
 
 
@@ -30,14 +36,14 @@ TO BE WRITTEN
 
 Option B:
 
-Open the folder using your preffered IDE or code compiler
 
+Open the folder using your preffered IDE or code compiler
 
 In order to run the space simulation:
 
 Select:
 - SolarSystem
-    - SolverChooser.java
+    - Main.Java
 
 When running SolverChooser.java you will get a solver selection menu.
 

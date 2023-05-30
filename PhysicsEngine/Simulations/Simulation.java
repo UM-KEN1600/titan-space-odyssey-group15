@@ -131,8 +131,8 @@ public class Simulation {
      * Changes the velocity of the probe in state
      */ 
     public void spacecraftEngine(double[] newVelocity){
-        double fuelUsed = Thrust.fuelConsumption(Functions.changeInVelocity(state.getState(), newVelocity));
         state.setSpaceshipVelocity(newVelocity);
+        double fuelUsed = Thrust.fuelConsumption(Functions.changeInVelocity(state.getState(), newVelocity));
         state.fuelConsumption += fuelUsed;
     }
 
@@ -141,7 +141,7 @@ public class Simulation {
     private void checkClosestDistance()
     {
         double distance = getDistaceProbeTitan();
-        
+
         if(distance < closestDistanceToTitan)
         {
             closestDistanceToTitan = distance;

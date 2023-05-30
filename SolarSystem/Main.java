@@ -22,6 +22,7 @@ public class Main {
 
         Simulation simulation = new Simulation(timeStep, solver);
         simulation.planetarySetUp();
+       
 
         //frame
         JFrame mainFrame = new JFrame("Solar System");
@@ -46,7 +47,7 @@ public class Main {
                     t.cancel();
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
-                            FuelConsumption f = new FuelConsumption();
+                            FuelConsumption f = new FuelConsumption(simulation);
                             f.setVisible(true);
                            // mainFrame.dispose();
                         }

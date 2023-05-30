@@ -43,7 +43,7 @@ In order to run the space simulation:
 
 Select:
 - SolarSystem
-    - Main.Java
+    - SolverChooser.java
 
 When running SolverChooser.java you will get a solver selection menu.
 

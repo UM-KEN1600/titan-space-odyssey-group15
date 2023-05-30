@@ -71,7 +71,6 @@ public class Simulation {
 
         if(!SHOWENDPOSITIONS)
         {   
-            //System.out.println(state.getState());
             state.printPositions();
              
             double[] probePosition = State.getPosition(8);

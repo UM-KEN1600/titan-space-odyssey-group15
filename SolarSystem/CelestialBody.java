@@ -2,7 +2,6 @@ package SolarSystem;
 import javax.swing.*;
 import PhysicsEngine.*;
 import PhysicsEngine.States.State;
-import PhysicsEngine.States.State2;
 
 /**
  * represents planets, sun, extends spaceship

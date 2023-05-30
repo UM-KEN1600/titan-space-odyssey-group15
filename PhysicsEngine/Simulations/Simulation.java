@@ -24,6 +24,7 @@ public class Simulation {
     double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
     double[] wayBackVelocity = {-45.78047566448307, 12.700660539107394, 2.07812621375149};
 
+    //Both of these are used to change the phases of the mission
     boolean goIntoOrbit = true;
     boolean turnedBack = true;
 

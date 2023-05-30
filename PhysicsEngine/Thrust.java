@@ -34,7 +34,7 @@ public class Thrust {
      */
     public static double fuelConsumption(double[] impulse){
         double magnitude = VectorOperations.magnitude(impulse[0], impulse[1], impulse[2]);
-        return magnitude; //return is the amount of kg of fuel used
+        return magnitude*1000; //return is the amount of kg of fuel used
     }
 
 

@@ -68,8 +68,6 @@ public class Simulation {
             }
         }
 
-        double[][][] b = State.allPositions;
-
         if(!SHOWENDPOSITIONS)
         {   
             //System.out.println(state.getState());
@@ -143,7 +141,7 @@ public class Simulation {
     private void checkClosestDistance()
     {
         double distance = getDistaceProbeTitan();
-        
+
         if(distance < closestDistanceToTitan)
         {
             closestDistanceToTitan = distance;

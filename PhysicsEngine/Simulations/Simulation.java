@@ -67,7 +67,7 @@ public class Simulation {
 
         double[][][] b = State.allPositions;
 
-        if(SHOWENDPOSITIONS)
+        if(!SHOWENDPOSITIONS)
         {   
             //System.out.println(state.getState());
             state.printPositions();

@@ -22,7 +22,7 @@ public class Simulation {
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
     double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
-    double[] wayBackVelocity = {-45.78047566448307, 12.700660539107394, 2.07812621375149};
+    double[] wayBackVelocity = {-42.96570036902944, 20.2335581826131, 1.5975552915589475};
 
     //Both of these are used to change the phases of the mission
     boolean goIntoOrbit = true;
@@ -86,9 +86,6 @@ public class Simulation {
             
         }
 
-        //System.out.println("New Positions:");
-        //state.printPositions();
-
     }
 
     /*
@@ -115,13 +112,12 @@ public class Simulation {
         if(goIntoOrbit == false)
         {
             startTimeOrbit += timeStep;
-        }
-        
+        }  
     }
 
     //This is used to change the velocity for the probe to get back
     private void wayBack(){
-        if(!goIntoOrbit && turnedBack){
+        if(turnedBack && (startTimeOrbit >= 10200)){
             spacecraftEngine(wayBackVelocity);
             turnedBack = false;
         }

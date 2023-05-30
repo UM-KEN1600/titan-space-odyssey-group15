@@ -25,7 +25,7 @@ public class State {
 
     public double[][][] state = new double[12][2][3];
 
-    public double fuelConsumption = 0;
+    public static double fuelConsumption = 0;
 
     //frames which are getting displayed all 10 seconds
     static int framesPer10Seconds = 200;
@@ -98,7 +98,7 @@ public class State {
         forces[row] = force;
     }
 
-    public double getFuelConsumption(){
+    public static double getFuelConsumption(){
         return fuelConsumption;
     }
     

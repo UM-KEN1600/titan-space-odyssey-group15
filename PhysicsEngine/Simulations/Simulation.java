@@ -68,10 +68,6 @@ public class Simulation {
             }
         }
 
-        System.out.println(state.fuelConsumption);
-
-        double[][][] b = State.allPositions;
-
         if(!SHOWENDPOSITIONS)
         {   
             //System.out.println(state.getState());
@@ -138,7 +134,6 @@ public class Simulation {
         double fuelUsed = Thrust.fuelConsumption(Functions.changeInVelocity(state.getState(), newVelocity));
         state.setSpaceshipVelocity(newVelocity);
         state.fuelConsumption += fuelUsed;
-        System.out.println(fuelUsed);
     }
 
     static double closestDistanceToTitan = Double.MAX_VALUE;

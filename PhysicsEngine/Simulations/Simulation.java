@@ -114,12 +114,6 @@ public class Simulation {
         {
             startTimeOrbit += timeStep;
         }
-
-        if(startTimeOrbit >= timeInOrbit)
-        {
-            System.out.println("Position after Orbit: " + Arrays.toString(state.getState()[8][0]));
-            System.out.println("Velocity after Orbit: " + Arrays.toString(state.getState()[8][1]));
-        }
         
     }
 

@@ -16,8 +16,6 @@ public class FuelConsumption extends JFrame{
         text.setFont(new Font("Consolas", Font.BOLD, 15));
         
         JLabel fuel = new JLabel("Fuel Consumption:00000000");
-
-        JLabel time = new JLabel("Time elapsed:00:00");
         
         JLabel titan = new JLabel("Distance from Titan:0000000");
         
@@ -30,7 +28,6 @@ public class FuelConsumption extends JFrame{
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 10,20));
         this.add(text);
         this.add(fuel);
-        this.add(time);
         this.add(titan);
         this.setVisible(true);
         

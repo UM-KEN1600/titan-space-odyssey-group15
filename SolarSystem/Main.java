@@ -1,63 +1,84 @@
 package SolarSystem;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import PhysicsEngine.Simulations.Simulation;
-import PhysicsEngine.Solvers.iSolver;
+import PhysicsEngine.Solvers.*;
+
+/**
+ * This class represents the choosing of the solver for the GUI
+ */
 
 public class Main {
+    
+    public static  String[] solvers = {"Euler" , "Runge-Kutta4" , "Runge-Kutta2", "Adam-Bashforth" , "Heuns" };
+    static iSolver solver;
+    static Simulation sim;
+    static JFrame solverChooser;
+        public static void main(String[] args)  {
 
-    public static CelestialBody body = new CelestialBody();
-    public static Draw drawPanel = new Draw();
-  
+        JLabel intro = new JLabel("<html>    Project Group 15<br> A Titanic Space Odyssey!</html>") ;
+        intro.setFont(new Font("Consolas",Font.BOLD,16));
+        intro.setHorizontalTextPosition(JLabel.CENTER);
 
-    public static void run(iSolver solver){
+        JLabel label = new JLabel("Select solver");
+        label.setFont(new Font("Consolas",Font.PLAIN,12));
+    
+        JComboBox<String> chooser = new JComboBox<>(solvers);
+        chooser.setSelectedItem(null);
+        chooser.setFont(new Font("Consolas",Font.PLAIN,12));
 
-        //Enter time step in seconds here:
-        double timeStep = 50;
+        JButton runButton = new JButton("Run");
+        runButton.setFont(new Font("Consolas",Font.PLAIN,12));
 
+        solverChooser = new JFrame();
+        solverChooser.setSize(350,200);
+        solverChooser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        solverChooser.setLocationRelativeTo(null);
+        solverChooser.setUndecorated(true);
+        solverChooser.setLayout(new FlowLayout(FlowLayout.CENTER,150,20));
+        solverChooser.getContentPane().setBackground(new Color(255,255,255));
+        solverChooser.add(intro);
+        solverChooser.add(label);
+        solverChooser.add(chooser);
+        solverChooser.add(runButton);
+        solverChooser.setVisible(true);
         
-
-        Simulation simulation = new Simulation(timeStep, solver);
-        simulation.planetarySetUp();
-       
-
-        //frame
-        JFrame mainFrame = new JFrame("Solar System");
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setSize(1000, 600);
-        mainFrame.add(new CelestialBody(0, 0, 0, null));
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.add(drawPanel);
-
-       
-
-        ImageIcon icon = new ImageIcon("icon.jpg");
-        mainFrame.setIconImage(icon.getImage());
-        // timer to move celestial bodies
-        Timer t = new Timer();
-        TimerTask tt = new TimerTask() {
-            int a = 0;
+        runButton.addActionListener(new ActionListener() {
             @Override
-            public void run() {
-                drawPanel.repaint();
-                if (a == 199) { // change to 199, using 99 for testing
-                    t.cancel();
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            FuelConsumption f = new FuelConsumption(simulation);
-                            f.setVisible(true);
-                           // mainFrame.dispose();
-                        }
-                    });
+            public void actionPerformed(ActionEvent e) {
+                
+            if(e.getSource()== runButton){
+                if(chooser.getSelectedItem() == null)
+                JOptionPane.showMessageDialog(null, "You have not selected a valid solver", "Error", JOptionPane.INFORMATION_MESSAGE);
+                else{
+                String value = chooser.getSelectedItem().toString();
+                
+                if(value == "Euler" )
+                solver = new EulerSolver();
+
+                if(value == "Runge-Kutta4")
+                solver = new RungeKutta4Solver();
+
+                if(value == "Runge-Kutta2")
+                solver = new RungeKuttaSolver(2);
+
+                if(value == "Adam-Bashforth")
+                solver = new AdamBashforthSolver();
+
+                if(value == "Heuns")
+                solver = new HeunsSolver();
+
+                solverChooser.dispose();
+                Runner.run(solver);
                 }
-                a++;
             }
-        };
-        t.schedule(tt, 0, 100);
-        
-        mainFrame.setVisible(true);
-}
+            }
+        });
+    }
 }

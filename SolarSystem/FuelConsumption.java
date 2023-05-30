@@ -7,20 +7,23 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import PhysicsEngine.Thrust;
+import PhysicsEngine.Simulations.Simulation;
+import PhysicsEngine.States.State;
+
 public class FuelConsumption extends JFrame{
     
     JFrame frame;
-    public FuelConsumption(){
+    public FuelConsumption(Simulation simulation){
+
+        double distance = simulation.getClosestDistanceToTitan();
 
         JLabel text = new JLabel("Mission Accomplished");
         text.setFont(new Font("Consolas", Font.BOLD, 15));
         
-        JLabel fuel = new JLabel("Fuel Consumption:00000000");
+        JLabel fuel = new JLabel("Fuel Consumption:");
         
-        JLabel titan = new JLabel("Distance from Titan:0000000");
-        
-
-      
+        JLabel titan = new JLabel("Distance from Titan: " + distance);
         
         this.setSize(250, 250);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,6 +38,6 @@ public class FuelConsumption extends JFrame{
     }
 
     public static void main(String[] args) {
-        new FuelConsumption();
+      //  new FuelConsumption(new Simulation(ABORT, null));
     }
 }

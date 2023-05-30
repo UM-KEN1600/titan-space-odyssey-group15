@@ -28,12 +28,11 @@ public class SolverChooser {
 
         JLabel label = new JLabel("Select solver");
         label.setFont(new Font("Consolas",Font.PLAIN,12));
-
+    
         JComboBox<String> chooser = new JComboBox<>(solvers);
         chooser.setSelectedItem(null);
         chooser.setFont(new Font("Consolas",Font.PLAIN,12));
 
-        
         JButton runButton = new JButton("Run");
         runButton.setFont(new Font("Consolas",Font.PLAIN,12));
 

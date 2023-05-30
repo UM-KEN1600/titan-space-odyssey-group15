@@ -148,7 +148,7 @@ public class Simulation {
         }
     }
 
-    static public double getClosestDistanceToTitan()
+    public double getClosestDistanceToTitan()
     {
         return closestDistanceToTitan;
     }

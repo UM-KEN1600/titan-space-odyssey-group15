@@ -20,19 +20,23 @@ git clone <github repository link>
 If .zip is downloaded extract the folder into an easily accesible directory.
 
 
-Follow option A to run using the jar file and option B to run using an IDE or code compiler
+Follow option A to run using the terminal/cmd and option B to run using an IDE or code compiler
 
 Option A:
 
-1. Locate the JAR file
+1. Using terminal/cmd navigate to the directory where the repository is
 
-2. Double left click the JAR file
+2. When in the folder for the project write the following in the terminal
+    - javac ./SolarSystem/Main.java
 
-3. You will now have a solver selection screen
+3. Followed by
+    - java SolarSystem.Main
 
-4. After selecting your preferred solver and pressing run you will run the similation
+4. You will now have a solver selection screen
 
-5. After the Simulation runs you will get an ending screen showing the fuel consumption and closest distance to Titan
+5. After selecting your preferred solver and pressing run you will run the similation
+
+6. After the Simulation runs you will get an ending screen showing the fuel consumption and closest distance to Titan
 
 
 

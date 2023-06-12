@@ -1,17 +1,14 @@
 package SolarSystem;
+
 import java.awt.*;
-
+import java.awt.event.*;
 import javax.swing.*;
-
 import PhysicsEngine.States.State;
 
-/**
- * This class represents the drawing of the celestial bodies onto the GUI
- */
 
-public class Draw extends JPanel {
+public class Draw extends JPanel implements KeyListener {
 
-    CelestialBody [] celestialBodies;
+    CelestialBody[] celestialBodies;
     Spaceship spaceship;
     int radius;
     static int index = 0;
@@ -28,6 +25,13 @@ public class Draw extends JPanel {
     Image titan;
     Image spaceShip;
     Image bg;
+    double zoom = 1.0;
+    double zoomFactor = 1.0;
+
+    boolean zoomedIn = false;
+    boolean zoomFlag = false;
+    int zoomedInX;
+    int zoomedInY;
 
     //Constructor for adding images of the given planets to its body
     public Draw() {
@@ -82,28 +86,39 @@ public class Draw extends JPanel {
         Image edit9 = temp.getImage();
         Image finalImg9 = edit9.getScaledInstance(1000,600,java.awt.Image.SCALE_SMOOTH);
         bg = new ImageIcon(finalImg9).getImage();
+        
+        setFocusable(true);
+        addKeyListener(this);
+        requestFocus();
     }
-    
+
     /**
      * Displays one frame for the given coordinates which are retrieved from the allPositions array in the State class
      * @param Graphics 
      * @return 
      */
-    public void paintComponent (Graphics g) {
+    public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
         //for higher resolution
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);       
-       
+        
         g2.drawImage(bg, 0, 0, null);
+        int offsetX = getWidth() - (int) (getWidth() / zoomFactor);
+        int offsetY = getHeight() - (int) (getHeight() / zoomFactor);
+        g2.translate(-offsetX, -offsetY);
+
+    // Apply zoom factor to the graphics object
+    g2.scale(zoomFactor, zoomFactor);
+
 
         //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {
             //stores the scaled down and casted x and y coordinates of the given celestial body, which is given by the index
-             x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
-             y =-(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
+             x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i) * zoom);
+             y =-(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i) * zoom);
             
             switch(i){
                 //sun
@@ -157,8 +172,8 @@ public class Draw extends JPanel {
                     for (int j = 0; j < index; j++) {
                         g2.setColor(Color.WHITE);
                         //casting to an integer to draw a dot in the image later
-                        int x2 = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][0],i));
-                        int y2 =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][1],i));
+                        int x2 = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][0],i) * zoom);
+                        int y2 =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][1],i) * zoom);
                         int index1 = x2+450;
                         int index2 = y2+250;
                             
@@ -175,13 +190,38 @@ public class Draw extends JPanel {
             } 
         }
         //for each call of the method the index gets incremented to get new coordinates from the allPositions array for the next call
+        if(!zoomFlag)
         index++;
+        else
+        zoomFlag = false;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+     
+   @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            if (!zoomedIn) {
+                zoomFactor *= 1.5; // Increase zoom factor by 50%
+                zoomedIn = true;
+                zoomFlag = true;
+                repaint();
+            }
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (zoomedIn) {
+                zoomFactor /= 1.5; // Decrease zoom factor by 50%
+                zoomedIn = false;
+                zoomFlag = true;
+                repaint();
+            }
+    
+    
+        }
+    }
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }
-
-    
-
-  
-
-
-

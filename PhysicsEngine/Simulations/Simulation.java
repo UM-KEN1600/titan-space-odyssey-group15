@@ -3,6 +3,9 @@ import java.util.Arrays;
 
 import PhysicsEngine.Functions;
 import PhysicsEngine.Thrust;
+import PhysicsEngine.JourneyPhase.LandingPhase;
+import PhysicsEngine.JourneyPhase.TravelPhase;
+import PhysicsEngine.JourneyPhase.iJourneyPhase;
 import PhysicsEngine.Solvers.iSolver;
 import PhysicsEngine.States.State;
 import PhysicsEngine.Operations.VectorOperations;
@@ -16,31 +19,31 @@ public class Simulation {
     iSolver solver;
     State state = new State();
 
-    double timeStep; // in seconds
+    //controls the timestep and solver used in respective phases
+    iJourneyPhase journeyPhase;
+
     double framesTotal = 200;
-    int lengthOfSimulation = 31536000 * 2; //seconds in a year //
+    double secondsOfTravel = 31536000; //seconds in a year //
+    double secondsOfLanding = 86400; //seconds in a day
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
     double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
-    double[] wayBackVelocity = {-42.96570036902944, 20.2335581826131, 1.5975552915589475};
 
     //Both of these are used to change the phases of the mission
     boolean goIntoOrbit = true;
-    boolean turnedBack = true;
 
     public Simulation(double timeStep, iSolver solver)
     {
-        this.timeStep = timeStep;
+        this.journeyPhase = new TravelPhase(timeStep);
         this.solver = solver;
     }
 
     public void planetarySetUp() 
     {   
-
         CelestialBody.setupCelestialBodies();
 
-        int timesPerSimulation = (int) Math.ceil(lengthOfSimulation / timeStep);
-        int framesPer10Seconds = (int) Math.ceil(timesPerSimulation / framesTotal + ((timesPerSimulation/timeStep)%100));
+        int amountOfPositionsStoredTravel = (int) Math.ceil(secondsOfTravel / journeyPhase.getStepSize());
+        int framesPer10Seconds = (int) Math.ceil(amountOfPositionsStoredTravel / (framesTotal/2.0) + ((amountOfPositionsStoredTravel/journeyPhase.getStepSize())%100));
         
 
         state.setTimedPosition();
@@ -49,18 +52,13 @@ public class Simulation {
         
         spacecraftEngine(startingVelocity);
 
-        for(int i = 0 ; i < (timesPerSimulation); i++)
+        for(int i = 0 ; i < (amountOfPositionsStoredTravel); i++)
         {   
-            wayBack();
-
-            nextState = solver.solve(timeStep, state.getState());
+            nextState = solver.solve(journeyPhase.getStepSize(), state.getState());
             
             state.setState(nextState);
 
             orbit(); //orbits if distance is below 300
-
-            //checks closest distance and stores it
-            checkClosestDistance();
 
             //this stores the positions of a planet 100 times a year
             if(i % framesPer10Seconds == 0)
@@ -68,6 +66,26 @@ public class Simulation {
                 state.setTimedPosition();
             }
         }
+
+        journeyPhase = new LandingPhase();
+        int amountOfPositionsStoredLanding = (int) Math.ceil(secondsOfLanding / journeyPhase.getStepSize());
+        framesPer10Seconds = (int) Math.ceil(amountOfPositionsStoredLanding / (framesTotal/2.0) + ((amountOfPositionsStoredLanding/journeyPhase.getStepSize())%100));
+
+        for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
+        {  
+            //next State = whatever the controller says, only for spaceship
+            
+
+
+
+
+            //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
+            if(i % framesPer10Seconds == 0)
+            {
+                state.setTimedPosition();
+            }
+        }
+
 
         if(!SHOWENDPOSITIONS)
         {   
@@ -82,7 +100,6 @@ public class Simulation {
             System.out.println(Arrays.toString(titanPosition));
             System.out.println("distance:");
             System.out.println(getDistaceProbeTitan());
-            
         }
 
     }
@@ -110,17 +127,11 @@ public class Simulation {
 
         if(goIntoOrbit == false)
         {
-            startTimeOrbit += timeStep;
+            startTimeOrbit += journeyPhase.getStepSize();
         }  
     }
 
-    //This is used to change the velocity for the probe to get back
-    private void wayBack(){
-        if(turnedBack && (startTimeOrbit >= 10200)){
-            spacecraftEngine(wayBackVelocity);
-            turnedBack = false;
-        }
-    }
+
 
     /*This method is used for any change in velocity for the probe
      * Calculates how much fuel is consumed and changes the fuelConsumption variable

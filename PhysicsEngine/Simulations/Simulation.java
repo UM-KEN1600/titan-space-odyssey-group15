@@ -102,7 +102,7 @@ public class Simulation {
      */
     private void orbit()
     {
-        if(getDistaceProbeTitan() < 300 && goIntoOrbit == true)
+        if(getDistaceProbeTitan() < (300 + CelestialBody.bodyList[7].radius) && goIntoOrbit == true)
         {
             spacecraftEngine(Functions.getVelocityForOrbit(state.getState()));
             goIntoOrbit = false;

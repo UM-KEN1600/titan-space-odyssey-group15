@@ -32,6 +32,7 @@ public class Draw extends JPanel implements KeyListener {
     boolean zoomFlag = false;
     int zoomedInX;
     int zoomedInY;
+    int howZoomed = 0;
 
     //Constructor for adding images of the given planets to its body
     public Draw() {
@@ -204,18 +205,18 @@ public class Draw extends JPanel implements KeyListener {
     }
 
      
-   @Override
+  @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (!zoomedIn) {
-                zoomFactor *= 1.8; // Increase zoom factor by 50%
+            if (howZoomed >= 0) {
+                zoomFactor *= 1.5; // Increase zoom factor by 50%
                 zoomedIn = true;
                 zoomFlag = true;
                 repaint();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (zoomedIn) {
-                zoomFactor /= 1.8; // Decrease zoom factor by 50%
+            if (!(howZoomed < 0)) {
+                zoomFactor /= 1.5; // Decrease zoom factor by 50%
                 zoomedIn = false;
                 zoomFlag = true;
                 repaint();

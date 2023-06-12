@@ -1,5 +1,5 @@
 package PhysicsEngine.Controller;
 
-public class iController {
-    
+public interface iController {
+    public double[] getNextPositon();
 }

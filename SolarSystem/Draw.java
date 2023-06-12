@@ -106,19 +106,22 @@ public class Draw extends JPanel implements KeyListener {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);       
         
         g2.drawImage(bg, 0, 0, null);
-        int offsetX = getWidth() - (int) (getWidth() / zoomFactor);
-        int offsetY = getHeight() - (int) (getHeight() / zoomFactor);
-        g2.translate(-offsetX, -offsetY);
+      double scaleFactor = zoomFactor;
 
-    // Apply zoom factor to the graphics object
-    g2.scale(zoomFactor, zoomFactor);
+    // Calculate the translation offsets
+    int offsetX = (int) (getWidth() - getWidth() * scaleFactor);
+    int offsetY = (int) (getHeight() - getHeight() * scaleFactor);
+
+    // Apply translation and scaling
+    g2.translate(offsetX, offsetY);
+    g2.scale(scaleFactor, scaleFactor);
 
 
         //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {
             //stores the scaled down and casted x and y coordinates of the given celestial body, which is given by the index
-             x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i) * zoom);
-             y =-(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i) * zoom);
+             x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
+             y =-(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
             
             switch(i){
                 //sun
@@ -172,8 +175,8 @@ public class Draw extends JPanel implements KeyListener {
                     for (int j = 0; j < index; j++) {
                         g2.setColor(Color.WHITE);
                         //casting to an integer to draw a dot in the image later
-                        int x2 = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][0],i) * zoom);
-                        int y2 =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][1],i) * zoom);
+                        int x2 = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][0],i));
+                        int y2 =  -(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][j][1],i));
                         int index1 = x2+450;
                         int index2 = y2+250;
                             
@@ -205,14 +208,14 @@ public class Draw extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (!zoomedIn) {
-                zoomFactor *= 1.5; // Increase zoom factor by 50%
+                zoomFactor *= 1.8; // Increase zoom factor by 50%
                 zoomedIn = true;
                 zoomFlag = true;
                 repaint();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (zoomedIn) {
-                zoomFactor /= 1.5; // Decrease zoom factor by 50%
+                zoomFactor /= 1.8; // Decrease zoom factor by 50%
                 zoomedIn = false;
                 zoomFlag = true;
                 repaint();

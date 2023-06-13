@@ -7,11 +7,33 @@ public class FeedbackController implements iController{
     final double xFINAL = 0.0001;
     final double xVelocityFINAL = 0.0001;
     final double yVelocityFINAL = 0.0001;
-    final double angleFINAL = 0.02;
+    final double thetaFINAL = 0.02;
     final double angularVelocityFINAL = 0.01;
+
+    //Max constraints
+    final double g = 0.001352;
+    final double maxTorque = 1;
+    
+
+    //Current Values of the probe
+    public double[] currentPosition;
+    public double[] currentVelocity;
+
+    //Timestep being used in the current instance
+    public double timestep;
+    
+    //Angle that will be used in the calculations that moment
+    public double theta;
+
+
+
 
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
         return new double[0][0];
+    }
+
+    public void xRotation(){
+        
     }
 }

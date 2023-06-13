@@ -1,5 +1,7 @@
 package PhysicsEngine.Controller;
 
+import PhysicsEngine.Operations.VectorOperations;
+
 public class OpenLoopController implements iController{
     //Final Values needed
     //NOTE: Values are in km, not m. (Apart from angle)
@@ -20,7 +22,7 @@ public class OpenLoopController implements iController{
     private double[] currentVelocity;
 
     //Position of Titan after one year, used for calculation of angle
-    final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8,-4.647756328568933E7};
+    final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
 
     //Timestep being used in the current instance
     private double timestep;
@@ -42,5 +44,16 @@ public class OpenLoopController implements iController{
     private double calculateYAcceleration(double u, double theta)
     {
         return u * Math.cos(theta) - g;
+    }
+
+    private double calculateTorque(double[] forceApplied)
+    {
+        //The angle between two 3D vectors a and b is calculate by dividing the dot product a*b by their norms |a| and |b|, and taking the cos^-1
+        
+    }
+
+    private double[] getPositionRelativeToSpaceship(double[] spaceshipPosition)
+    {
+        return VectorOperations.vectorSubtraction(CENTER_OF_TITAN, spaceshipPosition);
     }
 }

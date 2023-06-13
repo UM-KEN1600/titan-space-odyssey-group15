@@ -22,13 +22,12 @@ public class Runner {
         JFrame mainFrame = new JFrame("Solar System");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(1000, 600);
-        mainFrame.add(new CelestialBody(0, 0, 0, null));
         mainFrame.setLocationRelativeTo(null);
-        mainFrame.setUndecorated(true);
+        //mainFrame.setUndecorated(true);
         mainFrame.add(drawPanel);
-
         ImageIcon icon = new ImageIcon("icon.jpg");
         mainFrame.setIconImage(icon.getImage());
+        
         // timer to move celestial bodies
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {

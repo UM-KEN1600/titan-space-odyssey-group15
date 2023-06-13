@@ -10,10 +10,6 @@ import javax.swing.*;
 import PhysicsEngine.Simulations.Simulation;
 import PhysicsEngine.Solvers.*;
 
-/**
- * This class represents the choosing of the solver for the GUI
- */
-
 public class Main {
     
     public static  String[] solvers = {"Euler" , "Runge-Kutta4" , "Runge-Kutta2", "Adam-Bashforth" , "Heuns" };
@@ -24,7 +20,6 @@ public class Main {
 
         JLabel intro = new JLabel("<html>    Project Group 15<br> A Titanic Space Odyssey!</html>") ;
         intro.setFont(new Font("Consolas",Font.BOLD,16));
-        intro.setHorizontalTextPosition(JLabel.CENTER);
 
         JLabel label = new JLabel("Select solver");
         label.setFont(new Font("Consolas",Font.PLAIN,12));
@@ -58,24 +53,29 @@ public class Main {
                 JOptionPane.showMessageDialog(null, "You have not selected a valid solver", "Error", JOptionPane.INFORMATION_MESSAGE);
                 else{
                 String value = chooser.getSelectedItem().toString();
-                
-                if(value == "Euler" )
-                solver = new EulerSolver();
 
-                if(value == "Runge-Kutta4")
-                solver = new RungeKutta4Solver();
+                switch (value) {
+                case "Euler":
+                    solver = new EulerSolver();
+                    break;
+                case "Runge-Kutta4":
+                    solver = new RungeKutta4Solver();
+                    break;
+                case "Runge-Kutta2":
+                    solver = new RungeKuttaSolver(2);
+                    break;
+                case "Adam-Bashforth":
+                    solver = new AdamBashforthSolver();
+                    break;
+                case "Heuns":
+                    solver = new HeunsSolver();
+                    break;
+                default:
+                    break;
+                }
 
-                if(value == "Runge-Kutta2")
-                solver = new RungeKuttaSolver(2);
-
-                if(value == "Adam-Bashforth")
-                solver = new AdamBashforthSolver();
-
-                if(value == "Heuns")
-                solver = new HeunsSolver();
-
-                solverChooser.dispose();
-                Runner.run(solver);
+            solverChooser.dispose();
+            Runner.run(solver);
                 }
             }
             }

@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import PhysicsEngine.States.State;
 
-
 public class Draw extends JPanel implements KeyListener {
 
     CelestialBody[] celestialBodies;
@@ -14,6 +13,7 @@ public class Draw extends JPanel implements KeyListener {
     static int index = 0;
     int x = 0;
     int y = 0;
+    
     Image finalIm;
     Image sun;
     Image venus;
@@ -24,19 +24,18 @@ public class Draw extends JPanel implements KeyListener {
     Image saturn;
     Image titan;
     Image spaceShip;
-    Image bg;
-    double zoom = 1.0;
+    Image background;
+    
     double zoomFactor = 1.0;
-
     boolean zoomedIn = false;
     boolean zoomFlag = false;
     int zoomedInX;
     int zoomedInY;
     int howZoomed = 0;
 
-    //Constructor for adding images of the given planets to its body
     public Draw() {
         //scaling each planet to its appropriate size
+        //adding the planets as images
 
         ImageIcon temp = new ImageIcon("earth.png");
         Image edit = temp.getImage();
@@ -86,7 +85,7 @@ public class Draw extends JPanel implements KeyListener {
         temp = new ImageIcon("space.png");
         Image edit9 = temp.getImage();
         Image finalImg9 = edit9.getScaledInstance(1000,600,java.awt.Image.SCALE_SMOOTH);
-        bg = new ImageIcon(finalImg9).getImage();
+        background = new ImageIcon(finalImg9).getImage();
         
         setFocusable(true);
         addKeyListener(this);
@@ -106,17 +105,14 @@ public class Draw extends JPanel implements KeyListener {
         //for higher resolution
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);       
         
-        g2.drawImage(bg, 0, 0, null);
-      double scaleFactor = zoomFactor;
+        g2.drawImage(background, 0, 0, null);
+        double scaleFactor = zoomFactor;
 
-    // Calculate the translation offsets
-    int offsetX = (int) (getWidth() - getWidth() * scaleFactor);
-    int offsetY = (int) (getHeight() - getHeight() * scaleFactor);
+        int offsetX = (int) (getWidth() - getWidth() * scaleFactor);
+        int offsetY = (int) (getHeight() - getHeight() * scaleFactor);
 
-    // Apply translation and scaling
-    g2.translate(offsetX, offsetY);
-    g2.scale(scaleFactor, scaleFactor);
-
+        g2.translate(offsetX, offsetY);
+        g2.scale(scaleFactor, scaleFactor);
 
         //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {
@@ -171,7 +167,7 @@ public class Draw extends JPanel implements KeyListener {
                 finalIm = spaceShip;
                 break;}
 
-                    //responsiple for leaving a line behind the space probe to track the trajectory of the probe
+                //responsiple for leaving a line behind the space probe to track the trajectory of the probe
                 if(i==8){
                     for (int j = 0; j < index; j++) {
                         g2.setColor(Color.WHITE);
@@ -204,8 +200,7 @@ public class Draw extends JPanel implements KeyListener {
     public void keyTyped(KeyEvent e) {
     }
 
-     
-  @Override
+    @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             if (howZoomed >= 0) {
@@ -221,10 +216,9 @@ public class Draw extends JPanel implements KeyListener {
                 zoomFlag = true;
                 repaint();
             }
-    
-    
         }
     }
+    
     @Override
     public void keyReleased(KeyEvent e) {
     }

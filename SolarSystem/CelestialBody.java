@@ -126,7 +126,5 @@ public class CelestialBody extends JPanel{
         bodyList[10] = neptune;
         bodyList[11] = uranus;
         
-        
     }
-
 }

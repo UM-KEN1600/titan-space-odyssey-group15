@@ -11,14 +11,15 @@ public class FeedbackController implements iController{
     final double angularVelocityFINAL = 0.01;
 
     //Max constraints for some values
-    final double g = 0.001352;
-    final double maxThrust = 10*g;
-    final double maxTorque = 1;
+    static final double g = 0.001352;
+    static final double maxThrust = 10*g;
+    static final double maxTorque = 1;
 
 
     //Current Values of the probe
     public double[] currentPosition;
     public double[] currentVelocity;
+
 
     //Timestep being used in the current instance
     public double timestep;
@@ -38,11 +39,22 @@ public class FeedbackController implements iController{
         
     }
 
-    public void yRotation(double newAngle){
+    public void yMovement(double ){
 
     }
 
-    public double 
+    public double calculateAngleChange(double newAngle){
+        double angle = Math.abs(theta - newAngle);
+
+    } 
+    
+    public static double XAcceleration(double angle){
+        return maxThrust * Math.sin(angle);
+    }
+
+    public static double yAcceleration(double angle){
+        return  (maxThrust * Math.cos(angle)) -g;
+    }
 
 
 }

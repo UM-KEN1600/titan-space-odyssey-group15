@@ -27,6 +27,8 @@ public class Draw extends JPanel implements KeyListener {
     Image titan;
     Image spaceShip;
     Image background;
+    int zoomOffsetX;
+    int zoomOffsetY;
     
     double zoomFactor = 1.0;
     AffineTransform transform = new AffineTransform();
@@ -113,9 +115,14 @@ public class Draw extends JPanel implements KeyListener {
 
         int offsetX = (int) (getWidth() - getWidth() * scaleFactor);
         int offsetY = (int) (getHeight() - getHeight() * scaleFactor);
+      
+        System.out.println(zoomOffsetX);
+        System.out.println(zoomOffsetY);
+        
 
-        // g2.translate(offsetX, offsetY);
-        // g2.scale(scaleFactor, scaleFactor);
+        g2.translate(offsetX, offsetY);
+        g2.translate(zoomOffsetX,zoomOffsetY);
+        g2.scale(scaleFactor, scaleFactor);
          //g2.setTransform(transform);
 
     
@@ -212,9 +219,11 @@ public class Draw extends JPanel implements KeyListener {
                 zoomFactor *= 1.5; // Increase zoom factor by 50%
                 zoomedIn = true;
                 zoomFlag = true;
-                transform.translate(400, 400);  
-                transform.translate(-50,-200);
-                transform.scale(zoomFactor, zoomFactor);
+                zoomOffsetX = 20;
+                zoomOffsetY = 250;
+                // transform.translate(400, 400);  
+                // transform.translate(-50,-200);
+                // transform.scale(zoomFactor, zoomFactor);
                 howZoomed++;
                 repaint();
                 

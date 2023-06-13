@@ -11,7 +11,7 @@ public class FeedbackController implements iController{
     final double angularVelocityFINAL = 0.01;
 
     @Override
-    public double[] getNextPosition(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
-        return new double[0];
+    public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
+        return new double[0][0];
     }
 }

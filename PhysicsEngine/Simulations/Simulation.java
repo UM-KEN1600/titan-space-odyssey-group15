@@ -42,8 +42,8 @@ public class Simulation {
     {   
         CelestialBody.setupCelestialBodies();
 
-        int amountOfPositionsStoredTravel = (int) Math.ceil(secondsOfTravel / journeyPhase.getStepSize());
-        int framesPer10Seconds = (int) Math.ceil(amountOfPositionsStoredTravel / (framesTotal/2.0) + ((amountOfPositionsStoredTravel/journeyPhase.getStepSize())%100));
+        int amountOfPositionsStoredTravel = journeyPhase.getAmountOfPositionsStored(secondsOfTravel,journeyPhase.getStepSize());
+        int framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredTravel, framesTotal, journeyPhase.getStepSize());
         
 
         state.setTimedPosition();
@@ -68,8 +68,8 @@ public class Simulation {
         }
 
         journeyPhase = new LandingPhase();
-        int amountOfPositionsStoredLanding = (int) Math.ceil(secondsOfLanding / journeyPhase.getStepSize());
-        framesPer10Seconds = (int) Math.ceil(amountOfPositionsStoredLanding / (framesTotal/2.0) + ((amountOfPositionsStoredLanding/journeyPhase.getStepSize())%100));
+        int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
+        framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
         for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
         {  

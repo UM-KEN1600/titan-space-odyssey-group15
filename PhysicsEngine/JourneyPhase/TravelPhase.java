@@ -23,4 +23,14 @@ public class TravelPhase implements iJourneyPhase{
         return solver;
     }
 
+    @Override
+    public int getAmountOfPositionsStored(double seconds, double stepSize) {
+        return (int) Math.ceil(seconds / stepSize);
+    }
+
+    @Override
+    public int getAmountOfFramesNeeded(double amountOfPositionsStored, double framesTotal, double stepSize) {
+        return (int) Math.ceil(amountOfPositionsStored / (framesTotal/2.0) + ((amountOfPositionsStored/stepSize)%100));
+    }
+
 }

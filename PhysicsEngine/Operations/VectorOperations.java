@@ -137,7 +137,7 @@ public class VectorOperations {
         return magnitude; 
     }
 
-    public double dotProduct(double[] vectorA, double[] vectorB)
+    public static double dotProduct(double[] vectorA, double[] vectorB)
     {
         double dotProduct = 0;
 
@@ -147,5 +147,17 @@ public class VectorOperations {
         }
 
         return dotProduct;
+    }
+
+    public static double magnitude(double[] vector)
+    {
+        double magnitude = 0;
+
+        for(int i = 0; i < vector.length; i++)
+        {
+            magnitude += Math.pow(vector[i], 2);
+        }
+
+        return Math.sqrt(magnitude);
     }
 }

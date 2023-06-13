@@ -38,7 +38,8 @@ public class OpenLoopController implements iController{
     }
 
     @Override
-    public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
+    public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) 
+    {
         return new double[0][0];
     }
 
@@ -52,14 +53,27 @@ public class OpenLoopController implements iController{
         return u * Math.cos(theta) - g;
     }
 
-    private double calculateAngle(double torque)
+    private double calculateTheta(double torque)
     {
         return torque * Math.pow(timestep,2); //timestep is currently 1, so has no effect
     }
 
-    private double[] getPositionRelativeToSpaceship(double[] spaceshipPosition)
+    private double calculateAngleBetweenTailAndTitan()
     {
-        return VectorOperations.vectorSubtraction(CENTER_OF_TITAN, spaceshipPosition);
+        double[] relativePositionOfTitan = getPositionRelativeToSpaceship(CENTER_OF_TITAN);
+        double[] relativePositionOfTail = getPositionRelativeToSpaceship(positionOfTail);
+
+        //calculate the angle between spaceship "perpendicularness"
+        double dotProduct = VectorOperations.dotProduct(relativePositionOfTitan, relativePositionOfTail);
+        double aMag = VectorOperations.magnitude(relativePositionOfTitan);
+        double bMag = VectorOperations.magnitude(relativePositionOfTail);
+
+        return Math.acos(dotProduct/(aMag * bMag));
+    }
+
+    private double[] getPositionRelativeToSpaceship(double[] subject)
+    {
+        return VectorOperations.vectorSubtraction(subject, currentPosition);
     }
 
     private double[] calculatePositionOfTail() //needs to be redone ?

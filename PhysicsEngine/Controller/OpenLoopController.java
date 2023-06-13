@@ -16,14 +16,17 @@ public class OpenLoopController implements iController{
 
 
     //Current Values of the probe
-    public double[] currentPosition;
-    public double[] currentVelocity;
+    private double[] currentPosition;
+    private double[] currentVelocity;
+
+    //Position of Titan after one year, used for calculation of angle
+    final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8,-4.647756328568933E7};
 
     //Timestep being used in the current instance
-    public double timestep;
+    private double timestep;
     
     //Angle that will be used in the calculations that moment
-    public double theta;
+    private double theta;
 
 
     @Override

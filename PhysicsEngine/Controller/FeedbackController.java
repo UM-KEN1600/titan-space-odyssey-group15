@@ -24,22 +24,27 @@ public class FeedbackController implements iController{
     //Timestep being used in the current instance
     public double timestep;
     
-    //Angle that will be used in the calculations that moment
-    public double theta;
+    //Angle of the probe
+    public double currentAngle;
     //Torque that will be used
-    public double torque;
+    public double torque; //rad s^2
 
     //Position of Titan after one year, used for calculation of angle
     final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
 
-
+    public FeedbackController(double torque){
+        this.torque = torque;
+    }
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
         return new double[0][0];
     }
 
     public void xRotation(double newAngle){
-        
+        double turnTime = calculateAngleChangeTime(newAngle);
+        setAngle(newAngle);
+        double xComponentAcceleration = xAcceleration(newAngle);
+        //modify the x component with timestep and the Xacceleration
     }
 
     public void yMovement(double ){
@@ -47,17 +52,25 @@ public class FeedbackController implements iController{
     }
 
     public double calculateAngleChangeTime(double newAngle){
-        double angleChange = Math.abs(theta - newAngle);
+        double angleChange = Math.abs(currentAngle - newAngle);
         double time = angleChange / torque;
         return time;
     } 
     
-    public static double XAcceleration(double angle){
+    public static double xAcceleration(double angle){
         return maxThrust * Math.sin(angle);
     }
 
     public static double yAcceleration(double angle){
         return  (maxThrust * Math.cos(angle)) - g;
+    }
+
+    public void setAngle(double newAngle){
+        currentAngle = newAngle;
+    }
+
+    public double necessaryAngle(){
+        
     }
 
 

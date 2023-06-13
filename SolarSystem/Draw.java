@@ -116,9 +116,6 @@ public class Draw extends JPanel implements KeyListener {
         int offsetX = (int) (getWidth() - getWidth() * scaleFactor);
         int offsetY = (int) (getHeight() - getHeight() * scaleFactor);
       
-        System.out.println(zoomOffsetX);
-        System.out.println(zoomOffsetY);
-        
 
         g2.translate(offsetX, offsetY);
         g2.translate(zoomOffsetX,zoomOffsetY);

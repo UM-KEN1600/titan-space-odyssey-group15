@@ -2,6 +2,8 @@ package SolarSystem;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+
 import javax.swing.*;
 import PhysicsEngine.States.State;
 
@@ -27,6 +29,10 @@ public class Draw extends JPanel implements KeyListener {
     Image background;
     
     double zoomFactor = 1.0;
+<<<<<<< Updated upstream
+=======
+    AffineTransform transform = new AffineTransform();
+>>>>>>> Stashed changes
     boolean zoomedIn = false;
     boolean zoomFlag = false;
     int zoomedInX;
@@ -111,9 +117,13 @@ public class Draw extends JPanel implements KeyListener {
         int offsetX = (int) (getWidth() - getWidth() * scaleFactor);
         int offsetY = (int) (getHeight() - getHeight() * scaleFactor);
 
+<<<<<<< Updated upstream
         g2.translate(offsetX, offsetY);
         g2.scale(scaleFactor, scaleFactor);
 
+=======
+    
+>>>>>>> Stashed changes
         //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {
             //stores the scaled down and casted x and y coordinates of the given celestial body, which is given by the index
@@ -207,7 +217,12 @@ public class Draw extends JPanel implements KeyListener {
                 zoomFactor *= 1.5; // Increase zoom factor by 50%
                 zoomedIn = true;
                 zoomFlag = true;
+                transform.translate(getWidth()/4, -500);
+                System.out.println(getWidth());
+                System.out.println(getHeight());
+                transform.scale(zoomFactor, zoomFactor);
                 repaint();
+                
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (!(howZoomed < 0)) {

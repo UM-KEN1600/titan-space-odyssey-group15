@@ -115,12 +115,12 @@ public class Draw extends JPanel implements KeyListener {
 
         int offsetX = (int) (getWidth() - getWidth() * scaleFactor);
         int offsetY = (int) (getHeight() - getHeight() * scaleFactor);
-      
+
 
         g2.translate(offsetX, offsetY);
         g2.translate(zoomOffsetX,zoomOffsetY);
         g2.scale(scaleFactor, scaleFactor);
-         //g2.setTransform(transform);
+        
 
     
         //each celestial objects gets drawn into the Image
@@ -212,24 +212,24 @@ public class Draw extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (howZoomed >= 0) {
+            if (howZoomed < 3) {
                 zoomFactor *= 1.5; // Increase zoom factor by 50%
                 zoomedIn = true;
                 zoomFlag = true;
                 zoomOffsetX = 20;
                 zoomOffsetY = 250;
-                // transform.translate(400, 400);  
-                // transform.translate(-50,-200);
-                // transform.scale(zoomFactor, zoomFactor);
                 howZoomed++;
                 repaint();
                 
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (!(howZoomed < 0)) {
+            if (howZoomed > 0) {
                 zoomFactor /= 1.5; // Decrease zoom factor by 50%
                 zoomedIn = false;
                 zoomFlag = true;
+                zoomOffsetX = -150;
+                zoomOffsetY = -20;
+                howZoomed--;
                 repaint();
             }
         }

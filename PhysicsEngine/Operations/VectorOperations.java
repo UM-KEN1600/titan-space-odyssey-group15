@@ -136,4 +136,16 @@ public class VectorOperations {
         double magnitude = Math.sqrt(first);
         return magnitude; 
     }
+
+    public double dotProduct(double[] vectorA, double[] vectorB)
+    {
+        double dotProduct = 0;
+
+        for(int i = 0; i < vectorA.length; i++)
+        {
+            dotProduct += vectorA[i] * vectorB[i];
+        }
+
+        return dotProduct;
+    }
 }

@@ -57,7 +57,7 @@ public class VectorOperations {
             return null;
         }
 
-        double[] A = new double[3];
+        double[] A = new double[vectorA.length];
 
         for(int i = 0; i < vectorA.length; i++)
         {
@@ -98,7 +98,7 @@ public class VectorOperations {
      */
     public static double[] vectorScalarDivision(double[] vectorA, double value)
     {
-        double[] A = new double[3];
+        double[] A = new double[vectorA.length];
 
         if(value == 0)
         {
@@ -121,7 +121,7 @@ public class VectorOperations {
      */
     public static double[] vectorScalarMultiplication(double[] vectorA, double scalar)
     {
-        double[] A = new double[3];
+        double[] A = new double[vectorA.length];
 
         for(int i = 0; i < vectorA.length; i++)
         {

@@ -10,10 +10,11 @@ public class FeedbackController implements iController{
     final double thetaFINAL = 0.02;
     final double angularVelocityFINAL = 0.01;
 
-    //Max constraints
+    //Max constraints for some values
     final double g = 0.001352;
+    final double maxThrust = 10*g;
     final double maxTorque = 1;
-    
+
 
     //Current Values of the probe
     public double[] currentPosition;
@@ -33,7 +34,15 @@ public class FeedbackController implements iController{
         return new double[0][0];
     }
 
-    public void xRotation(){
+    public void xRotation(double newAngle){
         
     }
+
+    public void yRotation(double newAngle){
+
+    }
+
+    public double 
+
+
 }

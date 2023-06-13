@@ -26,8 +26,11 @@ public class FeedbackController implements iController{
     
     //Angle that will be used in the calculations that moment
     public double theta;
+    //Torque that will be used
+    public double torque;
 
-
+    //Position of Titan after one year, used for calculation of angle
+    final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
 
 
     @Override
@@ -43,9 +46,10 @@ public class FeedbackController implements iController{
 
     }
 
-    public double calculateAngleChange(double newAngle){
-        double angle = Math.abs(theta - newAngle);
-
+    public double calculateAngleChangeTime(double newAngle){
+        double angleChange = Math.abs(theta - newAngle);
+        double time = angleChange / torque;
+        return time;
     } 
     
     public static double XAcceleration(double angle){
@@ -53,7 +57,7 @@ public class FeedbackController implements iController{
     }
 
     public static double yAcceleration(double angle){
-        return  (maxThrust * Math.cos(angle)) -g;
+        return  (maxThrust * Math.cos(angle)) - g;
     }
 
 

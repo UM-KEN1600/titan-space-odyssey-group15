@@ -17,7 +17,7 @@ public class OpenLoopController implements iController{
     final double maxTorque = 1;
 
     final double SIZE_OF_SPACESHIP = 0.1; //100 meters :)
-    private double positionOfTail = 0;
+    private double[] positionOfTail = new double[0]; //TO BE DONE LATER 
 
     //Current Values of the probe
     private double[] currentPosition;
@@ -32,6 +32,10 @@ public class OpenLoopController implements iController{
     //Angle that will be used in the calculations that moment
     private double theta;
 
+    public OpenLoopController(double[] startPositionSpaceship)
+    {
+        
+    }
 
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
@@ -48,14 +52,19 @@ public class OpenLoopController implements iController{
         return u * Math.cos(theta) - g;
     }
 
-    private double calculateTorque(double[] forceApplied)
+    private double calculateAngle(double torque)
     {
-        //The angle between two 3D vectors a and b is calculate by dividing the dot product a*b by their norms |a| and |b|, and taking the cos^-1
-
+        return torque * Math.pow(timestep,2); //timestep is currently 1, so has no effect
     }
 
     private double[] getPositionRelativeToSpaceship(double[] spaceshipPosition)
     {
         return VectorOperations.vectorSubtraction(CENTER_OF_TITAN, spaceshipPosition);
+    }
+
+    private double[] calculatePositionOfTail() //needs to be redone ?
+    {
+        double[] change = {SIZE_OF_SPACESHIP,0};
+        return VectorOperations.vectorSubtraction(currentPosition, change);
     }
 }

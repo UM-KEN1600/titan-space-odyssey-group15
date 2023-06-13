@@ -29,10 +29,7 @@ public class Draw extends JPanel implements KeyListener {
     Image background;
     
     double zoomFactor = 1.0;
-<<<<<<< Updated upstream
-=======
     AffineTransform transform = new AffineTransform();
->>>>>>> Stashed changes
     boolean zoomedIn = false;
     boolean zoomFlag = false;
     int zoomedInX;
@@ -117,13 +114,10 @@ public class Draw extends JPanel implements KeyListener {
         int offsetX = (int) (getWidth() - getWidth() * scaleFactor);
         int offsetY = (int) (getHeight() - getHeight() * scaleFactor);
 
-<<<<<<< Updated upstream
         g2.translate(offsetX, offsetY);
         g2.scale(scaleFactor, scaleFactor);
 
-=======
     
->>>>>>> Stashed changes
         //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {
             //stores the scaled down and casted x and y coordinates of the given celestial body, which is given by the index

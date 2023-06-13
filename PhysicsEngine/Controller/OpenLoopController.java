@@ -16,6 +16,8 @@ public class OpenLoopController implements iController{
     final double maxThrust = 10*g;
     final double maxTorque = 1;
 
+    final double SIZE_OF_SPACESHIP = 0.1; //100 meters :)
+    private double positionOfTail = 0;
 
     //Current Values of the probe
     private double[] currentPosition;
@@ -49,7 +51,7 @@ public class OpenLoopController implements iController{
     private double calculateTorque(double[] forceApplied)
     {
         //The angle between two 3D vectors a and b is calculate by dividing the dot product a*b by their norms |a| and |b|, and taking the cos^-1
-        
+
     }
 
     private double[] getPositionRelativeToSpaceship(double[] spaceshipPosition)

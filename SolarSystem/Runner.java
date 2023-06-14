@@ -9,7 +9,7 @@ import PhysicsEngine.Solvers.iSolver;
 public class Runner {
 
     public static CelestialBody body = new CelestialBody();
-    public static LandingDraw drawPanel = new LandingDraw();
+    public static Draw drawPanel = new Draw();
   
     public static void run(iSolver solver){
 
@@ -39,6 +39,17 @@ public class Runner {
                     t.cancel();
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
+                            
+                            mainFrame.dispose();
+                            LandingDraw landing = new LandingDraw();
+                            JFrame landFrame = new JFrame("Landing");
+                            landFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            landFrame.setSize(1000, 600);
+                            landFrame.setLocationRelativeTo(null);
+                            landFrame.add(landing);
+                            landFrame.setVisible(true);
+                        
+                            
                         }
                     });
                 }

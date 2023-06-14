@@ -26,6 +26,8 @@ public class FeedbackController implements iController{
     
     //Angle of the probe
     public double currentAngle;
+    public double currentAngularVelocity;
+
     //Torque that will be used
     public double torque; //rad s^2
 
@@ -54,12 +56,12 @@ public class FeedbackController implements iController{
     public double calculateAngleChangeTime(double newAngle){
         double angleChange = Math.abs(currentAngle - newAngle);
         double time = angleChange / torque;
-        return time;
+        return time*time;
     } 
     
     public static double xAcceleration(double angle){
         return maxThrust * Math.sin(angle);
-    }
+    } 
 
     public static double yAcceleration(double angle){
         return  (maxThrust * Math.cos(angle)) - g;
@@ -69,8 +71,45 @@ public class FeedbackController implements iController{
         currentAngle = newAngle;
     }
 
-    public double necessaryAngle(){
-        
+
+    
+
+    public boolean testAngle(){
+        return (currentAngle%(2*Math.PI)) < thetaFINAL;
+    }
+
+    public boolean testXVelocity(){
+        //INCOMPLETE
+    }
+
+    public boolean testYVelocity(){
+        //INCOMPLETE
+    }
+
+    public boolean testXPosition(){
+        //INCOMPLETE
+    }
+
+    public boolean testAngularVelocity(){
+        //INCOMPLETE
+    }
+
+    public void testOnce(){
+        if(!testAngle()){
+            //MODIFY ANGLE HERE
+        }
+        if(!testAngularVelocity()){
+            //MODIFY ANGULAR VELOCITY HERE
+        }
+        if(!testXPosition()){
+            //MODIFY X POSITION HERE
+        }
+        if(!testXVelocity()){
+            //MODIFY X VELOCITY HERE
+        }
+        if(!testYVelocity()){
+            //MODIFY Y VELOCITY HERE
+        }
     }
 
 

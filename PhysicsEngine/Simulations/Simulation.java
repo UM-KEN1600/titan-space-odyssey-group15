@@ -28,6 +28,8 @@ public class Simulation {
     boolean goIntoOrbit = true;
     boolean turnedBack = true;
 
+    boolean inOrbit = false;
+
     public Simulation(double timeStep, iSolver solver)
     {
         this.timeStep = timeStep;
@@ -112,6 +114,13 @@ public class Simulation {
         {
             startTimeOrbit += timeStep;
         }  
+    }
+
+    public boolean inOrbit(){
+        if(getDistaceProbeTitan() < (300 + CelestialBody.bodyList[7].radius)){
+            inOrbit = true;
+        }
+        return inOrbit;
     }
 
     //This is used to change the velocity for the probe to get back

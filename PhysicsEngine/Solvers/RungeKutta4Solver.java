@@ -121,9 +121,7 @@ public class RungeKutta4Solver implements iSolver
     double[] tempState = new double[3];
 
     double[] k1 = getK(oldState,mainThrust, torque, timestep, g); // stores positions and angle
-
     tempState = VectorOperations.vectorAddition(oldState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k1, 1/2.0), velocities));
-    //recalculate the angle
 
     double[] k2 = getK(tempState,mainThrust, torque, timestep/2.0, g);
     tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k2, 1/2.0), velocities));
@@ -138,9 +136,9 @@ public class RungeKutta4Solver implements iSolver
 
     double[] newVelocities = VectorOperations.vectorAddition(VectorOperations.vectorAddition(k1, k2), VectorOperations.vectorAddition(k3, k4));
     newVelocities = VectorOperations.vectorScalarDivision(newVelocities, 6);
-    
+
     newState = VectorOperations.vectorAddition(oldState, newVelocities);
-    return null;
+    return newState;
   }
 
   private double[] getK(double[] currentState, double mainThrust, double torque, double timestep, double g)

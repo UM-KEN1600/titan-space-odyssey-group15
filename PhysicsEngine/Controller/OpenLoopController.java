@@ -41,48 +41,7 @@ public class OpenLoopController implements iController{
     {
         return new double[0][0];
     }
-
-    /**
-     * Calculates the acceleration for x (horizontal)
-     * @param u thrust acceleration
-     * @param theta angle of rotation
-     * @return horizontal acceleration
-     */
-    private double calculateXAcceleration(double u, double theta)
-    {
-        return u * Math.sin(theta);
-    }
-
-    /**
-     * Calculates the acceleration for y (vertical)
-     * @param u thrust acceleration
-     * @param theta angle of rotation
-     * @return vertical acceleration
-     */
-    private double calculateYAcceleration(double u, double theta)
-    {
-        return u * Math.cos(theta) - g;
-    }
-
-
-    /**
-     * Calculates the angle of rotation
-     * @param torque the torque calculated
-     * @return angle of rotation
-     */
-    private double calculateTheta(double torque)
-    {
-        return torque * Math.pow(timestep,2); //timestep is currently 1, so has no effect
-    }
-    /**
-    *Calculates torque for a specific angle
-     * @param theta the theta for which we need the torque
-     * @return torque thats needed to reach angle
-     */
-    private double calculateTorque(double theta){
-        return theta/Math.pow(timestep,2);
-    }
-
+    
     /**
      * Calculates the angle between the tail of the spaceship and Titan
      * @return angle between tail and Titan
@@ -99,6 +58,7 @@ public class OpenLoopController implements iController{
 
         return Math.acos(dotProduct/(aMag * bMag));
     }
+
     /**
      * Returns the difference in positions of the spaceship's current position and a celestial body's position
      * @param subject a celestial body's position

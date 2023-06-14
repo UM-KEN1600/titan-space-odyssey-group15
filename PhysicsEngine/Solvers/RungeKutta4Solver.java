@@ -113,5 +113,46 @@ public class RungeKutta4Solver implements iSolver
 
     return newState;
   }
+
+
+  public double[] solve(double[] oldState, double mainThrust, double torque, double timestep, double g)
+  {
+    int x = 0;
+    int y = 1;
+    int angle = 2;
+
+    double theta = 0;
+
+    double[] newState = new double[3];
+
+    double[] k1 = new double[3]; // stores positions and angle
+    double[] k2 = new double[3];
+    double[] k3 = new double[3];
+    double[] k4 = new double[3];
+
+    for(int i = 0; i < newState.length; i++)
+    {
+      k1[angle] = calculateTheta(torque, timestep);
+      k1[x] = calculateXAcceleration(mainThrust, k1[angle]);
+      k1[y] = calculateYAcceleration(mainThrust, k1[angle], g)
+    }
+
+
+  }
     
+  private double calculateXAcceleration(double u, double theta)
+    {
+        return u * Math.sin(theta);
+    }
+
+    private double calculateYAcceleration(double u, double theta, double g)
+    {
+        return u * Math.cos(theta) - g;
+    }
+
+    private double calculateTheta(double torque, double timestep)
+    {
+        return torque * Math.pow(timestep,2); //timestep is currently 1, so has no effect
+    }
+
 }

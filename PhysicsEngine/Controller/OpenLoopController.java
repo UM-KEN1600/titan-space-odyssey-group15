@@ -1,6 +1,7 @@
 package PhysicsEngine.Controller;
 
 import PhysicsEngine.Operations.VectorOperations;
+import SolarSystem.CelestialBody;
 
 public class OpenLoopController implements iController{
     //Final Values needed
@@ -24,7 +25,8 @@ public class OpenLoopController implements iController{
     private double[] currentVelocity;
 
     //Position of Titan after one year, used for calculation of angle
-    final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
+    //Top of titan
+    final double[] LANDING_POSITION = {1.3680484627624216E9,-4.8546124152074784E8 + CelestialBody.bodyList[7].getRadius()};
 
     //Timestep being used in the current instance
     private double timestep;
@@ -32,10 +34,7 @@ public class OpenLoopController implements iController{
     //Angle that will be used in the calculations that moment
     private double theta;
 
-    public OpenLoopController(double[] startPositionSpaceship)
-    {
-        
-    }
+    public OpenLoopController(double[] startPositionSpaceship){}
 
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) 
@@ -60,8 +59,8 @@ public class OpenLoopController implements iController{
 
     private double calculateAngleBetweenTailAndTitan()
     {
-        double[] relativePositionOfTitan = getPositionRelativeToSpaceship(CENTER_OF_TITAN);
-        double[] relativePositionOfTail = getPositionRelativeToSpaceship(positionOfTail);
+        double[] relativePositionOfTitan = getPositionRelativeToTitan(currentPosition);
+        double[] relativePositionOfTail = getPositionRelativeToTitan(positionOfTail);
 
         //calculate the angle between spaceship "perpendicularness"
         double dotProduct = VectorOperations.dotProduct(relativePositionOfTitan, relativePositionOfTail);
@@ -71,9 +70,9 @@ public class OpenLoopController implements iController{
         return Math.acos(dotProduct/(aMag * bMag));
     }
 
-    private double[] getPositionRelativeToSpaceship(double[] subject)
+    private double[] getPositionRelativeToTitan(double[] subject)
     {
-        return VectorOperations.vectorSubtraction(subject, currentPosition);
+        return VectorOperations.vectorSubtraction(subject, LANDING_POSITION);
     }
 
     private double[] calculatePositionOfTail() //needs to be redone ?

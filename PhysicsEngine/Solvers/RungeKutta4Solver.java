@@ -115,29 +115,32 @@ public class RungeKutta4Solver implements iSolver
   }
 
 
-  public double[] solve(double[] oldState, double mainThrust, double torque, double timestep, double g)
+  public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
   {
-    int x = 0;
-    int y = 1;
-    int angle = 2;
-
-    double theta = 0;
-
     double[] newState = new double[3];
+    double[] tempState = new double[3];
 
-    double[] k1 = new double[3]; // stores positions and angle
-    double[] k2 = new double[3];
-    double[] k3 = new double[3];
-    double[] k4 = new double[3];
+    double[] k1 = getK(mainThrust, torque, timestep, g); // stores positions and angle
 
-    for(int i = 0; i < newState.length; i++)
-    {
-      k1[angle] = calculateTheta(torque, timestep);
-      k1[x] = calculateXAcceleration(mainThrust, k1[angle]);
-      k1[y] = calculateYAcceleration(mainThrust, k1[angle], g)
-    }
+    tempState = VectorOperations.vectorAddition(oldState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k1, 1/2.0), velocities));
+    //recalculate the angle
 
+    double[] k2 = getK(mainThrust, torque, timestep/2.0, g);
+    tempState = VectorOperations.vectorAddition(oldState, addAccelerationToVelocity(k1, velocities));
 
+    double[] k3 = getK(mainThrust, torque, timestep/2.0, g);
+    double[] k4 = getK(mainThrust, torque, timestep, g);
+
+    return null;
+  }
+
+  private double[] getK(double mainThrust, double torque, double timestep, double g)
+  {
+    double[] kx = new double[3];
+    kx[2] = calculateTheta(torque, timestep);
+    kx[0] = calculateXAcceleration(mainThrust, kx[2]);
+    kx[1] = calculateYAcceleration(mainThrust, kx[2], g);
+    return kx;
   }
     
   private double calculateXAcceleration(double u, double theta)
@@ -153,6 +156,16 @@ public class RungeKutta4Solver implements iSolver
     private double calculateTheta(double torque, double timestep)
     {
         return torque * Math.pow(timestep,2); //timestep is currently 1, so has no effect
+    }
+
+    private double[] addAccelerationToVelocity(double[] acceleration, double[] velocities)
+    {
+      double[] A = new double[3];
+      for(int i = 0; i < 2; i++)
+      {
+        A[i] = acceleration[i] + velocities[i];
+      }
+      return A;
     }
 
 }

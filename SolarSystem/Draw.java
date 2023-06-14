@@ -212,7 +212,8 @@ public class Draw extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            if (howZoomed < 3) {
+            if (howZoomed < 3) //ensures no more than 3 zoom ins
+            {
                 zoomFactor *= 1.5; // Increase zoom factor by 50%
                 zoomedIn = true;
                 zoomFlag = true;
@@ -223,7 +224,8 @@ public class Draw extends JPanel implements KeyListener {
                 
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (howZoomed > 0) {
+            if (howZoomed > 0) // ensures no zoom outs before a zoom in
+            {
                 zoomFactor /= 1.5; // Decrease zoom factor by 50%
                 zoomedIn = false;
                 zoomFlag = true;

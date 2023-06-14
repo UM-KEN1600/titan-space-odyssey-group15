@@ -21,6 +21,10 @@ public class Main {
         JLabel intro = new JLabel("<html>    Project Group 15<br> A Titanic Space Odyssey!</html>") ;
         intro.setFont(new Font("Consolas",Font.BOLD,16));
 
+        JLabel tip = new JLabel("Use arrow up/down to zoom in/out");
+        tip.setFont(new Font("Consolas",Font.PLAIN,10));
+        tip.setForeground(Color.RED);
+
         JLabel label = new JLabel("Select solver");
         label.setFont(new Font("Consolas",Font.PLAIN,12));
     
@@ -32,13 +36,14 @@ public class Main {
         runButton.setFont(new Font("Consolas",Font.PLAIN,12));
 
         solverChooser = new JFrame();
-        solverChooser.setSize(350,200);
+        solverChooser.setSize(350,225);
         solverChooser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         solverChooser.setLocationRelativeTo(null);
         solverChooser.setUndecorated(true);
         solverChooser.setLayout(new FlowLayout(FlowLayout.CENTER,150,20));
         solverChooser.getContentPane().setBackground(new Color(255,255,255));
         solverChooser.add(intro);
+        solverChooser.add(tip);
         solverChooser.add(label);
         solverChooser.add(chooser);
         solverChooser.add(runButton);

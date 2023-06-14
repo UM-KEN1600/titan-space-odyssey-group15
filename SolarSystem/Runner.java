@@ -9,7 +9,7 @@ import PhysicsEngine.Solvers.iSolver;
 public class Runner {
 
     public static CelestialBody body = new CelestialBody();
-    public static Draw drawPanel = new Draw();
+    public static LandingDraw drawPanel = new LandingDraw();
   
     public static void run(iSolver solver){
 
@@ -35,12 +35,10 @@ public class Runner {
             @Override
             public void run() {
                 drawPanel.repaint();
-                if (a == 199) {
+                if (a == 99) {
                     t.cancel();
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
-                            Results f = new Results(simulation);
-                            f.setVisible(true);
                         }
                     });
                 }

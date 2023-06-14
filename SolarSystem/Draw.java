@@ -223,8 +223,20 @@ public class Draw extends JPanel implements KeyListener {
                 repaint();
                 
             }
+            else if(howZoomed == 3){
+                
+                ImageIcon temp = new ImageIcon("titan_scaled.jpg");
+                Image titanscale = temp.getImage();
+                Image titanscale2 = titanscale.getScaledInstance(200,200,java.awt.Image.SCALE_SMOOTH);
+                titan = new ImageIcon(titanscale2).getImage();
+
+            saturn = null;
+            howZoomed++;
+            repaint();
+
+            }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (howZoomed > 0) // ensures no zoom outs before a zoom in
+            if (howZoomed > 0 && howZoomed < 3) // ensures no zoom outs before a zoom in
             {
                 zoomFactor /= 1.5; // Decrease zoom factor by 50%
                 zoomedIn = false;

@@ -80,7 +80,27 @@ public class FeedbackController implements iController{
     }
 
 
+    public void angleChange(){
+        if(currentAngle > Math.PI){
+            double angleChange = 2*Math.PI - currentAngle;
+            xRotation(angleChange);
+        }
+        if(currentAngle < Math.PI){
+            double angleChange = -1 * currentAngle;
+            xRotation(angleChange);
+        }
+        //Probs more stuff has to be changed here, but for now this would rotate it at least
+    }
     
+    //Resets the angle to a 2PI base system
+    public void fullCircle(){
+        if (currentAngle < 0){
+            currentAngle += 2* Math.PI;
+        }
+        if(currentAngle > 0){
+            currentAngle -= 2* Math.PI;
+        }
+    }
 
     public boolean testAngle(){
         return (currentAngle%(2*Math.PI)) < thetaFINAL;

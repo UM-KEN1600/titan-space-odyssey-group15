@@ -57,15 +57,15 @@ public class RungeKutta4Solver implements iSolver
     updatedForces = Functions.forceCalculator(tempPositions);
     for(int body = 0; body < oldState.length; body++)
     {
-      //euler step k2 = w(i) + 1/2*k1
-        k2[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k1[body][acceleration], 1/2.0));
-        k2[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+    //euler step k2 = w(i) + 1/2*k1
+      k2[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k1[body][acceleration], 1/2.0));
+      k2[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
 
-        //k2 * h
-        k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], timestep);
+      //k2 * h
+      k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], timestep);
 
-        //storing the new positions of k2
-        tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k2[body][velocity2]);
+      //storing the new positions of k2
+      tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k2[body][velocity2]);
     }
 
     //updating the forces for position w(i) + 1/2*k2
@@ -115,9 +115,9 @@ public class RungeKutta4Solver implements iSolver
   }
 
 
-  public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
+  public double[][] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
   {
-    double[] newState = new double[3];
+    double[][] newState = new double[2][3];
     double[] tempState = new double[3];
 
     double[] k1 = getK(oldState,mainThrust, torque, timestep, g); // stores positions and angle
@@ -137,7 +137,8 @@ public class RungeKutta4Solver implements iSolver
     double[] newVelocities = VectorOperations.vectorAddition(VectorOperations.vectorAddition(k1, k2), VectorOperations.vectorAddition(k3, k4));
     newVelocities = VectorOperations.vectorScalarDivision(newVelocities, 6);
 
-    newState = VectorOperations.vectorAddition(oldState, newVelocities);
+    newState[0] = VectorOperations.vectorAddition(oldState, newVelocities);
+    newState[1] = newVelocities;
     return newState;
   }
 

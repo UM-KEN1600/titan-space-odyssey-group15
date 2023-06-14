@@ -64,6 +64,7 @@ public class OpenLoopController implements iController{
         return u * Math.cos(theta) - g;
     }
 
+
     /**
      * Calculates the angle of rotation
      * @param torque the torque calculated
@@ -72,6 +73,14 @@ public class OpenLoopController implements iController{
     private double calculateTheta(double torque)
     {
         return torque * Math.pow(timestep,2); //timestep is currently 1, so has no effect
+    }
+    /**
+    *Calculates torque for a specific angle
+     * @param theta the theta for which we need the torque
+     * @return torque thats needed to reach angle
+     */
+    private double calculateTorque(double theta){
+        return theta/Math.pow(timestep,2);
     }
 
     /**

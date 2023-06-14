@@ -120,26 +120,35 @@ public class RungeKutta4Solver implements iSolver
     double[] newState = new double[3];
     double[] tempState = new double[3];
 
-    double[] k1 = getK(mainThrust, torque, timestep, g); // stores positions and angle
+    double[] k1 = getK(oldState,mainThrust, torque, timestep, g); // stores positions and angle
 
     tempState = VectorOperations.vectorAddition(oldState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k1, 1/2.0), velocities));
     //recalculate the angle
 
-    double[] k2 = getK(mainThrust, torque, timestep/2.0, g);
-    tempState = VectorOperations.vectorAddition(oldState, addAccelerationToVelocity(k1, velocities));
+    double[] k2 = getK(tempState,mainThrust, torque, timestep/2.0, g);
+    tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k2, 1/2.0), velocities));
 
-    double[] k3 = getK(mainThrust, torque, timestep/2.0, g);
-    double[] k4 = getK(mainThrust, torque, timestep, g);
+    double[] k3 = getK(tempState,mainThrust, torque, timestep/2.0, g);
+    tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(k3, velocities));
 
+    double[] k4 = getK(tempState,mainThrust, torque, timestep, g);
+
+    k2 = VectorOperations.vectorScalarMultiplication(k2, 2);
+    k3 = VectorOperations.vectorScalarMultiplication(k3, 2);
+
+    double[] newVelocities = VectorOperations.vectorAddition(VectorOperations.vectorAddition(k1, k2), VectorOperations.vectorAddition(k3, k4));
+    newVelocities = VectorOperations.vectorScalarDivision(newVelocities, 6);
+    
+    newState = VectorOperations.vectorAddition(oldState, newVelocities);
     return null;
   }
 
-  private double[] getK(double mainThrust, double torque, double timestep, double g)
+  private double[] getK(double[] currentState, double mainThrust, double torque, double timestep, double g)
   {
     double[] kx = new double[3];
-    kx[2] = calculateTheta(torque, timestep);
-    kx[0] = calculateXAcceleration(mainThrust, kx[2]);
-    kx[1] = calculateYAcceleration(mainThrust, kx[2], g);
+    kx[2] = calculateChangeInAngle(torque, timestep);
+    kx[0] = calculateXAcceleration(mainThrust, kx[2] + currentState[2]);
+    kx[1] = calculateYAcceleration(mainThrust, kx[2] + currentState[2], g);
     return kx;
   }
     
@@ -153,9 +162,9 @@ public class RungeKutta4Solver implements iSolver
         return u * Math.cos(theta) - g;
     }
 
-    private double calculateTheta(double torque, double timestep)
+    private double calculateChangeInAngle(double torque, double timestep)
     {
-        return torque * Math.pow(timestep,2); //timestep is currently 1, so has no effect
+        return torque * timestep; //timestep is currently 1, so has no effect
     }
 
     private double[] addAccelerationToVelocity(double[] acceleration, double[] velocities)

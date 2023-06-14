@@ -92,6 +92,24 @@ public class FeedbackController implements iController{
         //Probs more stuff has to be changed here, but for now this would rotate it at least
     }
     
+    public void angularVelocityChange(){
+        if(currentAngularVelocity < (angularVelocityFINAL * -1)){
+            double changeInAngularVelocity = currentAngularVelocity;
+            double thrustTime = changeAngularVelocityTime(changeInAngularVelocity); //WRONG WRONG WRONG wRONGV
+            xRotation(thrustTime);
+        }
+        if(currentAngularVelocity > angularVelocityFINAL){
+            double changeInAngularVelocity = -currentAngularVelocity;
+            double thrustTime = changeAngularVelocityTime(changeInAngularVelocity);
+            xRotation(thrustTime);
+
+        }
+    }
+
+    public double changeAngularVelocityTime(double changeInAngularVelocity){
+        double time = Math.abs(currentAngularVelocity)/torque;
+        return time;
+    }
     //Resets the angle to a 2PI base system
     public void fullCircle(){
         if (currentAngle < 0){
@@ -119,16 +137,18 @@ public class FeedbackController implements iController{
     }
 
     public boolean testAngularVelocity(){
-        return currentAngularVelocity < angularVelocityFINAL;
+        return Math.abs(currentAngularVelocity) < angularVelocityFINAL;
     }
 
     public void testOnce(){
         if(!testAngle()){
             //MODIFY ANGLE HERE
         }
+        fullCircle();
         if(!testAngularVelocity()){
             //MODIFY ANGULAR VELOCITY HERE
         }
+        fullCircle();
         if(!testXPosition()){
             //MODIFY X POSITION HERE
         }

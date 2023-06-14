@@ -41,23 +41,48 @@ public class OpenLoopController implements iController{
     {
         return new double[0][0];
     }
+
+    /**
+     * ASSUMPTIONS:
+     * - The rocket facing "right" is 0 degrees
+     * - Could arrive at an an
+     * @param currentPosition
+     * @param currentVelocity
+     */
+    public void planLanding(double[] currentPosition, double[] currentVelocity)
+    {
+        //calculate the positions of tail and head
+        //calculate the angle
+        //based on angle calculate thrusters
+        //later include wind
+        // 
+    }
     
     /**
-     * Calculates the angle between the tail of the spaceship and Titan
+     * Calculates the angle between the velocity of the spaceship and the wanted landing position
+     * Assumes that the landing angle is 90 degrees and therefore the yAxis
      * @return angle between tail and Titan
      */
-    private double calculateAngleBetweenTailAndTitan()
+    private static double calculateAngleBetweenSpaceshipAndTitan(double[] passedVelocity)
     {
-        double[] relativePositionOfTitan = getPositionRelativeToTitan(currentPosition);
-        double[] relativePositionOfTail = getPositionRelativeToTitan(positionOfTail);
+        double[] velocities = {passedVelocity[0],passedVelocity[1]};
+        double[] xAxis = {10,0};
 
         //calculate the angle between spaceship "perpendicularness"
-        double dotProduct = VectorOperations.dotProduct(relativePositionOfTitan, relativePositionOfTail);
-        double aMag = VectorOperations.magnitude(relativePositionOfTitan);
-        double bMag = VectorOperations.magnitude(relativePositionOfTail);
+        double dotProduct = VectorOperations.dotProduct(xAxis,velocities);
+        double aMag = VectorOperations.magnitude(velocities);
+        double bMag = VectorOperations.magnitude(xAxis);
+
+        double check = passedVelocity[0]*xAxis[1] - passedVelocity[0]*xAxis[0];
+        
+        if(check < 0)
+        {
+            return 2*Math.PI - Math.acos(dotProduct/(aMag * bMag));
+        }
 
         return Math.acos(dotProduct/(aMag * bMag));
     }
+
 
     /**
      * Returns the difference in positions of the spaceship's current position and a celestial body's position

@@ -160,4 +160,20 @@ public class VectorOperations {
 
         return Math.sqrt(magnitude);
     }
+
+    public static double calculateAngle(double[] vectorA, double[] vectorB)
+    {
+        double dotProduct = VectorOperations.dotProduct(vectorA,vectorB);
+        double aMag = VectorOperations.magnitude(vectorA);
+        double bMag = VectorOperations.magnitude(vectorB);
+
+        double check = vectorA[0]*vectorB[1] - vectorA[0]*vectorB[0];
+        
+        if(check < 0)
+        {
+            return 2*Math.PI - Math.acos(dotProduct/(aMag * bMag));
+        }
+
+        return Math.acos(dotProduct/(aMag * bMag));
+    }
 }

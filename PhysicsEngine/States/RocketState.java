@@ -3,10 +3,10 @@ package PhysicsEngine.States;
 public class RocketState {
 
     private static RocketState instance;
-    private double[] positionsMidpoint = new double[3];
-    private double[] positionsTail = new double[3];
-    private double[] positionsTip = new double[3];
-    private double[] velocities = new double[3];
+    private double[] positionsMidpoint = new double[2];
+    private double[] positionsTail = new double[2];
+    private double[] positionsTip = new double[2];
+    private double[] velocities = new double[2];
 
     double angle;
 

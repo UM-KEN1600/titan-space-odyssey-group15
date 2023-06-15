@@ -75,6 +75,7 @@ public class Simulation {
         //store intital angle
         double[][] initialState = getInitialLandingState(nextState[8]);
 
+
         for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
         {  
             //next State = whatever the controller says, only for spaceship

@@ -33,12 +33,8 @@ public class FeedbackController implements iController{
 
     //Torque that will be used
     public double torque; //rad s^2
-    public double turnTime;
-    public double halfTurn;
-    public double stepTime = 1;
+    public double stepTime;
     public double currentThrust;
-
-    public RotationImpulse rotator = new RotationImpulse(0, 0);
 
     //Position of Titan after one year, used for calculation of angle
     final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
@@ -50,76 +46,85 @@ public class FeedbackController implements iController{
         this.torque = torque;
         this.timestep = timestep;
     }
-
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
-        
         this.currentVelocity = currentVelocity;
         this.currentPosition = currentPosition;
-        this.currentAngle = theta;
-
         testOnce();
-        rotating();
-
         double[][] nextState = rk4.solve(currentPosition, currentVelocity, currentThrust,  torque, stepTime, g);
-        currentAngle = nextState[0][2];
-        fullCircle();
-        nextState[0][2] = currentAngle;
         return nextState;
     }
 
     //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
-    
+    public void xRotation(double newAngle){
+        /* 
+        double turnTime = calculateAngleChangeTime(newAngle);
 
-    public void xCorrection(){
-        double movement = 0 - currentPosition[0];
+        double xComponentAcceleration = xAcceleration(newAngle);
+        double yComponentAcceleration = yAcceleration(newAngle);
+        */
+        //HAS TO BE REDONE, NO MODIFICATION OF THE STATE HERE, ONLY IN THE RK4.SOLVE
+        //modify the x component with timestep and the Xacceleration
     }
+
     public void yMovement(double newAngle){
         //likely modification is needed here
         //Probably not correctly done
     }
 
+    public double calculateAngleChangeTime(double newAngle){
+        double angleChange = Math.abs(currentAngle - newAngle);
+        double time = angleChange / torque;
+        return time*time;
+    } 
+    
+    /* 
+    //USELESS SINCE RK4.SOLVE WILL TAKE CARE OF THIS
+    public static double xAcceleration(double angle){
+        return maxThrust * Math.sin(angle);
+    } 
 
-
-    public void rotationCorrection(){
-        doRotation(0);
+    public static double yAcceleration(double angle){
+        return  (maxThrust * Math.cos(angle)) - g;
     }
 
-    public void direction(double newAngle){
-        if (newAngle - currentAngle < 0){
-            torque = -torque;
-        }
+    public void setAngle(double newAngle){
+        currentAngle = newAngle;
     }
+    */
 
-    public void rotating(){
-        if(turnTime > 0){
-            turnTime--;
+
+    public void angleChange(){
+        if(currentAngle > Math.PI){
+            double angleChange = 2*Math.PI - currentAngle;
+            xRotation(angleChange);
         }
-        if(turnTime == halfTurn){
-            torque = -torque;
+        if(currentAngle < Math.PI){
+            double angleChange = -1 * currentAngle;
+            xRotation(angleChange);
         }
-        if(turnTime <= 0){
-            torque = 0;
-        }
-    }
-
-    public void doRotation(double newAngle){
-        //Find the amount of angle that needs to be displaced
-        double changeInAngle = Math.abs(newAngle - currentAngle);
-
-        //calculates for how long an amount of torque has to be applied to reach the wanted angle
-        rotator.xRotationPlan(changeInAngle);
-        turnTime = rotator.getRotationTime();
-        torque = rotator.getTorque();
-
-        //checks which direction to turn to
-        direction(newAngle);
-
-        //used to decide when to decelerate
-        halfTurn = turnTime/2;
+        //Probs more stuff has to be changed here, but for now this would rotate it at least
     }
     
+    public void angularVelocityChange(){
+        if(currentAngularVelocity < (angularVelocityFINAL * -1)){
+            double changeInAngularVelocity = currentAngularVelocity;
+            double thrustTime = changeAngularVelocityTime(changeInAngularVelocity); //WRONG WRONG WRONG wRONGV
+            xRotation(thrustTime);
+        }
+        if(currentAngularVelocity > angularVelocityFINAL){
+            double changeInAngularVelocity = -currentAngularVelocity;
+            double thrustTime = changeAngularVelocityTime(changeInAngularVelocity);
+            xRotation(thrustTime);
+
+        }
+    }
+
+    public double changeAngularVelocityTime(double changeInAngularVelocity){
+        double time = Math.abs(currentAngularVelocity)/torque;
+        return time;
+    }
     //Resets the angle to a 2PI base system
     public void fullCircle(){
         if (currentAngle < 0){
@@ -152,7 +157,7 @@ public class FeedbackController implements iController{
 
     public void testOnce(){
         if(!testAngle()){
-            rotationCorrection();
+            //MODIFY ANGLE HERE
         }
         fullCircle();
         if(!testAngularVelocity()){

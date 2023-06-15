@@ -2,7 +2,9 @@ package PhysicsEngine.Controller;
 
 import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
-import SolarSystem.Main;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class OpenLoopController implements iController{
     //Final Values needed
@@ -35,9 +37,20 @@ public class OpenLoopController implements iController{
     //90 degrees in radians
     final double ANGLE_TOWARDS_SURFACE = 1.571;
 
+    //stores precalculated rotation operations which are needed during the landing process
+    private Queue<RotationImpulseOPC> DataStorageRotationImpulse = new LinkedList();
+
     public OpenLoopController(double[] startPositionSpaceship, double[] startVelocitySpaceship)
     {
 
+    }
+
+
+
+    public void initialDataStorageRotationImpulse(){
+
+        RotationImpulseOPC impulseOne = new RotationImpulseOPC(40);
+        DataStorageRotationImpulse.add(impulseOne);
     }
 
     @Override

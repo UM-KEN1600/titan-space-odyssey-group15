@@ -1,5 +1,7 @@
 package PhysicsEngine.Controller;
 
+import PhysicsEngine.Solvers.RungeKutta4Solver;
+
 public class FeedbackController implements iController{
 
     //Final Values needed
@@ -28,11 +30,17 @@ public class FeedbackController implements iController{
     public double currentAngle;
     public double currentAngularVelocity;
 
+
     //Torque that will be used
     public double torque; //rad s^2
+    public double stepTime;
+    public double currentThrust;
 
     //Position of Titan after one year, used for calculation of angle
     final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
+
+    //RK4
+    public RungeKutta4Solver rk4 = new RungeKutta4Solver();
 
     public FeedbackController(double torque, double timestep){
         this.torque = torque;
@@ -43,16 +51,20 @@ public class FeedbackController implements iController{
         this.currentVelocity = currentVelocity;
         this.currentPosition = currentPosition;
         testOnce();
-        return new double[0][0];
+        double[][] nextState = rk4.solve(currentPosition, currentVelocity, currentThrust,  torque, stepTime, g);
+        return nextState;
     }
 
-    public void xRotation(double newAngle){
+    //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
+    public void xRotation(double newAngle){
+        /* 
         double turnTime = calculateAngleChangeTime(newAngle);
-        setAngle(newAngle);
 
         double xComponentAcceleration = xAcceleration(newAngle);
         double yComponentAcceleration = yAcceleration(newAngle);
+        */
+        //HAS TO BE REDONE, NO MODIFICATION OF THE STATE HERE, ONLY IN THE RK4.SOLVE
         //modify the x component with timestep and the Xacceleration
     }
 
@@ -67,6 +79,8 @@ public class FeedbackController implements iController{
         return time*time;
     } 
     
+    /* 
+    //USELESS SINCE RK4.SOLVE WILL TAKE CARE OF THIS
     public static double xAcceleration(double angle){
         return maxThrust * Math.sin(angle);
     } 
@@ -78,6 +92,7 @@ public class FeedbackController implements iController{
     public void setAngle(double newAngle){
         currentAngle = newAngle;
     }
+    */
 
 
     public void angleChange(){

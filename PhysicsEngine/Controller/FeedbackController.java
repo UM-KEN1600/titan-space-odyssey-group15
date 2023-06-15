@@ -35,7 +35,7 @@ public class FeedbackController implements iController{
     public double torque; //rad s^2
     public double turnTime;
     public double halfTurn;
-    public double stepTime;
+    public double stepTime = 1;
     public double currentThrust;
 
     public RotationImpulse rotator = new RotationImpulse(0, 0);
@@ -53,27 +53,38 @@ public class FeedbackController implements iController{
 
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
+        
         this.currentVelocity = currentVelocity;
         this.currentPosition = currentPosition;
+        this.currentAngle = theta;
+
         testOnce();
         rotating();
+
         double[][] nextState = rk4.solve(currentPosition, currentVelocity, currentThrust,  torque, stepTime, g);
+        currentAngle = nextState[0][2];
         fullCircle();
+        nextState[0][2] = currentAngle;
         return nextState;
     }
 
     //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
-    public void xCorrection(){
-        
-    }
+    
 
+    public void xCorrection(){
+        double movement = 0 - currentPosition[0];
+    }
     public void yMovement(double newAngle){
         //likely modification is needed here
         //Probably not correctly done
     }
 
 
+
+    public void rotationCorrection(){
+        doRotation(0);
+    }
 
     public void direction(double newAngle){
         if (newAngle - currentAngle < 0){
@@ -94,11 +105,18 @@ public class FeedbackController implements iController{
     }
 
     public void doRotation(double newAngle){
+        //Find the amount of angle that needs to be displaced
         double changeInAngle = Math.abs(newAngle - currentAngle);
+
+        //calculates for how long an amount of torque has to be applied to reach the wanted angle
         rotator.xRotationPlan(changeInAngle);
         turnTime = rotator.getRotationTime();
         torque = rotator.getTorque();
+
+        //checks which direction to turn to
         direction(newAngle);
+
+        //used to decide when to decelerate
         halfTurn = turnTime/2;
     }
     
@@ -134,7 +152,7 @@ public class FeedbackController implements iController{
 
     public void testOnce(){
         if(!testAngle()){
-            //MODIFY ANGLE HERE
+            rotationCorrection();
         }
         fullCircle();
         if(!testAngularVelocity()){

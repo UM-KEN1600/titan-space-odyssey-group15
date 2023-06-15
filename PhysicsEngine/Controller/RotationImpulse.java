@@ -3,6 +3,7 @@ package PhysicsEngine.Controller;
 public class RotationImpulse {
 
     private double angleOfRotation;
+    private double angularVelocity;
     private double torque;
 
     /**
@@ -16,6 +17,16 @@ public class RotationImpulse {
     {
         angleOfRotation = angle;
         this.torque = torque;
+    }
+    
+    //Getter for the angle
+    public double getAngle(){
+        return angleOfRotation;
+    }
+
+    //Setter for the angle
+    public void setAngle(double newAngle){
+        angleOfRotation = newAngle;
     }
 
     public double getTimeNeededForRotation()
@@ -51,4 +62,70 @@ public class RotationImpulse {
     {
         return correctOverShoot()*-1.0;
     }
+
+
+    /**
+     * Rotates the spacecraft to the desired angle
+     * @param newAngle
+     */
+    public void xRotation(double newAngle){
+        //calculates the full amount of acceleration time needed
+        double averageAccelerationAngle = Math.ceil(newAngle);
+        double accelerationTime = calculateAccelerationTime(averageAccelerationAngle);
+        double decelerationTime = accelerationTime;
+
+        //calculates the average acceleration that will be used in the rotation
+        double acceleration = calculateAcceleration(newAngle, accelerationTime);
+        double deceleration = -acceleration;
+
+        //does the rotation on the spacecraft
+        rotation(newAngle / 2, accelerationTime, acceleration);
+        rotation(newAngle/ 2, decelerationTime, deceleration);
+    }
+
+    /**
+     * Calculates the necessary amount of time to rotate the spacecraft at full acceleration
+     * @param newAngle the new angle that you want the rocket to face 
+     * @return the amount of time that the rocket has to accelerate to achieve the necessary velocity
+     */
+    public double calculateAccelerationTime(double newAngle){
+        double time = Math.sqrt(newAngle);
+        return time;
+    }
+
+    /**
+     * Calculates the necessary acceleration to rotate the rocket at for it to reach the necessary angle in the specified amount of time
+     * @param newAngle the new angle that you want the rocket to face 
+     * @param time the amount of time that the rocket has to turn in
+     * @return the acceleration needed 
+     */
+    public double calculateAcceleration(double newAngle, double time){
+        double acceleration = newAngle / time;
+        return acceleration;
+    }
+
+    /**
+     * Calculates the necessary acceleration to rotate the rocket at for it to reach the necessary angle in the specified amount of time
+     * @param newAngle the new angle that you want the rocket to face 
+     * @param time the amount of time that the rocket has to turn in
+     * @param torque the amount of torque that the spacecraft will use
+     */
+    public void rotation(double newAngle, double time, double torque){
+
+        for(int t = 0; t < time; t++){
+
+            //calculates the new angular velocity
+            //angular velocity = angular velocity * time
+            double oldAngularVelocity = angularVelocity;
+            angularVelocity += torque;
+
+            //calculates the new displacement using the change in angular velocity
+            //change in angular velocity = (initial angular velocity + angular velocity) / 2
+            double changeInAngularVelocity = (oldAngularVelocity + angularVelocity) / 2;
+            // theta = change in angular velocity / time
+            angleOfRotation += changeInAngularVelocity;
+
+        }
+    }
+
 }

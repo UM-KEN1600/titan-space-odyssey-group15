@@ -33,8 +33,12 @@ public class FeedbackController implements iController{
 
     //Torque that will be used
     public double torque; //rad s^2
+    public double turnTime;
+    public double halfTurn;
     public double stepTime;
     public double currentThrust;
+
+    public RotationImpulse rotator = new RotationImpulse(0, 0);
 
     //Position of Titan after one year, used for calculation of angle
     final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
@@ -46,6 +50,7 @@ public class FeedbackController implements iController{
         this.torque = torque;
         this.timestep = timestep;
     }
+
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
         this.currentVelocity = currentVelocity;
@@ -57,74 +62,41 @@ public class FeedbackController implements iController{
 
     //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
-    public void xRotation(double newAngle){
-        /* 
-        double turnTime = calculateAngleChangeTime(newAngle);
-
-        double xComponentAcceleration = xAcceleration(newAngle);
-        double yComponentAcceleration = yAcceleration(newAngle);
-        */
-        //HAS TO BE REDONE, NO MODIFICATION OF THE STATE HERE, ONLY IN THE RK4.SOLVE
-        //modify the x component with timestep and the Xacceleration
-    }
 
     public void yMovement(double newAngle){
         //likely modification is needed here
         //Probably not correctly done
     }
 
-    public double calculateAngleChangeTime(double newAngle){
-        double angleChange = Math.abs(currentAngle - newAngle);
-        double time = angleChange / torque;
-        return time*time;
-    } 
-    
-    /* 
-    //USELESS SINCE RK4.SOLVE WILL TAKE CARE OF THIS
-    public static double xAcceleration(double angle){
-        return maxThrust * Math.sin(angle);
-    } 
 
-    public static double yAcceleration(double angle){
-        return  (maxThrust * Math.cos(angle)) - g;
+
+    public void direction(double newAngle){
+        if (newAngle - currentAngle < 0){
+            torque = -torque;
+        }
     }
 
-    public void setAngle(double newAngle){
-        currentAngle = newAngle;
+    public void rotating(){
+        if(turnTime > 0){
+            turnTime--;
+        }
+        if(turnTime == halfTurn){
+            torque = -torque;
+        }
+        if(turnTime <= 0){
+            torque = 0;
+        }
     }
-    */
 
-
-    public void angleChange(){
-        if(currentAngle > Math.PI){
-            double angleChange = 2*Math.PI - currentAngle;
-            xRotation(angleChange);
-        }
-        if(currentAngle < Math.PI){
-            double angleChange = -1 * currentAngle;
-            xRotation(angleChange);
-        }
-        //Probs more stuff has to be changed here, but for now this would rotate it at least
+    public void doRotation(double newAngle){
+        double changeInAngle = Math.abs(newAngle - currentAngle);
+        rotator.xRotationPlan(changeInAngle);
+        turnTime = rotator.getRotationTime();
+        torque = rotator.getTorque();
+        direction(newAngle);
+        halfTurn = turnTime/2;
     }
     
-    public void angularVelocityChange(){
-        if(currentAngularVelocity < (angularVelocityFINAL * -1)){
-            double changeInAngularVelocity = currentAngularVelocity;
-            double thrustTime = changeAngularVelocityTime(changeInAngularVelocity); //WRONG WRONG WRONG wRONGV
-            xRotation(thrustTime);
-        }
-        if(currentAngularVelocity > angularVelocityFINAL){
-            double changeInAngularVelocity = -currentAngularVelocity;
-            double thrustTime = changeAngularVelocityTime(changeInAngularVelocity);
-            xRotation(thrustTime);
-
-        }
-    }
-
-    public double changeAngularVelocityTime(double changeInAngularVelocity){
-        double time = Math.abs(currentAngularVelocity)/torque;
-        return time;
-    }
     //Resets the angle to a 2PI base system
     public void fullCircle(){
         if (currentAngle < 0){

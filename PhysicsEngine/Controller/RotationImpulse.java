@@ -69,18 +69,21 @@ public class RotationImpulse {
      * @param newAngle
      */
     public void xRotation(double newAngle){
+        //calculates half the newAngle since the rotation will have 2 phases (acceleration and deceleration)
+        double halfAngle = newAngle/2;
+        
         //calculates the full amount of acceleration time needed
-        double averageAccelerationAngle = Math.ceil(newAngle);
+        double averageAccelerationAngle = Math.ceil(halfAngle);
         double accelerationTime = calculateAccelerationTime(averageAccelerationAngle);
         double decelerationTime = accelerationTime;
 
         //calculates the average acceleration that will be used in the rotation
-        double acceleration = calculateAcceleration(newAngle, accelerationTime);
+        double acceleration = calculateAcceleration(halfAngle, accelerationTime);
         double deceleration = -acceleration;
 
         //does the rotation on the spacecraft
-        rotation(newAngle / 2, accelerationTime, acceleration);
-        rotation(newAngle/ 2, decelerationTime, deceleration);
+        rotation(halfAngle, accelerationTime, acceleration);
+        rotation(halfAngle, decelerationTime, deceleration);
     }
 
     /**

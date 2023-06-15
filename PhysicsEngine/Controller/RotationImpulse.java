@@ -70,6 +70,7 @@ public class RotationImpulse {
      * Rotates the spacecraft to the desired angle
      * @param newAngle
      */
+    //CALL THIS TO DO THE ROTATION
     public void xRotation(double newAngle){
         //calculates half the newAngle since the rotation will have 2 phases (acceleration and deceleration)
         double halfAngle = newAngle/2;
@@ -86,6 +87,7 @@ public class RotationImpulse {
         //does the rotation on the spacecraft
         rotation(halfAngle, accelerationTime, acceleration);
         rotation(halfAngle, decelerationTime, deceleration);
+        RocketState.getInstance().setAngle(angleOfRotation);
     }
 
     /**
@@ -130,7 +132,6 @@ public class RotationImpulse {
             // theta = change in angular velocity / time
             angleOfRotation += changeInAngularVelocity;
         }
-        RocketState.getInstance().setAngle(angleOfRotation);
     }
 
 }

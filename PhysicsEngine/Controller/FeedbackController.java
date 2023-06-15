@@ -56,12 +56,17 @@ public class FeedbackController implements iController{
         this.currentVelocity = currentVelocity;
         this.currentPosition = currentPosition;
         testOnce();
+        rotating();
         double[][] nextState = rk4.solve(currentPosition, currentVelocity, currentThrust,  torque, stepTime, g);
+        fullCircle();
         return nextState;
     }
 
     //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
+    public void xCorrection(){
+        
+    }
 
     public void yMovement(double newAngle){
         //likely modification is needed here

@@ -13,8 +13,9 @@ public class RotationImpulseOPC {
 
 
 
-    public RotationImpulseOPC(double targetAngle)
+    public RotationImpulseOPC(double targetAngle, int startTimeTorqueAcceleration)
     {
+        this.startTimeTorqueAcceleration = startTimeTorqueAcceleration;
         this.targetAngle = targetAngle;
         changeAngle();
     }
@@ -65,7 +66,7 @@ public class RotationImpulseOPC {
     public void changeAngle(){
 
         time = calculateTimeNeeded(targetAngle);
-        startTimeTorqueDeceleration = time;
+        startTimeTorqueDeceleration = time + startTimeTorqueAcceleration;
         torqueAcceleration = calculateVMax(targetAngle, calculateTimeNeeded(targetAngle));
         torqueDeceleration = - torqueAcceleration;
     }

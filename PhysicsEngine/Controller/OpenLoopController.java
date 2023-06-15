@@ -49,7 +49,7 @@ public class OpenLoopController implements iController{
 
     public void initialDataStorageRotationImpulse(){
 
-        RotationImpulseOPC impulseOne = new RotationImpulseOPC(40);
+        RotationImpulseOPC impulseOne = new RotationImpulseOPC(40, 3);
         DataStorageRotationImpulse.add(impulseOne);
     }
 

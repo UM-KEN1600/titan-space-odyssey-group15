@@ -38,7 +38,7 @@ public class RotationImpulseOPC {
 
         double intermediateAngle = targetAngle/2;
 
-        for (int t = 0; t < maxTimeRotation; t++) {
+        for (int t = 0; t <= maxTimeRotation; t++) {
             if(intermediateAngle/t <= VMAX){
                 return t;
             }

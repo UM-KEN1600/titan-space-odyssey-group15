@@ -56,7 +56,7 @@ public class OpenLoopController implements iController{
     public void planLanding(double[] currentPosition, double[] currentVelocity)
     {
         //correct orientation
-        RotationImpulse correctorImpulse = new RotationImpulse(calculateAngle(currentVelocity, getPositionRelativeToSpaceship(currentPosition)),maxTorque);
+        RotationImpulse correctorImpulse = new RotationImpulse(VectorOperations.calculateAngle(currentVelocity, getPositionRelativeToSpaceship(currentPosition)),maxTorque);
         
         //get time
 
@@ -68,10 +68,10 @@ public class OpenLoopController implements iController{
         double timeForApproaching = calculateTimeNeededToApproach(getPositionRelativeToSpaceship(currentPosition), currentVelocity);
         double[] totalCounterGravity = {0, 1.0*(timeForApproaching*g)};
 
-        RotationImpulse correctorImpulseForGravity = new RotationImpulse(calculateAngle(currentVelocity, totalCounterGravity), maxTorque);
+        RotationImpulse correctorImpulseForGravity = new RotationImpulse(VectorOperations.calculateAngle(currentVelocity, totalCounterGravity), maxTorque);
 
         //calculate time needed to turn to 90 degrees
-        RotationImpulse landingImpulse = new RotationImpulse(calculateAngle(currentVelocity, new double[] {0,10}),maxTorque);
+        RotationImpulse landingImpulse = new RotationImpulse(VectorOperations.calculateAngle(currentVelocity, new double[] {0,10}),maxTorque);
         
         //slow down and land :)
     }
@@ -152,21 +152,7 @@ public class OpenLoopController implements iController{
         return Math.acos(dotProduct/(aMag * bMag));
     }
 
-    private double calculateAngle(double[] vectorA, double[] vectorB)
-    {
-        double dotProduct = VectorOperations.dotProduct(vectorA,vectorB);
-        double aMag = VectorOperations.magnitude(vectorA);
-        double bMag = VectorOperations.magnitude(vectorB);
 
-        double check = vectorA[0]*vectorB[1] - vectorA[0]*vectorB[0];
-        
-        if(check < 0)
-        {
-            return 2*Math.PI - Math.acos(dotProduct/(aMag * bMag));
-        }
-
-        return Math.acos(dotProduct/(aMag * bMag));
-    }
 
 
     /**

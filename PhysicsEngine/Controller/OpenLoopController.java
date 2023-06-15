@@ -2,6 +2,7 @@ package PhysicsEngine.Controller;
 
 import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
+import SolarSystem.Main;
 
 public class OpenLoopController implements iController{
     //Final Values needed
@@ -15,7 +16,7 @@ public class OpenLoopController implements iController{
     //Max constraints for some values
     final double g = 0.001352;
     final double maxThrust = 10*g;
-    final double maxTorque = 1;
+    final double maxTorque = 1.0;
 
     final double SIZE_OF_SPACESHIP = 0.1; //100 meters :)
     private double[] positionOfTail = new double[0]; //TO BE DONE LATER 
@@ -31,10 +32,13 @@ public class OpenLoopController implements iController{
     //Timestep being used in the current instance
     private double timestep;
     
-    //Angle that will be used in the calculations that moment
-    private double theta;
+    //90 degrees in radians
+    final double ANGLE_TOWARDS_SURFACE = 1.571;
 
-    public OpenLoopController(double[] startPositionSpaceship){}
+    public OpenLoopController(double[] startPositionSpaceship, double[] startVelocitySpaceship)
+    {
+
+    }
 
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) 
@@ -51,13 +55,53 @@ public class OpenLoopController implements iController{
      */
     public void planLanding(double[] currentPosition, double[] currentVelocity)
     {
-        //calculate the positions of tail and head
-        //calculate the angle
-        //based on angle calculate thrusters
-        //later include wind
-        // 
+        //correct orientation
+        RotationImpulse correctorImpulse = new RotationImpulse(VectorOperations.calculateAngle(currentVelocity, getPositionRelativeToSpaceship(currentPosition)),maxTorque);
+        
+        //get time
+
+        //get corrected velocity
+
+        //plan approaching
+        MainThrusterImpulse thrust = new MainThrusterImpulse(maxThrust, currentVelocity);
+
+        double timeForApproaching = calculateTimeNeededToApproach(getPositionRelativeToSpaceship(currentPosition), currentVelocity);
+        double[] totalCounterGravity = {0, 1.0*(timeForApproaching*g)};
+
+        RotationImpulse correctorImpulseForGravity = new RotationImpulse(VectorOperations.calculateAngle(currentVelocity, totalCounterGravity), maxTorque);
+
+        //calculate time needed to turn to 90 degrees
+        RotationImpulse landingImpulse = new RotationImpulse(VectorOperations.calculateAngle(currentVelocity, new double[] {0,10}),maxTorque);
+        
+        //slow down and land :)
+    }
+
+
+    /**
+     * calculates the time needed to appraoch the landing position based on the starting velocity and the alowed thrust
+     * @param distanceVector distance from spaceship to titan
+     * @param velocity beginning velocity
+     * @return
+     */
+    private static double calculateTimeNeededToApproach(double[] distanceVector, double[] velocity)
+    {
+        double distance = Math.sqrt(Math.pow(distanceVector[0], 2) + Math.pow(distanceVector[1], 2));
+        double velocityReach = Math.sqrt(Math.pow(velocity[0], 2) + Math.pow(velocity[1], 2));
+
+        return distance/velocityReach;
     }
     
+    private double calculateNeededThrust(double wantedChangeInAngle)
+    {
+        if(wantedChangeInAngle % maxTorque > 1)
+        {
+            return maxTorque;
+        }
+
+        return wantedChangeInAngle % maxTorque;
+    }
+
+
     /**
      * Calculates the angle between the velocity of the spaceship and the wanted landing position
      * Assumes that the landing angle is 90 degrees and therefore the yAxis
@@ -83,6 +127,33 @@ public class OpenLoopController implements iController{
         return Math.acos(dotProduct/(aMag * bMag));
     }
 
+    /**
+     * Calculates the angle between the velocity of the spaceship and the wanted landing position
+     * Assumes that the landing angle is 90 degrees and therefore the yAxis
+     * @return angle between tail and Titan
+     */
+    private static double calculateAngleBetweenSpaceshipAndLandigAxis(double[] passedVelocity)
+    {
+        double[] velocities = {passedVelocity[0],passedVelocity[1]};
+        double[] xAxis = {0,10};
+
+        //calculate the angle between spaceship "perpendicularness"
+        double dotProduct = VectorOperations.dotProduct(xAxis,velocities);
+        double aMag = VectorOperations.magnitude(velocities);
+        double bMag = VectorOperations.magnitude(xAxis);
+
+        double check = passedVelocity[0]*xAxis[1] - passedVelocity[0]*xAxis[0];
+        
+        if(check < 0)
+        {
+            return 2*Math.PI - Math.acos(dotProduct/(aMag * bMag));
+        }
+
+        return Math.acos(dotProduct/(aMag * bMag));
+    }
+
+
+
 
     /**
      * Returns the difference in positions of the spaceship's current position and a celestial body's position
@@ -94,13 +165,9 @@ public class OpenLoopController implements iController{
         return VectorOperations.vectorSubtraction(subject, LANDING_POSITION);
     }
 
-    /**
-     * Calculates the position of the spaceship's tail
-     * @return the position of the tail
-     */
-    private double[] calculatePositionOfTail() //needs to be redone ?
+    private double[] getPositionRelativeToSpaceship(double[] subject)
     {
-        double[] change = {SIZE_OF_SPACESHIP,0};
-        return VectorOperations.vectorSubtraction(currentPosition, change);
+        return VectorOperations.vectorSubtraction(LANDING_POSITION,subject);
     }
+
 }

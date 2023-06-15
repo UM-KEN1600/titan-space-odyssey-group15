@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 import PhysicsEngine.Functions;
 import PhysicsEngine.Thrust;
+import PhysicsEngine.Controller.OpenLoopController;
 import PhysicsEngine.JourneyPhase.LandingPhase;
 import PhysicsEngine.JourneyPhase.TravelPhase;
 import PhysicsEngine.JourneyPhase.iJourneyPhase;
@@ -71,6 +72,9 @@ public class Simulation {
         int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
         framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
+        //store intital angle
+        double[][] initialState = getInitialLandingState(nextState[8]);
+
         for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
         {  
             //next State = whatever the controller says, only for spaceship
@@ -102,6 +106,17 @@ public class Simulation {
             System.out.println(getDistaceProbeTitan());
         }
 
+    }
+
+    private double[][] getInitialLandingState(double[][] state)
+    {
+        double[][] newState = new double[2][3];
+        newState[0][0] = state[0][0];
+        newState[0][1] = state[0][1];
+        newState[1][0] = state[1][0];
+        newState[1][1] = state[1][1];
+        newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0], newState[1][1]}, new double[] {10,0});
+        return newState;
     }
 
     /*

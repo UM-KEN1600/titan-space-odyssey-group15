@@ -36,7 +36,7 @@ public class MainThrusterImpulse {
         return velocity;
     }
 
-        private double calculateAngle(double[] vectorA, double[] vectorB)
+    private double calculateAngle(double[] vectorA, double[] vectorB)
     {
         double dotProduct = VectorOperations.dotProduct(vectorA,vectorB);
         double aMag = VectorOperations.magnitude(vectorA);

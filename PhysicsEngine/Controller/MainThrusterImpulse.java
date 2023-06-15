@@ -15,12 +15,15 @@ public class MainThrusterImpulse {
         this.currentVelocity = currentVelocity;
     }
 
+    /**
+     * @return the change in velocity when applying the thrusters. Adds acceleration to the same direction.
+     */
     public double[] changeInVelocity()
     {
         double h = Math.sqrt(Math.pow(currentVelocity[0], 2) + Math.pow(currentVelocity[1], 2));
-        System.out.println(h);
+
         h += thrust;
-        System.out.println(h);
+
 
         double a = Math.cos(calculateAngle(currentVelocity, new double[]{10,0})) * h;
 

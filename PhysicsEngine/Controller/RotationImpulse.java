@@ -83,6 +83,7 @@ public class RotationImpulse {
         //does the rotation on the spacecraft
         rotation(newAngle / 2, accelerationTime, acceleration);
         rotation(newAngle/ 2, decelerationTime, deceleration);
+        RocketState.getInstance().setAngle(angleOfRotation);
     }
 
     /**
@@ -114,7 +115,7 @@ public class RotationImpulse {
      */
     public void rotation(double newAngle, double time, double torque){
 
-        for(int t = 0; t < time; t++){
+        for(int t = 0; t < time; t++) {
 
             //calculates the new angular velocity
             //angular velocity = angular velocity * time
@@ -127,7 +128,6 @@ public class RotationImpulse {
             // theta = change in angular velocity / time
             angleOfRotation += changeInAngularVelocity;
         }
-        RocketState.getInstance().setAngle(angleOfRotation);
     }
 
 }

@@ -76,8 +76,8 @@ public class RotationImpulse {
         double halfAngle = newAngle/2;
         
         //calculates the full amount of acceleration time needed
-        double averageAccelerationAngle = Math.ceil(halfAngle);
-        double accelerationTime = calculateAccelerationTime(averageAccelerationAngle);
+        double averageAccelerationAngle = halfAngle;
+        double accelerationTime = Math.ceil(calculateAccelerationTime(averageAccelerationAngle));
         double decelerationTime = accelerationTime;
 
         //calculates the average acceleration that will be used in the rotation

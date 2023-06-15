@@ -31,7 +31,9 @@ public class State {
     static int framesPer10Seconds = 200;
     //used to store the positions 50 times a year
     public static double[][][] allPositions = new double[9][framesPer10Seconds][2]; 
+    public static double[][] landingPositionsAngle = new double[100][3];
     public static int iterations = 0;
+    public static int iterationsLanding = 0;
 
     /**
      * updates the allPositions array with new coordinates of the celestial bodies
@@ -54,6 +56,11 @@ public class State {
     public void setSpaceshipVelocity(double[] newVelocity)
     {
         state[8][1] = newVelocity;
+    }
+
+    public void setLandingPosition(double[] state)
+    {
+        landingPositionsAngle[iterationsLanding] = state;
     }
 
     public double[] getSpaceshipVelocity()

@@ -36,8 +36,6 @@ public class MainThrusterImpulse {
         return velocity;
     }
 
-    public double getTimeNeededToLanding(double currentPosition)
-
     private double calculateAngle(double[] vectorA, double[] vectorB)
     {
         double dotProduct = VectorOperations.dotProduct(vectorA,vectorB);

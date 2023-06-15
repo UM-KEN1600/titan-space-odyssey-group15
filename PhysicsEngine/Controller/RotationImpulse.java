@@ -1,5 +1,7 @@
 package PhysicsEngine.Controller;
 
+import PhysicsEngine.States.RocketState;
+
 public class RotationImpulse {
 
     private double angleOfRotation;
@@ -127,8 +129,8 @@ public class RotationImpulse {
             double changeInAngularVelocity = (oldAngularVelocity + angularVelocity) / 2;
             // theta = change in angular velocity / time
             angleOfRotation += changeInAngularVelocity;
-
         }
+        RocketState.getInstance().setAngle(angleOfRotation);
     }
 
 }

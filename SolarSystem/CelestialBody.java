@@ -14,6 +14,8 @@ public class CelestialBody extends JPanel{
 
     public int rowInState;
     public static CelestialBody[] bodyList = new CelestialBody[12];
+    static double scaleFactor = 7.0;
+
 
     String name;
     double x1;
@@ -21,7 +23,7 @@ public class CelestialBody extends JPanel{
     int newX;
     int newY;
     int diameter = 20;
-    static double scaleFactor = 7.0;
+    
     State state = new State();
     Functions functions;
 

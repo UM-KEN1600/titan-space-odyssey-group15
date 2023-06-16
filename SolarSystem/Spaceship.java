@@ -7,14 +7,12 @@ import java.awt.geom.Point2D;
 
 public class Spaceship extends CelestialBody {
 
+    CelestialBody celestialBody;
     public double velocity;
     public double acceleration;
     public double x1;
     public double x2;
-    //public double x3;
-    CelestialBody celestialBody;
-
-    double mass = 50000;
+    public double mass = 50000;
 
 
     public Spaceship(double mass, double radius, int rowInState, String name){
@@ -30,7 +28,6 @@ public class Spaceship extends CelestialBody {
     public void setPosition(double x1, double x2) {
         this.x1 = x1;
         this.x2 = x2;
-        //this.x3 = x3;
     }
 
     public double getVelocity() {

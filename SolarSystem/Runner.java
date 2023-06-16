@@ -16,9 +16,11 @@ public class Runner {
         //Enter time step in seconds here:
         double timeStep = 50;
 
+        //new simulation running on the solver chosen in the Main class
         Simulation simulation = new Simulation(timeStep, solver);
         simulation.planetarySetUp();
        
+        //main frame
         JFrame mainFrame = new JFrame("Solar System");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(1000, 600);
@@ -40,6 +42,7 @@ public class Runner {
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
                             
+                            //when the first step of the simulation ends, we open up the landing frame
                             mainFrame.dispose();
                             LandingDraw landing = new LandingDraw();
                             JFrame landFrame = new JFrame("Landing");

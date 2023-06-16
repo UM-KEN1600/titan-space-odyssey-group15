@@ -18,9 +18,11 @@ public class Main {
     static JFrame solverChooser;
         public static void main(String[] args)  {
 
+        //label with the project title and our group
         JLabel intro = new JLabel("<html>    Project Group 15<br> A Titanic Space Odyssey!</html>") ;
         intro.setFont(new Font("Consolas",Font.BOLD,16));
 
+        //explanatory note on how to use the zoomIn/zoomOut functionality
         JLabel tip = new JLabel("Use arrow up/down to zoom in/out");
         tip.setFont(new Font("Consolas",Font.PLAIN,10));
         tip.setForeground(Color.RED);
@@ -28,13 +30,16 @@ public class Main {
         JLabel label = new JLabel("Select solver");
         label.setFont(new Font("Consolas",Font.PLAIN,12));
     
+        //offers the choice of any solver for the simulation we are running
         JComboBox<String> chooser = new JComboBox<>(solvers);
         chooser.setSelectedItem(null);
         chooser.setFont(new Font("Consolas",Font.PLAIN,12));
 
+        //button that starts the simulation
         JButton runButton = new JButton("Run");
         runButton.setFont(new Font("Consolas",Font.PLAIN,12));
 
+        //main frame
         solverChooser = new JFrame();
         solverChooser.setSize(350,225);
         solverChooser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,6 +86,7 @@ public class Main {
 
             solverChooser.dispose();
             Runner.run(solver);
+            //start the simulation
                 }
             }
             }

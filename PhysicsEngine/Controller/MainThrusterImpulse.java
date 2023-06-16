@@ -6,15 +6,16 @@ import PhysicsEngine.Operations.VectorOperations;
 
 public class MainThrusterImpulse {
 
-    double thrust;
-    double timeOfImpulse;
+    private double thrust;
+    private double startTimeOfImpulse;
+    private double EndTimeOfPulse;
     double[] currentVelocity;
 
     public MainThrusterImpulse(double timeOfImpulse, double thrust, double[] currentVelocity)
     {
         this.thrust = thrust;
         this.currentVelocity = currentVelocity;
-        this.timeOfImpulse = timeOfImpulse;
+        this.startTimeOfImpulse = timeOfImpulse;
     }
 
     /**
@@ -38,11 +39,16 @@ public class MainThrusterImpulse {
         return velocity;
     }
 
-
-    public double getTimeOfImpulse() 
-    {
-        return timeOfImpulse;
+    public double getEndTimeOfPulse() {
+        return EndTimeOfPulse;
     }
 
-    
+    public double getStartTimeOfImpulse()
+    {
+        return startTimeOfImpulse;
+    }
+
+    public double getThrust() {
+        return thrust;
+    }
 }

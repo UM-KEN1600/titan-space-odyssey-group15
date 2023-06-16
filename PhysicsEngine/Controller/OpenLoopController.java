@@ -1,8 +1,6 @@
 package PhysicsEngine.Controller;
 
 import PhysicsEngine.Operations.VectorOperations;
-import PhysicsEngine.Simulations.Simulation;
-import PhysicsEngine.Solvers.RungeKutta4Solver;
 import SolarSystem.CelestialBody;
 
 import java.util.LinkedList;
@@ -36,11 +34,11 @@ public class OpenLoopController implements iController{
 
     double[] VU = new double[2];
 
-    RotationImpulseOPC currentRotationImpulse;
+    RotationImpulseOLC currentRotationImpulse;
     MainThrusterImpulse currentMainThrustImpulse;
 
     //stores precalculated rotation operations which are needed during the landing process
-    private Queue<RotationImpulseOPC> DataStorageRotationImpulse = new LinkedList();
+    private Queue<RotationImpulseOLC> DataStorageRotationImpulse = new LinkedList();
     private Queue<MainThrusterImpulse> DataStorageMainThrustImpulse = new LinkedList();
 
     public OpenLoopController()
@@ -51,7 +49,7 @@ public class OpenLoopController implements iController{
 
     public void initialDataStorageRotationImpulse(){
 
-        RotationImpulseOPC impulseOne = new RotationImpulseOPC(40, 3);
+        RotationImpulseOLC impulseOne = new RotationImpulseOLC(40, 3);
         DataStorageRotationImpulse.add(impulseOne);
     }
 
@@ -75,22 +73,17 @@ public class OpenLoopController implements iController{
             currentRotationImpulse = DataStorageRotationImpulse.peek();
             DataStorageRotationImpulse.remove();
         }
-        handleCurrentRotation(time); // not implemented yet
+        handleCurrentRotation(time);
 
 
-        //
+        if(DataStorageMainThrustImpulse.peek().getStartTimeOfImpulse() == time){
+            currentMainThrustImpulse = DataStorageMainThrustImpulse.peek();
+            DataStorageMainThrustImpulse.remove();
 
-        if(DataStorageMainThrustImpulse){} // here we need to adapt the MainThrustClass ( add time variables) to have an orientation when to use the next Thrust
-
-        handleCurrentMainThrust();
-
-
-
-
+        }
+        handleCurrentMainThrust(time);
 
         return VU;
-
-
 
     }
 
@@ -120,13 +113,25 @@ public class OpenLoopController implements iController{
             if(time<= currentRotationImpulse.getStartTimeTorqueAcceleration() && time < currentRotationImpulse.getStartTimeTorqueDeceleration()){
                 VU[1]= currentRotationImpulse.getTorqueAcceleration();
             }
-            else if(time >= currentRotationImpulse.getStartTimeTorqueDeceleration()){
+            else if((time >= currentRotationImpulse.getStartTimeTorqueDeceleration()) && ((currentRotationImpulse.getStartTimeTorqueDeceleration() + currentRotationImpulse.getTime()) >= time)){
                 VU[1]= currentRotationImpulse.getTorqueDeceleration();
             }
+            else{
+                VU[1] = 0;
+            }
+
         }
     }
 
-    public void handleCurrentMainThrust(){}
+    public void handleCurrentMainThrust(int time){
+        if(time>= currentMainThrustImpulse.getStartTimeOfImpulse() && time<= currentMainThrustImpulse.getEndTimeOfPulse()){
+            VU[2] = currentMainThrustImpulse.getThrust();
+        }
+        else{
+            VU[2] = 0;
+        }
+
+    }
     
     private double calculateNeededThrust(double wantedChangeInAngle)
     {

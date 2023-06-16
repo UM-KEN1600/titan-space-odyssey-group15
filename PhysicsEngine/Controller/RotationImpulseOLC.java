@@ -1,6 +1,6 @@
 package PhysicsEngine.Controller;
 
-public class RotationImpulseOPC {
+public class RotationImpulseOLC {
 
     private double targetAngle;
     private double torqueAcceleration;
@@ -13,7 +13,7 @@ public class RotationImpulseOPC {
 
 
 
-    public RotationImpulseOPC(double targetAngle, int startTimeTorqueAcceleration)
+    public RotationImpulseOLC(double targetAngle, int startTimeTorqueAcceleration)
     {
         this.startTimeTorqueAcceleration = startTimeTorqueAcceleration;
         this.targetAngle = targetAngle;

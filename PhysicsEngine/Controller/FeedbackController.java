@@ -79,6 +79,24 @@ public class FeedbackController implements iController{
 
     public void xCorrection(){
         double movement = 0 - currentPosition[0];
+        double movemenetAngle = turnAngle * Math.signum(movement);
+        doRotation(movemenetAngle);
+
+
+
+
+    }
+
+    public void doMovement(double movement){
+        double halfDistance = movement/2;
+         
+    }
+
+    public void xThrust(double movement){
+
+    }
+
+    public void xVelocity(double newVelocity){
 
     }
 
@@ -243,6 +261,13 @@ public class FeedbackController implements iController{
 
     //Checks all constraints and corrects the probe as Necessary
     public void testOnce(){
+
+        if(!testXPosition()){
+            xCorrection();
+        }
+        if(!testXVelocity()){
+            //MODIFY X VELOCITY HERE
+        }
         if(!testAngle()){
             rotationCorrection();
         }
@@ -251,13 +276,7 @@ public class FeedbackController implements iController{
             //MODIFY ANGULAR VELOCITY HERE
         }
         fullCircle();
-        if(!testXPosition()){
-            xCorrection();
-        }
-        if(!testXVelocity()){
-            //MODIFY X VELOCITY HERE
-        }
-        if(!testYVelocity() && testAngle()){
+        if(!testYVelocity() && (turnTime == 0)){
             yCorrection();
         }
     }

@@ -6,6 +6,7 @@ public class RotationImpulse {
 
     private double angleOfRotation;
     private double angularVelocity;
+    private double rotationTime;
     private double torque;
 
     /**
@@ -24,6 +25,16 @@ public class RotationImpulse {
     //Getter for the angle
     public double getAngle(){
         return angleOfRotation;
+    }
+
+    //Getter for the torque
+    public double getTorque(){
+        return torque;
+    }
+
+    //Getter for the rotation time
+    public double getRotationTime(){
+        return rotationTime;
     }
 
     //Setter for the angle
@@ -67,27 +78,30 @@ public class RotationImpulse {
 
 
     /**
-     * Rotates the spacecraft to the desired angle
+     * Plans the rotation of the spacecraft
+     * Will give the amount of seconds needed with a specific torque
+     * (The switch to deceleration will have to be done externally)
      * @param newAngle
      */
     //CALL THIS TO DO THE ROTATION
-    public void xRotation(double newAngle){
+    public void xRotationPlan(double newAngle){
         //calculates half the newAngle since the rotation will have 2 phases (acceleration and deceleration)
-        double halfAngle = newAngle/2;
-        
+        double halfAngle = Math.ceil(newAngle/2);
+    
         //calculates the full amount of acceleration time needed
         double averageAccelerationAngle = halfAngle;
-        double accelerationTime = Math.ceil(calculateAccelerationTime(averageAccelerationAngle));
+        double accelerationTime = calculateAccelerationTime(averageAccelerationAngle);
+        if(accelerationTime % 1 != 0){
+            accelerationTime = Math.ceil(accelerationTime);
+        }
         double decelerationTime = accelerationTime;
 
         //calculates the average acceleration that will be used in the rotation
         double acceleration = calculateAcceleration(halfAngle, accelerationTime);
-        double deceleration = -acceleration;
+    
+        torque = acceleration;
+        rotationTime = accelerationTime + decelerationTime;
 
-        //does the rotation on the spacecraft
-        rotation(halfAngle, accelerationTime, acceleration);
-        rotation(halfAngle, decelerationTime, deceleration);
-        RocketState.getInstance().setAngle(angleOfRotation);
     }
 
     /**
@@ -109,29 +123,6 @@ public class RotationImpulse {
     public double calculateAcceleration(double newAngle, double time){
         double acceleration = newAngle / time;
         return acceleration;
-    }
-
-    /**
-     * Calculates the necessary acceleration to rotate the rocket at for it to reach the necessary angle in the specified amount of time
-     * @param newAngle the new angle that you want the rocket to face 
-     * @param time the amount of time that the rocket has to turn in
-     * @param torque the amount of torque that the spacecraft will use
-     */
-    public void rotation(double newAngle, double time, double torque){
-
-        for(int t = 0; t < time; t++){
-
-            //calculates the new angular velocity
-            //angular velocity = angular velocity * time
-            double oldAngularVelocity = angularVelocity;
-            angularVelocity += torque;
-
-            //calculates the new displacement using the change in angular velocity
-            //change in angular velocity = (initial angular velocity + angular velocity) / 2
-            double changeInAngularVelocity = (oldAngularVelocity + angularVelocity) / 2;
-            // theta = change in angular velocity / time
-            angleOfRotation += changeInAngularVelocity;
-        }
     }
 
 }

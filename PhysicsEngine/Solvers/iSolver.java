@@ -1,6 +1,5 @@
 package PhysicsEngine.Solvers;
 
-import SolarSystem.CelestialBody;
 
 public interface iSolver {
 

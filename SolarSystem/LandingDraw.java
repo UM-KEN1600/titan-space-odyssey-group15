@@ -2,6 +2,7 @@ package SolarSystem;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
@@ -10,6 +11,8 @@ public class LandingDraw extends JPanel {
     int x = 0;
     int y = 0;
     double rotationAngle = 0.0;
+    int spaceshipCenterX;
+    int spaceshipCenterY; 
 
     Image titan;
     Image spaceShip;
@@ -51,21 +54,23 @@ public class LandingDraw extends JPanel {
 
         g2.drawImage(background, 0, 0, null);
         // Draw Titan
-        x = 200; // x-coordinate for Titan
-        y = 70; // y-coordinate for Titan
+        x = -300; // x-coordinate for Titan
+        y = 400; // y-coordinate for Titan
+        
         g2.drawImage(titan, x, y, null);
 
         
         // Draw spaceship
-        int spaceshipX = 20; // x-coordinate for spaceship
+        int spaceshipX = 485; // x-coordinate for spaceship
         int spaceshipY = 20; // y-coordinate for spaceship
+        
+        rotateSpaceship(-135);
 
         int spaceshipCenterX = spaceshipX + spaceShip.getWidth(null) / 2;
         int spaceshipCenterY = spaceshipY + spaceShip.getHeight(null) / 2;
 
         AffineTransform oldTransform = g2.getTransform();
 
-        rotateSpaceship(90);
         g2.rotate(Math.toRadians(rotationAngle), spaceshipCenterX, spaceshipCenterY);
 
         g2.drawImage(spaceShip, spaceshipX, spaceshipY, null);
@@ -74,10 +79,10 @@ public class LandingDraw extends JPanel {
         
     }
 
-
     public void rotateSpaceship(double degrees) {
         rotationAngle = degrees;
         repaint();
     }
+
 
 }

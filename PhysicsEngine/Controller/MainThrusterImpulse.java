@@ -7,12 +7,14 @@ import PhysicsEngine.Operations.VectorOperations;
 public class MainThrusterImpulse {
 
     double thrust;
+    double timeOfImpulse;
     double[] currentVelocity;
 
-    public MainThrusterImpulse(double thrust, double[] currentVelocity)
+    public MainThrusterImpulse(double timeOfImpulse, double thrust, double[] currentVelocity)
     {
         this.thrust = thrust;
         this.currentVelocity = currentVelocity;
+        this.timeOfImpulse = timeOfImpulse;
     }
 
     /**
@@ -25,9 +27,9 @@ public class MainThrusterImpulse {
         h += thrust;
 
 
-        double a = Math.cos(calculateAngle(currentVelocity, new double[]{10,0})) * h;
+        double a = Math.cos(VectorOperations.calculateAngle(currentVelocity, new double[]{10,0})) * h;
 
-        double b = Math.sin(calculateAngle(currentVelocity, new double[]{10,0})) * h;
+        double b = Math.sin(VectorOperations.calculateAngle(currentVelocity, new double[]{10,0})) * h;
 
         double[] velocity = new double[2];
         velocity[0] = a;
@@ -36,19 +38,9 @@ public class MainThrusterImpulse {
         return velocity;
     }
 
-    private double calculateAngle(double[] vectorA, double[] vectorB)
+
+    public double getTimeOfImpulse() 
     {
-        double dotProduct = VectorOperations.dotProduct(vectorA,vectorB);
-        double aMag = VectorOperations.magnitude(vectorA);
-        double bMag = VectorOperations.magnitude(vectorB);
-
-        double check = vectorA[0]*vectorB[1] - vectorA[0]*vectorB[0];
-        
-        if(check < 0)
-        {
-            return 2*Math.PI - Math.acos(dotProduct/(aMag * bMag));
-        }
-
-        return Math.acos(dotProduct/(aMag * bMag));
+        return timeOfImpulse;
     }
 }

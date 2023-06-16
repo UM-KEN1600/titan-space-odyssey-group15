@@ -33,8 +33,13 @@ public class FeedbackController implements iController{
 
     //Torque that will be used
     public double torque; //rad s^2
-    public double stepTime;
+    public double turnTime;
+    public double halfTurn;
+    public double stepTime = 1;
     public double currentThrust;
+    public double turnAngle; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+
+    public RotationImpulse rotator = new RotationImpulse(0, 0);
 
     //Position of Titan after one year, used for calculation of angle
     final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
@@ -46,26 +51,31 @@ public class FeedbackController implements iController{
         this.torque = torque;
         this.timestep = timestep;
     }
+
     @Override
     public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
+
         this.currentVelocity = currentVelocity;
         this.currentPosition = currentPosition;
+        this.currentAngle = theta;
+
         testOnce();
+        rotating();
+
         double[][] nextState = rk4.solve(currentPosition, currentVelocity, currentThrust,  torque, stepTime, g);
+        currentAngle = nextState[0][2];
+        fullCircle();
+        nextState[0][2] = currentAngle;
         return nextState;
     }
 
     //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
-    public void xRotation(double newAngle){
-        /* 
-        double turnTime = calculateAngleChangeTime(newAngle);
+    
 
-        double xComponentAcceleration = xAcceleration(newAngle);
-        double yComponentAcceleration = yAcceleration(newAngle);
-        */
-        //HAS TO BE REDONE, NO MODIFICATION OF THE STATE HERE, ONLY IN THE RK4.SOLVE
-        //modify the x component with timestep and the Xacceleration
+    public void xCorrection(){
+        double movement = 0 - currentPosition[0];
+
     }
 
     public void yMovement(double newAngle){
@@ -73,59 +83,66 @@ public class FeedbackController implements iController{
         //Probably not correctly done
     }
 
-    public double calculateAngleChangeTime(double newAngle){
-        double angleChange = Math.abs(currentAngle - newAngle);
-        double time = angleChange / torque;
-        return time*time;
-    } 
+
+
+    public void rotationCorrection(){
+        doRotation(0);
+    }
+
     
-    /* 
-    //USELESS SINCE RK4.SOLVE WILL TAKE CARE OF THIS
-    public static double xAcceleration(double angle){
-        return maxThrust * Math.sin(angle);
-    } 
-
-    public static double yAcceleration(double angle){
-        return  (maxThrust * Math.cos(angle)) - g;
+    /**
+     * Finds which direction the spacecraft has to rotate
+     * @param newAngle
+     */
+    public void direction(double newAngle){
+        if (newAngle - currentAngle < 0){
+            torque = -torque;
+        }
     }
 
-    public void setAngle(double newAngle){
-        currentAngle = newAngle;
+    //Manages the current rotation
+    //Checks how long the rotation has to be for and manages when to start the deceleration phase
+    public void rotating(){
+        if(turnTime > 0){
+            turnTime--;
+        }
+        if(turnTime == halfTurn){
+            torque = -torque;
+        }
+        if(turnTime <= 0){
+            torque = 0;
+        }
     }
-    */
+
+    
+    /**
+     * Calculates all necessary factors to implement the desired rotation to reach a new angle
+     * @param newAngle 
+     */
+    public void doRotation(double newAngle){
+        //Find the amount of angle that needs to be displaced
+        double changeInAngle = Math.abs(newAngle - currentAngle);
+
+        //calculates for how long an amount of torque has to be applied to reach the wanted angle
+        rotator.xRotationPlan(changeInAngle);
+        turnTime = rotator.getRotationTime();
+        torque = rotator.getTorque();
+
+        //checks which direction to turn to
+        direction(newAngle);
+
+        //used to decide when to decelerate
+        halfTurn = turnTime/2;
+    }
 
 
-    public void angleChange(){
-        if(currentAngle > Math.PI){
-            double angleChange = 2*Math.PI - currentAngle;
-            xRotation(angleChange);
-        }
-        if(currentAngle < Math.PI){
-            double angleChange = -1 * currentAngle;
-            xRotation(angleChange);
-        }
-        //Probs more stuff has to be changed here, but for now this would rotate it at least
+    //Fixes the angularVelocity in case any error has been made
+    public void angularVelocityCorrection(){
+        double fixRotate = currentAngularVelocity;
+        doRotation(fixRotate);
     }
     
-    public void angularVelocityChange(){
-        if(currentAngularVelocity < (angularVelocityFINAL * -1)){
-            double changeInAngularVelocity = currentAngularVelocity;
-            double thrustTime = changeAngularVelocityTime(changeInAngularVelocity); //WRONG WRONG WRONG wRONGV
-            xRotation(thrustTime);
-        }
-        if(currentAngularVelocity > angularVelocityFINAL){
-            double changeInAngularVelocity = -currentAngularVelocity;
-            double thrustTime = changeAngularVelocityTime(changeInAngularVelocity);
-            xRotation(thrustTime);
-
-        }
-    }
-
-    public double changeAngularVelocityTime(double changeInAngularVelocity){
-        double time = Math.abs(currentAngularVelocity)/torque;
-        return time;
-    }
-    //Resets the angle to a 2PI base system
+    //Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
     public void fullCircle(){
         if (currentAngle < 0){
             currentAngle += 2* Math.PI;
@@ -135,6 +152,9 @@ public class FeedbackController implements iController{
         }
     }
 
+
+    //Constraint Tester Block
+    //---------------------------------------------------------------------------------------------------------
     public boolean testAngle(){
         return (currentAngle%(2*Math.PI)) < thetaFINAL;
     }
@@ -154,23 +174,26 @@ public class FeedbackController implements iController{
     public boolean testAngularVelocity(){
         return Math.abs(currentAngularVelocity) < angularVelocityFINAL;
     }
+    //---------------------------------------------------------------------------------------------------------
 
+    
+    //Checks all constraints and corrects the probe as Necessary
     public void testOnce(){
         if(!testAngle()){
-            //MODIFY ANGLE HERE
+            rotationCorrection();
         }
         fullCircle();
-        if(!testAngularVelocity()){
+        if(!testAngularVelocity() && (turnTime == 0)){
             //MODIFY ANGULAR VELOCITY HERE
         }
         fullCircle();
         if(!testXPosition()){
-            //MODIFY X POSITION HERE
+            xCorrection();
         }
         if(!testXVelocity()){
             //MODIFY X VELOCITY HERE
         }
-        if(!testYVelocity()){
+        if(!testYVelocity() && testAngle()){
             //MODIFY Y VELOCITY HERE
         }
     }

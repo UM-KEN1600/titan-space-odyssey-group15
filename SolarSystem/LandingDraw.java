@@ -2,6 +2,8 @@ package SolarSystem;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+
 import javax.swing.*;
 
 public class LandingDraw extends JPanel {

@@ -1,9 +1,6 @@
 package PhysicsEngine.States;
 
-import java.awt.Color;
-import java.io.ObjectInputStream.GetField;
 
-import SolarSystem.CelestialBody;
 
 /**
  * Holds a matrix with the position and velocity of each celestial body: Sun, Venus, Earth, Moon, Mars, Jupiter, Saturn, Titan and Spaceship respectively

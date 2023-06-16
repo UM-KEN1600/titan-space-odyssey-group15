@@ -37,7 +37,7 @@ public class FeedbackController implements iController{
     public double halfTurn;
     public double stepTime = 1;
     public double currentThrust;
-    public double turnAngle; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+    public double turnAngle = 0.175; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
 
     public RotationImpulse rotator = new RotationImpulse(0, 0);
 
@@ -59,13 +59,17 @@ public class FeedbackController implements iController{
         this.currentPosition = currentPosition;
         this.currentAngle = theta;
 
-        testOnce();
         rotating();
+        testOnce();
+        
 
         double[][] nextState = rk4.solve(currentPosition, currentVelocity, currentThrust,  torque, stepTime, g);
+
+        //Corrects the angle just in case it is not in 2PI system
         currentAngle = nextState[0][2];
         fullCircle();
         nextState[0][2] = currentAngle;
+
         return nextState;
     }
 
@@ -78,13 +82,50 @@ public class FeedbackController implements iController{
 
     }
 
-    public void yMovement(double newAngle){
-        //likely modification is needed here
-        //Probably not correctly done
+    public void yCorrection(){
+        
+    }
+    
+    /**
+     * Calculates the time that it would take in the current state for the probe to reach titan
+     * @return time that it would take to reach titan;
+     */
+    //s = v0t - 0.5gt^2
+    //0 = -0.5gt^2 + v0t - s
+    public double fallTime(){
+        double height = currentPosition[1];
+        double currentYVelocity = currentVelocity[1];
+        double time = quadraticEquation(-0.5*g, currentYVelocity, height);
+        return time;
     }
 
+    /**
+     * Calculates the  time needed to decelerate from the current velocity to 0
+     * @return amount of time needed to decelerate
+     */
+    public double ydecelerationTime(){
+        double currentYVelocity = currentVelocity[1];
+        double totalDeceleration = maxThrust - g;
+        double decelerationTime = -currentYVelocity/totalDeceleration;
+        return decelerationTime;
+    }
 
+    /**
+     * Quadratic Equation solver
+     * ax^2 + bx + c = 0
+     * x = (-b + sqrt(b^2 -4ac))/2a
+     * @param a 
+     * @param b
+     * @param c
+     * @return solved equation for x
+     */
+    static public double quadraticEquation(double a, double b, double c){
+        double discriminant = Math.sqrt(Math.abs((b*b) - 4 * a * c));
+        double x = (-b + discriminant)/2*a;
+        return x;
+    }
 
+    //Rotates the probe back to vertical position
     public void rotationCorrection(){
         doRotation(0);
     }
@@ -160,11 +201,11 @@ public class FeedbackController implements iController{
     }
 
     public boolean testXVelocity(){
-        return currentVelocity[0] < xVelocityFINAL;
+        return Math.abs(currentVelocity[0]) < xVelocityFINAL;
     }
 
     public boolean testYVelocity(){
-        return currentVelocity[1] < yVelocityFINAL;
+        return Math.abs(currentVelocity[1]) < yVelocityFINAL;
     }
 
     public boolean testXPosition(){
@@ -176,7 +217,7 @@ public class FeedbackController implements iController{
     }
     //---------------------------------------------------------------------------------------------------------
 
-    
+
     //Checks all constraints and corrects the probe as Necessary
     public void testOnce(){
         if(!testAngle()){

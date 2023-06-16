@@ -38,7 +38,8 @@ public class FeedbackController implements iController{
     public double stepTime = 1;
     public double currentThrust;
     public double turnAngle = 0.175; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
-
+    public double thrustTime;
+    public double halfThrust;
     public RotationImpulse rotator = new RotationImpulse(0, 0);
 
     //Position of Titan after one year, used for calculation of angle
@@ -79,25 +80,47 @@ public class FeedbackController implements iController{
 
     public void xCorrection(){
         double movement = 0 - currentPosition[0];
-        double movemenetAngle = turnAngle * Math.signum(movement);
-        doRotation(movemenetAngle);
-
+        if(currentAngle == 0){
+            double movementAngle = turnAngle * Math.signum(movement);
+            doRotation(movementAngle);
+        }
+        doMovement(movement);
 
 
 
     }
 
+    public void thrustController(){
+        if(thrustTime > 0){
+            thrustTime--; //Ticks down the turn time
+        }
+        if(thrustTime == halfTurn){
+            currentAngle = -turnAngle;
+            currentThrust = -currentThrust; //Starts the deceleration phase
+        }
+        if(thrustTime <= 0){
+            currentThrust = 0; //X movement has been finished
+        }
+    }
     public void doMovement(double movement){
         double halfDistance = movement/2;
-         
+        double time = Math.ceil(xTime(halfDistance));
+        double thrust = xThrust(time, halfDistance);
+        currentThrust = thrust;
+        thrustTime = time;
+        halfThrust = thrustTime/2;
     }
 
-    public void xThrust(double movement){
-
+    public double xTime(double movement){
+        double acceleration = currentThrust * Math.sin(currentAngle);
+        double time = Math.sqrt((movement*2)/acceleration);
+        return time;
     }
 
-    public void xVelocity(double newVelocity){
-
+    public double xThrust(double time, double movement){
+        double acceleration = (movement*2) / (time*time);
+        double thrust = acceleration/Math.asin(currentAngle);
+        return thrust;
     }
 
     /**
@@ -151,7 +174,7 @@ public class FeedbackController implements iController{
      */
     static public double quadraticEquation(double a, double b, double c){
         double discriminant = Math.sqrt(Math.abs((b*b) - 4 * a * c));
-        double x = (-b + discriminant)/2*a;
+        double x = (-b + discriminant)/ 2*a;
         return x;
     }
 
@@ -178,7 +201,7 @@ public class FeedbackController implements iController{
      */
     public void direction(double newAngle){
         if (newAngle - currentAngle < 0){
-            torque = -torque;
+            torque = -torque; 
         }
     }
 
@@ -186,13 +209,13 @@ public class FeedbackController implements iController{
     //Checks how long the rotation has to be for and manages when to start the deceleration phase
     public void rotating(){
         if(turnTime > 0){
-            turnTime--;
+            turnTime--; //Ticks down the turn time
         }
         if(turnTime == halfTurn){
-            torque = -torque;
+            torque = -torque; //Starts the deceleration phase
         }
         if(turnTime <= 0){
-            torque = 0;
+            torque = 0; //Turn has been finished
         }
     }
 

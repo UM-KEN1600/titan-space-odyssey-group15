@@ -83,7 +83,13 @@ public class FeedbackController implements iController{
     }
 
     public void yCorrection(){
-        
+        if(ydecelerationTime(maxThrust) + 50 < fallTime()){
+            return;
+        }
+        if(currentVelocity[1] < maxThrust - g){
+
+        }
+
     }
     
     /**
@@ -103,9 +109,9 @@ public class FeedbackController implements iController{
      * Calculates the  time needed to decelerate from the current velocity to 0
      * @return amount of time needed to decelerate
      */
-    public double ydecelerationTime(){
+    public double ydecelerationTime(double thrust){
         double currentYVelocity = currentVelocity[1];
-        double totalDeceleration = maxThrust - g;
+        double totalDeceleration = thrust - g;
         double decelerationTime = -currentYVelocity/totalDeceleration;
         return decelerationTime;
     }
@@ -123,6 +129,17 @@ public class FeedbackController implements iController{
         double discriminant = Math.sqrt(Math.abs((b*b) - 4 * a * c));
         double x = (-b + discriminant)/2*a;
         return x;
+    }
+
+    /**
+     * Calculates the acceleration that would be needed to decelerate in a given amount of time to 0
+     * @param time
+     * @return deceleration amount
+     */
+    public double yAcceleration(double time){
+        double currentYVelocity = currentVelocity[1];
+        double acceleration = currentYVelocity/time;
+        return acceleration + g;
     }
 
     //Rotates the probe back to vertical position

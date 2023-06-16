@@ -8,7 +8,7 @@ public class RotationImpulseOPC {
     private int startTimeTorqueAcceleration;
     private int startTimeTorqueDeceleration;
     private int time;
-    public final double VMAX = 60;
+    public final double VMAX = 1;
     public final int maxTimeRotation = 3;
 
 
@@ -71,5 +71,47 @@ public class RotationImpulseOPC {
         torqueDeceleration = - torqueAcceleration;
     }
 
+    public double getTargetAngle() {
+        return targetAngle;
+    }
 
+    public double getTorqueAcceleration() {
+        return torqueAcceleration;
+    }
+
+    public void setTorqueAcceleration(double torqueAcceleration) {
+        this.torqueAcceleration = torqueAcceleration;
+    }
+
+    public double getTorqueDeceleration() {
+        return torqueDeceleration;
+    }
+
+    public void setTorqueDeceleration(double torqueDeceleration) {
+        this.torqueDeceleration = torqueDeceleration;
+    }
+
+    public int getStartTimeTorqueAcceleration() {
+        return startTimeTorqueAcceleration;
+    }
+
+    public void setStartTimeTorqueAcceleration(int startTimeTorqueAcceleration) {
+        this.startTimeTorqueAcceleration = startTimeTorqueAcceleration;
+    }
+
+    public int getStartTimeTorqueDeceleration() {
+        return startTimeTorqueDeceleration;
+    }
+
+    public void setStartTimeTorqueDeceleration(int startTimeTorqueDeceleration) {
+        this.startTimeTorqueDeceleration = startTimeTorqueDeceleration;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
 }

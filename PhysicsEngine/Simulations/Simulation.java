@@ -2,6 +2,7 @@ package PhysicsEngine.Simulations;
 import java.util.Arrays;
 
 import PhysicsEngine.Functions;
+import PhysicsEngine.Solvers.RungeKutta4Solver;
 import PhysicsEngine.Thrust;
 import PhysicsEngine.Controller.OpenLoopController;
 import PhysicsEngine.JourneyPhase.LandingPhase;
@@ -72,16 +73,20 @@ public class Simulation {
         int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
         framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
-        //store intital angle
+        OpenLoopController openLoopController = new OpenLoopController();
+
+
         double[][] initialState = getInitialLandingState(nextState[8]);
+        double[] newVU = new double[2];
 
 
         for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
-        {  
-            //next State = whatever the controller says, only for spaceship
-            
+        {
+
+            newVU = openLoopController.planLanding(initialState,i);
 
 
+            //call solver to solve and update new state
 
 
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------

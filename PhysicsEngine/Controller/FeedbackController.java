@@ -82,12 +82,18 @@ public class FeedbackController implements iController{
 
     }
 
+    /**
+     * Main method to calculate for how long and how much to decelerate
+     */
     public void yCorrection(){
         if(ydecelerationTime(maxThrust) + 50 < fallTime()){
             return;
         }
         if(currentVelocity[1] < maxThrust - g){
-
+            double time = fallTime();
+            currentThrust = yAcceleration(time);
+        } else{
+            currentThrust = maxThrust;
         }
 
     }
@@ -252,7 +258,7 @@ public class FeedbackController implements iController{
             //MODIFY X VELOCITY HERE
         }
         if(!testYVelocity() && testAngle()){
-            //MODIFY Y VELOCITY HERE
+            yCorrection();
         }
     }
 

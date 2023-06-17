@@ -77,7 +77,11 @@ public class FeedbackController implements iController{
     //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
     
-
+    /**
+     * Main controller to do any correction in the X axis
+     * Finds a suitable angle for the rocket to be at or uses the existing one
+     * Plans out exactly for how long to run the engine to accelerate and then decelerate until it reaches the wanted position
+     */
     public void xCorrection(){
         double movement = 0 - currentPosition[0];
         if(currentAngle == 0){
@@ -90,12 +94,17 @@ public class FeedbackController implements iController{
 
     }
 
+    /**
+     * Controls the active thrust 
+     * Sets and controls any parameters that are needed for a successful x displacement
+     */
     public void thrustController(){
         if(thrustTime > 0){
             thrustTime--; //Ticks down the turn time
         }
-        if(thrustTime == halfTurn){
-            currentAngle = -turnAngle;
+        if(thrustTime == halfThrust){
+            currentAngle = -currentAngle;
+            doRotation(currentAngle);
             currentThrust = -currentThrust; //Starts the deceleration phase
         }
         if(thrustTime <= 0){
@@ -107,16 +116,30 @@ public class FeedbackController implements iController{
         double time = Math.ceil(xTime(halfDistance));
         double thrust = xThrust(time, halfDistance);
         currentThrust = thrust;
-        thrustTime = time;
-        halfThrust = thrustTime/2;
+        thrustTime = time + 2;
+        halfThrust = Math.ceil(time/2);
+        if(halfThrust % 2 != 0){
+            halfThrust++;
+        }
     }
 
+    /**
+     * Calculates how long it would take for the spacecraft to move a certain distance at max thrust
+     * @param movement displacement
+     * @return the time needed 
+     */
     public double xTime(double movement){
         double acceleration = currentThrust * Math.sin(currentAngle);
         double time = Math.sqrt((movement*2)/acceleration);
         return time;
     }
 
+    /**
+     * Calculates the acceleration you would need for the probe to move a certain distance in a set amount of time
+     * @param time Time you want the probe to take
+     * @param movement The displacement you want the probe to make
+     * @return the thrust needed to push the rocket by for it to get to the deisre position
+     */
     public double xThrust(double time, double movement){
         double acceleration = (movement*2) / (time*time);
         double thrust = acceleration/Math.asin(currentAngle);

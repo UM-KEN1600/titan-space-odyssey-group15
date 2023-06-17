@@ -99,18 +99,24 @@ public class FeedbackController implements iController{
      * Sets and controls any parameters that are needed for a successful x displacement
      */
     public void thrustController(){
-        if(thrustTime > 0){
-            thrustTime--; //Ticks down the turn time
-        }
         if(thrustTime == halfThrust){
             currentAngle = -currentAngle;
             doRotation(currentAngle);
             currentThrust = -currentThrust; //Starts the deceleration phase
         }
+        if(thrustTime > 0){
+            thrustTime--; //Ticks down the turn time
+        }
+        
         if(thrustTime <= 0){
             currentThrust = 0; //X movement has been finished
         }
-    }
+    }   
+
+    /**
+     * Sets any necessary values for the rocket to move in the x axis
+     * @param movement displacement amount
+     */
     public void doMovement(double movement){
         double halfDistance = movement/2;
         double time = Math.ceil(xTime(halfDistance));
@@ -146,6 +152,21 @@ public class FeedbackController implements iController{
         return thrust;
     }
 
+    /**
+     * Handles the x velocity correction
+     * Basically sets the thrust for one second in 1 direction for it to counteract any residual thrust
+     */
+    public void xVelocityCorrection(){
+        if(Math.signum(currentVelocity[1]) != Math.signum(currentAngle)){
+            double velocityCorrection = currentVelocity[1];
+            currentThrust = velocityCorrection;
+            thrustTime = 1;
+        } else{
+            double movementAngle = turnAngle * Math.signum(currentVelocity[1]) *-1;
+            doRotation(movementAngle);
+        }
+
+    }
     /**
      * Main method to calculate for how long and how much to decelerate
      */
@@ -311,15 +332,15 @@ public class FeedbackController implements iController{
         if(!testXPosition()){
             xCorrection();
         }
-        if(!testXVelocity()){
-            //MODIFY X VELOCITY HERE
+        if(!testXVelocity() && (thrustTime == 0)){
+            xVelocityCorrection();
         }
         if(!testAngle()){
             rotationCorrection();
         }
         fullCircle();
         if(!testAngularVelocity() && (turnTime == 0)){
-            //MODIFY ANGULAR VELOCITY HERE
+            angularVelocityCorrection();
         }
         fullCircle();
         if(!testYVelocity() && (turnTime == 0)){

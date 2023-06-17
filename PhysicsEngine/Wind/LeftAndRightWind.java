@@ -2,6 +2,10 @@ package PhysicsEngine.Wind;
 import java.lang.Math;
 import java.util.Random;
 
+
+/**
+ * The wind arrives from all the angles
+ */
 public class LeftAndRightWind extends Wind{
     
     /**
@@ -13,20 +17,14 @@ public class LeftAndRightWind extends Wind{
 
     @Override
     public double[] applyWind(double[] currentProbeVelocity) {
-        // Chosing an angle such that cos(angle) is negative. Using degrees, in the range 90-270
-        double[] boundaries = {0, 365}; 
 
-        Random random = new Random();
-        double windChangeX = 0;
-        double windChangeY = 0;
-        double angle;
-        
-        double angleInDegrees = random.nextDouble(boundaries[1] - boundaries[0]) + boundaries[0];
+        // Chosing a random angle from wich the wind will arrive. Using degrees, in the range 0-365
+        final double[] angleBoundaries = {0, 365};
+    
+        //calculate the X and Y 
+        double[] windVelocity = super.calculateWindVelocity(angleBoundaries);
 
-        windChangeX = maxWindVelocity * Math.cos(Math.toRadians(angleInDegrees));
-        //windChangeY = maxWindVelocity * Math.sin(Math.toRadians(angleInDegrees)); // not changing y for now
-
-        double[] velocityAfterWind = {currentProbeVelocity[0] + windChangeX, currentProbeVelocity[1] - windChangeY};
+        double[] velocityAfterWind = {currentProbeVelocity[0] - windVelocity[0], currentProbeVelocity[1] - windVelocity[1]};
         return velocityAfterWind;
-    }
+        }
 }

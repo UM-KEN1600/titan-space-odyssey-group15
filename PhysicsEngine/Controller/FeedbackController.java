@@ -61,7 +61,7 @@ public class FeedbackController implements iController{
 
         this.currentVelocity = state[1];
         this.currentPosition = state[0];
-        this.currentAngle = currentPosition[3];
+        this.currentAngle = currentPosition[2];
 
         rotating();
         testOnce();

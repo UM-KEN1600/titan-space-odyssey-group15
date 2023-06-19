@@ -23,7 +23,7 @@ public class OpenLoopController implements iController{
 
     //Position of Titan after one year, used for calculation of angle
     //Top of titan
-    final static public double[] LANDING_POSITION = {1.3680484627624216E9,-4.8546124152074784E8 + CelestialBody.bodyList[7].getRadius()};
+    final static public double[] LANDING_POSITION = {1368066052.585550,-485587471.846701 + CelestialBody.bodyList[7].getRadius()};
 
     //Timestep being used in the current instance
     private double timestep;
@@ -40,10 +40,11 @@ public class OpenLoopController implements iController{
     private Queue<RotationImpulseOLC> DataStorageRotationImpulse = new LinkedList();
     private Queue<MainThrusterImpulse> DataStorageMainThrustImpulse = new LinkedList();
 
-    public OpenLoopController()
+    public OpenLoopController(double[] landingPosition)
     {
         initialDataStorageRotationImpulse();
         initialDataStorageMainThrustImpulse();
+
     }
 
     public void initialDataStorageRotationImpulse(){

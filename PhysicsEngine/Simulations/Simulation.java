@@ -4,6 +4,7 @@ import java.util.Arrays;
 import PhysicsEngine.Functions;
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import PhysicsEngine.Thrust;
+import PhysicsEngine.Controller.FeedbackController;
 import PhysicsEngine.Controller.OpenLoopController;
 import PhysicsEngine.Controller.iController;
 import PhysicsEngine.JourneyPhase.LandingPhase;
@@ -16,7 +17,7 @@ import SolarSystem.CelestialBody;
 
 public class Simulation {
 
-    final boolean SHOWENDPOSITIONS = true;
+    final boolean SHOWENDPOSITIONS = false;
 
     Functions functions = new Functions();
     iSolver solver;
@@ -32,7 +33,7 @@ public class Simulation {
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
-    double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
+    double[] startingVelocity = {49.58306860517117, 38.2950835525803, 1.9666795395409593};
 
     //Both of these are used to change the phases of the mission
     boolean goIntoOrbit = true;
@@ -77,7 +78,7 @@ public class Simulation {
 
 
 
-        if(!SHOWENDPOSITIONS)
+        if(SHOWENDPOSITIONS)
         {   
             state.printPositions();
              
@@ -103,12 +104,15 @@ public class Simulation {
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
         //Choosing of controller
-        controller = new OpenLoopController();
+        controller = new FeedbackController(1);
 
         double[][] initialState = getInitialLandingState(stateInOrbit[8]);
         double[] newUV = new double[2];
 
-
+        double[] position = new double[2];
+        position[0] = initialState[0][0];
+        position[1] = initialState[0][1];
+        System.out.println(VectorOperations.euclideanForm(position, OpenLoopController.LANDING_POSITION));
 
 
         for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
@@ -141,6 +145,37 @@ public class Simulation {
         newState[1][1] = state[1][1];
         newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0], newState[1][1]}, new double[] {10,0});
         return newState;
+    }
+
+    private double[] calculateLandingPosition(double[][][] state)
+    {
+        double[] distanceVector = new double[2];
+        distanceVector[0] = state[8][0][0] - state[7][0][0];
+        distanceVector[1] = state[8][0][1] - state[7][0][1];
+        distanceVector = takeOffRadius(distanceVector);
+
+        double[] landingPosition = new double[2];
+        landingPosition[0] = state[8][0][0] + distanceVector[0];
+        landingPosition[1] = state[8][0][1] + distanceVector[1];
+        return landingPosition;
+    }
+
+    private double[] takeOffRadius(double[] distance)
+    {
+        double h = Math.sqrt(Math.pow(distance[0], 2) + Math.pow(distance[1], 2));
+
+        h -= CelestialBody.bodyList[7].radius;
+
+
+        double a = Math.cos(VectorOperations.calculateAngle(distance, new double[]{10,0})) * h;
+
+        double b = Math.sin(VectorOperations.calculateAngle(distance, new double[]{10,0})) * h;
+
+        double[] distanceToSurface = new double[2];
+        distanceToSurface[0] = a;
+        distanceToSurface[1] = b;
+
+        return distanceToSurface;
     }
 
     /*

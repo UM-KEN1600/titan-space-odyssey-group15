@@ -23,7 +23,7 @@ public class OpenLoopController implements iController{
 
     //Position of Titan after one year, used for calculation of angle
     //Top of titan
-    final double[] LANDING_POSITION = {1.3680484627624216E9,-4.8546124152074784E8 + CelestialBody.bodyList[7].getRadius()};
+    final static public double[] LANDING_POSITION = {1.3680484627624216E9,-4.8546124152074784E8 + CelestialBody.bodyList[7].getRadius()};
 
     //Timestep being used in the current instance
     private double timestep;

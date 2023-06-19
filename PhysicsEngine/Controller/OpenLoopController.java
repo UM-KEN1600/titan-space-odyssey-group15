@@ -47,32 +47,35 @@ public class OpenLoopController implements iController{
     }
 
     public void initialDataStorageRotationImpulse(){
-
-        RotationImpulseOLC impulseOne = new RotationImpulseOLC(40, 3);
-        DataStorageRotationImpulse.add(impulseOne);
     }
 
     public void initialDataStorageMainThrustImpulse(){
-
     }
 
 
     @Override
-    public double[] getUV(double[][] state, int time) {
+    public double[] getUV(double[][] state, double time) {
+
+
+    if(!DataStorageRotationImpulse.isEmpty()) {
 
         if(DataStorageRotationImpulse.peek().getStartTimeTorqueAcceleration() == time){
             currentRotationImpulse = DataStorageRotationImpulse.peek();
             DataStorageRotationImpulse.remove();
         }
-        handleCurrentRotation(time);
+    }
+    handleCurrentRotation((int)time);
 
+
+    if(!DataStorageMainThrustImpulse.isEmpty()){
 
         if(DataStorageMainThrustImpulse.peek().getStartTimeOfImpulse() == time){
             currentMainThrustImpulse = DataStorageMainThrustImpulse.peek();
             DataStorageMainThrustImpulse.remove();
 
         }
-        handleCurrentMainThrust(time);
+    }
+    handleCurrentMainThrust((int)time);
 
         return UV;
 

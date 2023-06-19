@@ -73,15 +73,14 @@ public class LandingDraw extends JPanel {
         arrowY = 67;
         int arrowCenterX = permX + arrow.getWidth(null) / 2;
         int arrowCenterY = permY + arrow.getHeight(null) / 2;
-        g2.drawImage(arrow, arrowX, arrowY, null);
         
-        rotateArrow(135);
+        rotateArrow(90);
 
         AffineTransform arrowTransform = g2.getTransform();
 
-        g2.rotate(Math.toRadians(rotationAngle), spaceshipCenterX, spaceshipCenterY);
+        g2.rotate(Math.toRadians(rotationAngle), arrowCenterX, arrowCenterY);
 
-        g2.drawImage(spaceShip, arrowX, arrowY, null);
+        g2.drawImage(arrow, arrowX, arrowY, null);
 
         g2.setTransform(arrowTransform);
 

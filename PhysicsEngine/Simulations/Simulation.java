@@ -71,7 +71,7 @@ public class Simulation {
             }
         }
 
-        if(!SHOWENDPOSITIONS)
+        if(SHOWENDPOSITIONS)
         {   
             state.printPositions();
              

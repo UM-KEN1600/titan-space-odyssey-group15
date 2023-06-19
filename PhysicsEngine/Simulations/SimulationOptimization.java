@@ -56,7 +56,7 @@ public class SimulationOptimization {
         twopositions[0] = probePosition;
         twopositions[1] = titanPosition;
 
-        if(SHOWENDPOSITIONS)
+        if(!SHOWENDPOSITIONS)
         {
             System.out.println("distance:");
             System.out.println(getDistaceProbeTitan());

@@ -116,14 +116,17 @@ public class Simulation {
 
             initialState = RK4Solver.solve(initialState[0], initialState[1], newUV[0],newUV[1], journeyPhase.getStepSize());
 
-            //call solver to solve and update new state
-
 
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
             if(i % framesPer10Seconds == 0)
             {
                 state.setLandingPosition(initialState[0]);
             }
+            
+            double[] probePosition = new double[2];
+            probePosition[0] = initialState[0][0];
+            probePosition[1] = initialState[0][1];
+            System.out.println(VectorOperations.euclideanForm(newUV, newUV));
         }
     }
 

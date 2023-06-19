@@ -147,7 +147,7 @@ public class Simulation {
      * returns the actual distance from Titan to the probe
      */
     private double getDistaceProbeTitan(){
-        return VectorOperations.euclideanForm(state.getState()[8][0],state.getState()[7][0]);
+        return VectorOperations.euclideanForm(state.getState()[8][0],state.getState()[7][0])- CelestialBody.bodyList[7].radius;
     }
 
     double timeInOrbit = 10200; //seconds, derived from calculations of ORBITAL TIME with respect to Titan's mass and the spaceship's distance
@@ -158,7 +158,7 @@ public class Simulation {
      */
     private void orbit()
     {
-        if(getDistaceProbeTitan() < (300 + CelestialBody.bodyList[7].radius) && goIntoOrbit == true)
+        if(getDistaceProbeTitan() < (300 ) && goIntoOrbit == true)
         {
             spacecraftEngine(Functions.getVelocityForOrbit(state.getState()));
             goIntoOrbit = false;

@@ -20,7 +20,6 @@ public class OpenLoopController implements iController{
     final double maxThrust = 10*g;
     final double maxTorque = 1.0;
     final double SIZE_OF_SPACESHIP = 0.1; //100 meters :)
-    private double[] positionOfTail = new double[0]; //TO BE DONE LATER
 
     //Position of Titan after one year, used for calculation of angle
     //Top of titan
@@ -58,16 +57,8 @@ public class OpenLoopController implements iController{
     }
 
 
-
     @Override
-    public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) 
-    {
-        return new double[0][0];
-    }
-
-
-    public double[] planLanding(double[][] currentState, int time)
-    {
+    public double[] getUV(double[][] state, int time) {
 
         if(DataStorageRotationImpulse.peek().getStartTimeTorqueAcceleration() == time){
             currentRotationImpulse = DataStorageRotationImpulse.peek();
@@ -210,6 +201,12 @@ public class OpenLoopController implements iController{
     private double[] getPositionRelativeToSpaceship(double[] subject)
     {
         return VectorOperations.vectorSubtraction(LANDING_POSITION,subject);
+    }
+
+    @Override
+    public double[] getUV(double[][] state, double time) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUV'");
     }
 
 

@@ -5,6 +5,7 @@ import PhysicsEngine.Functions;
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import PhysicsEngine.Thrust;
 import PhysicsEngine.Controller.OpenLoopController;
+import PhysicsEngine.Controller.iController;
 import PhysicsEngine.JourneyPhase.LandingPhase;
 import PhysicsEngine.JourneyPhase.TravelPhase;
 import PhysicsEngine.JourneyPhase.iJourneyPhase;
@@ -20,13 +21,15 @@ public class Simulation {
     Functions functions = new Functions();
     iSolver solver;
     State state = new State();
+    iController controller;
 
     //controls the timestep and solver used in respective phases
     iJourneyPhase journeyPhase;
 
     double framesTotal = 200;
-    double secondsOfTravel = 31536000; //seconds in a year //
-    double secondsOfLanding = 86400; //seconds in a day
+    int secondsOfTravel = 31536000; //seconds in a year //
+    int secondsOfLanding = 86400; //seconds in a day
+    int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
     double[] startingVelocity = {49.58313440693111, 38.29506290304066, 1.9666588900013093};
@@ -69,32 +72,9 @@ public class Simulation {
             }
         }
 
-        journeyPhase = new LandingPhase();
-        int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
-        framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
-        OpenLoopController openLoopController = new OpenLoopController();
+        landingSimulation(nextState);
 
-
-        double[][] initialState = getInitialLandingState(nextState[8]);
-        double[] newVU = new double[2];
-
-
-        for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
-        {
-
-            newVU = openLoopController.planLanding(initialState,i);
-
-
-            //call solver to solve and update new state
-
-
-            //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
-            if(i % framesPer10Seconds == 0)
-            {
-                state.setTimedPosition();
-            }
-        }
 
 
         if(!SHOWENDPOSITIONS)
@@ -112,6 +92,36 @@ public class Simulation {
             System.out.println(getDistaceProbeTitan());
         }
 
+    }
+
+    private void landingSimulation(double[][][] state)
+    {
+        journeyPhase = new LandingPhase();
+        int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
+        int framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
+
+        //Choosing of controller
+        controller = new OpenLoopController();
+
+        double[][] initialState = getInitialLandingState(state[8]);
+        double[] newUV = new double[2];
+
+
+        for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
+        {
+
+            newUV = controller.getUV(initialState,i);
+
+
+            //call solver to solve and update new state
+
+
+            //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
+            if(i % framesPer10Seconds == 0)
+            {
+                
+            }
+        }
     }
 
     private double[][] getInitialLandingState(double[][] state)

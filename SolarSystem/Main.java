@@ -18,6 +18,8 @@ public class Main {
     static JFrame solverChooser;
         public static void main(String[] args)  {
 
+        Runner.run();
+
         //label with the project title and our group
         JLabel intro = new JLabel("<html>    Project Group 15<br> A Titanic Space Odyssey!</html>") ;
         intro.setFont(new Font("Consolas",Font.BOLD,16));
@@ -52,7 +54,7 @@ public class Main {
         solverChooser.add(label);
         solverChooser.add(chooser);
         solverChooser.add(runButton);
-        solverChooser.setVisible(true);
+       // solverChooser.setVisible(true);
         
         runButton.addActionListener(new ActionListener() {
             @Override

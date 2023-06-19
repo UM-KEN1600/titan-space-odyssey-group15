@@ -49,27 +49,27 @@ public class FeedbackController implements iController{
     public RungeKutta4Solver rk4 = new RungeKutta4Solver();
 
     public FeedbackController(double torque, double timestep){
-        this.torque = torque;
         this.timestep = timestep;
     }
 
     @Override
-    public double[][] getNextState(double[] currentVelocity, double[] currentPosition, double u, double v, double theta) {
+    public double[] getUV(double[] currentVelocity, double[] currentPosition, double time) {
 
         this.currentVelocity = currentVelocity;
         this.currentPosition = currentPosition;
-        this.currentAngle = theta;
+        this.currentAngle = currentPosition[3];
 
         rotating();
         testOnce();
-        
 
-        double[][] nextState = rk4.solve(currentPosition, currentVelocity, currentThrust,  torque, stepTime, g);
+        double nextState[] = new double[2];
 
         //Corrects the angle just in case it is not in 2PI system
-        currentAngle = nextState[0][2];
         fullCircle();
-        nextState[0][2] = currentAngle;
+        
+        nextState[0] = currentThrust;
+        nextState[1] = torque;
+
 
         return nextState;
     }

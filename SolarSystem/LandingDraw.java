@@ -7,19 +7,26 @@ import java.awt.geom.AffineTransform;
 import javax.swing.*;
 
 public class LandingDraw extends JPanel {
-
+    // Titan 
     int titanX = 0;
     int titanY = 0;
-    double rotationAngle = 0.0;
+    
+    //Spaceship
     int spaceshipCenterX;
     int spaceshipCenterY; 
+
+    //Arrow
     int arrowX = 0;
     int arrowY = 0;
     int permX = 0;
     int permY = 0;
+
+    //Angle rotation for every image used
     double arrowRotate = 0.0;
+    double titanRotationAngle = 0.0;
+    double rotationAngle = 0.0;
 
-
+    //Images
     Image titan;
     Image spaceShip;
     Image background;
@@ -66,11 +73,14 @@ public class LandingDraw extends JPanel {
 
         g2.drawImage(background, 0, 0, null);
 
-
+        //perm are the coordinates that are used to position the letters
         permX = 875;
         permY = 75;
+        //these coordinates are used to draw the arrow
         arrowX = 883;
         arrowY = 67;
+
+        //Calculates the center of the arrow
         int arrowCenterX = permX + arrow.getWidth(null) / 2;
         int arrowCenterY = permY + arrow.getHeight(null) / 2;
         
@@ -90,15 +100,30 @@ public class LandingDraw extends JPanel {
         titanX = -300; // x-coordinate for Titan
         titanY = 400; // y-coordinate for Titan
         
+        rotateTitan(45); 
+        
+        //Calculates the center of Titan
+        int titanCenterX = titanX + titan.getWidth(null) / 2;
+        int titanCenterY = titanY + titan.getHeight(null) / 2;
+
+        AffineTransform titanTransform = g2.getTransform();
+
+        g2.rotate(Math.toRadians(titanRotationAngle), titanCenterX, titanCenterY);
+
         g2.drawImage(titan, titanX, titanY, null);
 
+        g2.setTransform(titanTransform);
+
         
-        // Draw spaceship
-        int spaceshipX = 485; // x-coordinate for spaceship
-        int spaceshipY = 20; // y-coordinate for spaceship
+
+        
+        // sets initial coordiantes for spaceship
+        int spaceshipX = 485; 
+        int spaceshipY = 20; 
         
         rotateSpaceship(-135);
 
+        // calculates the center point coordinates on the spaceship
         int spaceshipCenterX = spaceshipX + spaceShip.getWidth(null) / 2;
         int spaceshipCenterY = spaceshipY + spaceShip.getHeight(null) / 2;
 
@@ -115,7 +140,7 @@ public class LandingDraw extends JPanel {
         g2.setFont(font);
         g2.setColor(Color.RED);
         int textOffset = 75;
-
+        // Drawing the North, South, East, West labels around the arrow
         g2.drawString("N", arrowCenterX, arrowCenterY - textOffset );
         g2.drawString("S", arrowCenterX, arrowCenterY + textOffset);
         g2.drawString("E", arrowCenterX + textOffset, arrowCenterY);
@@ -123,17 +148,40 @@ public class LandingDraw extends JPanel {
         
     }
 
+    /**
+     * rotates the spaceship
+     * 
+     * @param double
+     * @return
+     */
     public void rotateSpaceship(double degrees) {
         rotationAngle = degrees;
         repaint();
     }
 
 
-    
+    /**
+     * rotates the arrow
+     * 
+     * @param double
+     * @return
+     */
     public void rotateArrow(double degrees) {
         arrowRotate = degrees;
         repaint();
     }
+
+    /**
+     * rotates Titan
+     * 
+     * @param double
+     * @return
+     */
+    public void rotateTitan(double degrees) {
+        titanRotationAngle = degrees;
+    repaint();
+}
+
 
 
 }

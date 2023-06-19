@@ -31,7 +31,7 @@ public class OpenLoopController implements iController{
     //90 degrees in radians
     final double ANGLE_TOWARDS_SURFACE = 1.571;
 
-    double[] VU = new double[2];
+    double[] UV = new double[2];
 
     RotationImpulseOLC currentRotationImpulse;
     MainThrusterImpulse currentMainThrustImpulse;
@@ -74,7 +74,7 @@ public class OpenLoopController implements iController{
         }
         handleCurrentMainThrust(time);
 
-        return VU;
+        return UV;
 
     }
 
@@ -102,13 +102,13 @@ public class OpenLoopController implements iController{
         if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time<= currentRotationImpulse.getStartTimeTorqueDeceleration()){
 
             if(time<= currentRotationImpulse.getStartTimeTorqueAcceleration() && time < currentRotationImpulse.getStartTimeTorqueDeceleration()){
-                VU[1]= currentRotationImpulse.getTorqueAcceleration();
+                UV[1]= currentRotationImpulse.getTorqueAcceleration();
             }
             else if((time >= currentRotationImpulse.getStartTimeTorqueDeceleration()) && ((currentRotationImpulse.getStartTimeTorqueDeceleration() + currentRotationImpulse.getTime()) >= time)){
-                VU[1]= currentRotationImpulse.getTorqueDeceleration();
+                UV[1]= currentRotationImpulse.getTorqueDeceleration();
             }
             else{
-                VU[1] = 0;
+                UV[1] = 0;
             }
 
         }
@@ -116,10 +116,10 @@ public class OpenLoopController implements iController{
 
     public void handleCurrentMainThrust(int time){
         if(time>= currentMainThrustImpulse.getStartTimeOfImpulse() && time<= currentMainThrustImpulse.getEndTimeOfPulse()){
-            VU[2] = currentMainThrustImpulse.getThrust();
+            UV[0] = currentMainThrustImpulse.getThrust();
         }
         else{
-            VU[2] = 0;
+            UV[0] = 0;
         }
 
     }
@@ -203,11 +203,6 @@ public class OpenLoopController implements iController{
         return VectorOperations.vectorSubtraction(LANDING_POSITION,subject);
     }
 
-    @Override
-    public double[] getUV(double[][] state, double time) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUV'");
-    }
 
 
 }

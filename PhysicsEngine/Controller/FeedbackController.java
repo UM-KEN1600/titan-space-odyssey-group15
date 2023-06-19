@@ -61,7 +61,7 @@ public class FeedbackController implements iController{
     }
 
     @Override
-    public double[] getUV(double[][] state, double time) {
+    public double[] getUV(double[][] state, int time) {
 
 
         this.currentVelocity = state[1];

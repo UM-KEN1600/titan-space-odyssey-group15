@@ -19,7 +19,7 @@ public class LeftAndRightWind extends Wind{
     public double[] applyWind(double[] currentProbeVelocity) {
 
         // Chosing a random angle from wich the wind will arrive. Using degrees, in the range 0-365
-        final double[] angleBoundaries = {0, 365};
+        final double[] angleBoundaries = {0, 360};
     
         //calculate the X and Y 
         double[] windVelocity = super.calculateWindVelocity(angleBoundaries);

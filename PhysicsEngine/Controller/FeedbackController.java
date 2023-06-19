@@ -53,10 +53,11 @@ public class FeedbackController implements iController{
     }
 
     @Override
-    public double[] getUV(double[] currentVelocity, double[] currentPosition, double time) {
+    public double[] getUV(double[][] state, double time) {
 
-        this.currentVelocity = currentVelocity;
-        this.currentPosition = currentPosition;
+
+        this.currentVelocity = state[1];
+        this.currentPosition = state[0];
         this.currentAngle = currentPosition[3];
 
         rotating();

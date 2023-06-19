@@ -120,16 +120,16 @@ public class RungeKutta4Solver implements iSolver
     double[][] newState = new double[2][3];
     double[] tempState = new double[3];
 
-    double[] k1 = getK(oldState,mainThrust, torque, timestep, g); // stores positions and angle
+    double[] k1 = getK(oldState,mainThrust, torque, timestep); // stores positions and angle
     tempState = VectorOperations.vectorAddition(oldState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k1, 1/2.0), velocities));
 
-    double[] k2 = getK(tempState,mainThrust, torque, timestep/2.0, g);
+    double[] k2 = getK(tempState,mainThrust, torque, timestep/2.0);
     tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k2, 1/2.0), velocities));
 
-    double[] k3 = getK(tempState,mainThrust, torque, timestep/2.0, g);
+    double[] k3 = getK(tempState,mainThrust, torque, timestep/2.0);
     tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(k3, velocities));
 
-    double[] k4 = getK(tempState,mainThrust, torque, timestep, g);
+    double[] k4 = getK(tempState,mainThrust, torque, timestep);
 
     k2 = VectorOperations.vectorScalarMultiplication(k2, 2);
     k3 = VectorOperations.vectorScalarMultiplication(k3, 2);
@@ -142,7 +142,9 @@ public class RungeKutta4Solver implements iSolver
     return newState;
   }
 
-  private double[] getK(double[] currentState, double mainThrust, double torque, double timestep, double g)
+  final double g = 0.001352;
+
+  private double[] getK(double[] currentState, double mainThrust, double torque, double timestep)
   {
     double[] kx = new double[3];
     kx[2] = calculateChangeInAngle(torque, timestep);

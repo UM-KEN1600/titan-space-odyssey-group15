@@ -10,16 +10,6 @@ public class Runner {
 
     public static CelestialBody body = new CelestialBody();
     public static Draw drawPanel = new Draw();
-
-    public static void run(){
-        LandingDraw dr = new LandingDraw();
-           JFrame landFrame = new JFrame("Landing");
-                            landFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            landFrame.setSize(1000, 600);
-                            landFrame.setLocationRelativeTo(null);
-                            landFrame.add(dr);
-                            landFrame.setVisible(true);
-    }
   
     public static void run(iSolver solver){
 

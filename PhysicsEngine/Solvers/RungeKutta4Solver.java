@@ -115,7 +115,7 @@ public class RungeKutta4Solver implements iSolver
   }
 
 
-  public double[][] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
+  public double[][] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep)
   {
     double[][] newState = new double[2][3];
     double[] tempState = new double[3];

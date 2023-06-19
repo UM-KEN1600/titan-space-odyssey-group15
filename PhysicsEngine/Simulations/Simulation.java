@@ -100,6 +100,8 @@ public class Simulation {
         int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
         int framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
+        RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
+
         //Choosing of controller
         controller = new OpenLoopController();
 
@@ -112,6 +114,7 @@ public class Simulation {
 
             newUV = controller.getUV(initialState,i);
 
+            RK4Solver.solve(initialState[0], initialState[1], newUV[0],newUV[1], journeyPhase.getStepSize());
 
             //call solver to solve and update new state
 

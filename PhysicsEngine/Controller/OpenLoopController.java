@@ -64,7 +64,10 @@ public class OpenLoopController implements iController{
             DataStorageRotationImpulse.remove();
         }
     }
-    handleCurrentRotation((int)time);
+    if(currentRotationImpulse != null){
+        handleCurrentRotation((int)time);
+    }
+
 
 
     if(!DataStorageMainThrustImpulse.isEmpty()){
@@ -75,10 +78,10 @@ public class OpenLoopController implements iController{
 
         }
     }
-    handleCurrentMainThrust((int)time);
-
+    if(currentMainThrustImpulse != null){
+        handleCurrentMainThrust((int)time);
+    }
         return UV;
-
     }
 
 

@@ -1,12 +1,14 @@
 package PhysicsEngine.Controller;
 
+import java.util.Arrays;
+
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import SolarSystem.CelestialBody;
 
 public class FeedbackController implements iController{
 
     //Position of Titan after one year, used for calculation of angle
-    final double[] LANDING_POSITION = {1.3680484627624216E9,-4.8546124152074784E8 + CelestialBody.bodyList[7].getRadius()};
+    final static public double[] LANDING_POSITION = {1368066052.585550,-485587471.846701 + CelestialBody.bodyList[7].getRadius()};
 
     final double zeroAngleCalibration = Math.PI/2;
     //Final Values needed
@@ -39,14 +41,14 @@ public class FeedbackController implements iController{
 
 
     //Torque that will be used
-    public double torque; //rad s^2
-    public double turnTime;
-    public double halfTurn;
+    public double torque = 0; //rad s^2
+    public double turnTime = 0;
+    public double halfTurn = 0;
     public double stepTime = 1;
-    public double currentThrust;
+    public double currentThrust = 0;
     public double turnAngle = 0.175 + zeroAngleCalibration; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
-    public double thrustTime;
-    public double halfThrust;
+    public double thrustTime = 0;
+    public double halfThrust = 0;
     public RotationImpulse rotator = new RotationImpulse(0, 0);
 
  
@@ -64,7 +66,10 @@ public class FeedbackController implements iController{
 
         this.currentVelocity = state[1];
         this.currentPosition = state[0];
+        System.out.println("Positions");
+        System.out.println(Arrays.toString(currentPosition));
         this.currentAngle = currentPosition[2];
+        this.currentAngularVelocity = currentVelocity[2];
 
         rotating();
         testOnce();
@@ -77,6 +82,8 @@ public class FeedbackController implements iController{
         nextState[0] = currentThrust;
         nextState[1] = torque;
 
+        System.out.println("Current thrust:");
+        System.out.println(currentThrust);
 
         return nextState;
     }
@@ -90,11 +97,18 @@ public class FeedbackController implements iController{
      * Plans out exactly for how long to run the engine to accelerate and then decelerate until it reaches the wanted position
      */
     public void xCorrection(){
-        double movement = 0 - currentPosition[0];
+        double movement = LANDING_POSITION[0] - currentPosition[0];
+
+        System.out.println("Current X Position:");
+        System.out.println(currentPosition[0]);
         if(currentAngle == zeroAngleCalibration){
             double movementAngle = turnAngle * Math.signum(movement);
+            
             doRotation(movementAngle);
         }
+
+        System.out.println("Movement: ");
+        System.out.println(movement);
         doMovement(movement);
 
 
@@ -125,7 +139,10 @@ public class FeedbackController implements iController{
      * @param movement displacement amount
      */
     public void doMovement(double movement){
+        System.out.println("doMovement:");
+        System.out.println(movement);
         double halfDistance = movement/2;
+        currentThrust = maxThrust;
         double time = Math.ceil(xTime(halfDistance));
         double thrust = xThrust(time, halfDistance);
         currentThrust = thrust;
@@ -143,7 +160,11 @@ public class FeedbackController implements iController{
      */
     public double xTime(double movement){
         double acceleration = currentThrust * Math.sin(currentAngle);
-        double time = Math.sqrt((movement*2)/acceleration);
+        System.out.println("Angle:");
+        System.out.println(Math.sin(currentAngle));
+        double time = Math.sqrt(Math.abs((movement*2)/acceleration));
+        System.out.println("xTime:");
+        System.out.println(time);
         return time;
     }
 
@@ -155,7 +176,9 @@ public class FeedbackController implements iController{
      */
     public double xThrust(double time, double movement){
         double acceleration = (movement*2) / (time*time);
-        double thrust = acceleration/Math.asin(currentAngle);
+        double thrust = Math.abs(acceleration/Math.asin(currentAngle));
+        System.out.println("xThrust:");
+        System.out.println(thrust);
         return thrust;
     }
 

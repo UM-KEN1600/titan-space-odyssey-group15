@@ -109,6 +109,8 @@ public class Simulation {
         double[] newUV = new double[2];
 
 
+
+
         for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
         {
 

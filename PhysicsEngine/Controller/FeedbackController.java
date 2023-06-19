@@ -1,13 +1,17 @@
 package PhysicsEngine.Controller;
 
 import PhysicsEngine.Solvers.RungeKutta4Solver;
+import SolarSystem.CelestialBody;
 
 public class FeedbackController implements iController{
+
+    //Position of Titan after one year, used for calculation of angle
+    final double[] LANDING_POSITION = {1.3680484627624216E9,-4.8546124152074784E8 + CelestialBody.bodyList[7].getRadius()};
 
     final double zeroAngleCalibration = Math.PI/2;
     //Final Values needed
     //NOTE: Values are in km, not m. (Apart from angle)
-    final double xFINAL = 0.0001;
+    final double xFINAL = LANDING_POSITION[0];
     final double xVelocityFINAL = 0.0001;
     final double yVelocityFINAL = 0.0001;
     final double thetaFINAL = 0.02 + zeroAngleCalibration;
@@ -45,8 +49,7 @@ public class FeedbackController implements iController{
     public double halfThrust;
     public RotationImpulse rotator = new RotationImpulse(0, 0);
 
-    //Position of Titan after one year, used for calculation of angle
-    final double[] CENTER_OF_TITAN = {1.3680484627624216E9,-4.8546124152074784E8};
+ 
 
     //RK4
     public RungeKutta4Solver rk4 = new RungeKutta4Solver();
@@ -194,7 +197,7 @@ public class FeedbackController implements iController{
     //s = v0t - 0.5gt^2
     //0 = -0.5gt^2 + v0t - s
     public double fallTime(){
-        double height = currentPosition[1];
+        double height = currentPosition[1] - LANDING_POSITION[1];
         double currentYVelocity = currentVelocity[1];
         double time = quadraticEquation(-0.5*g, currentYVelocity, height);
         return time;
@@ -321,7 +324,7 @@ public class FeedbackController implements iController{
     }
 
     public boolean testXPosition(){
-        return currentPosition[0] < xFINAL;
+        return currentPosition[0] < xFINAL ;
     }
 
     public boolean testAngularVelocity(){

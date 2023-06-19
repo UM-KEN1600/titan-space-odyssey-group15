@@ -94,7 +94,7 @@ public class Simulation {
 
     }
 
-    private void landingSimulation(double[][][] state)
+    private void landingSimulation(double[][][] stateInOrbit)
     {
         journeyPhase = new LandingPhase();
         int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
@@ -105,7 +105,7 @@ public class Simulation {
         //Choosing of controller
         controller = new OpenLoopController();
 
-        double[][] initialState = getInitialLandingState(state[8]);
+        double[][] initialState = getInitialLandingState(stateInOrbit[8]);
         double[] newUV = new double[2];
 
 
@@ -114,7 +114,7 @@ public class Simulation {
 
             newUV = controller.getUV(initialState,i);
 
-            RK4Solver.solve(initialState[0], initialState[1], newUV[0],newUV[1], journeyPhase.getStepSize());
+            initialState = RK4Solver.solve(initialState[0], initialState[1], newUV[0],newUV[1], journeyPhase.getStepSize());
 
             //call solver to solve and update new state
 
@@ -122,7 +122,7 @@ public class Simulation {
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
             if(i % framesPer10Seconds == 0)
             {
-                
+                state.setLandingPosition(initialState[0]);
             }
         }
     }

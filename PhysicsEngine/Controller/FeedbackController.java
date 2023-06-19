@@ -4,13 +4,16 @@ import PhysicsEngine.Solvers.RungeKutta4Solver;
 
 public class FeedbackController implements iController{
 
+    final double zeroAngleCalibration = Math.PI/2;
     //Final Values needed
     //NOTE: Values are in km, not m. (Apart from angle)
     final double xFINAL = 0.0001;
     final double xVelocityFINAL = 0.0001;
     final double yVelocityFINAL = 0.0001;
-    final double thetaFINAL = 0.02;
+    final double thetaFINAL = 0.02 + zeroAngleCalibration;
     final double angularVelocityFINAL = 0.01;
+
+    
 
     //Max constraints for some values
     static final double g = 0.001352;
@@ -37,7 +40,7 @@ public class FeedbackController implements iController{
     public double halfTurn;
     public double stepTime = 1;
     public double currentThrust;
-    public double turnAngle = 0.175; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+    public double turnAngle = 0.175 + zeroAngleCalibration; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
     public double thrustTime;
     public double halfThrust;
     public RotationImpulse rotator = new RotationImpulse(0, 0);
@@ -48,7 +51,7 @@ public class FeedbackController implements iController{
     //RK4
     public RungeKutta4Solver rk4 = new RungeKutta4Solver();
 
-    public FeedbackController(double torque, double timestep){
+    public FeedbackController(double timestep){
         this.timestep = timestep;
     }
 
@@ -85,7 +88,7 @@ public class FeedbackController implements iController{
      */
     public void xCorrection(){
         double movement = 0 - currentPosition[0];
-        if(currentAngle == 0){
+        if(currentAngle == zeroAngleCalibration){
             double movementAngle = turnAngle * Math.signum(movement);
             doRotation(movementAngle);
         }
@@ -236,7 +239,7 @@ public class FeedbackController implements iController{
 
     //Rotates the probe back to vertical position
     public void rotationCorrection(){
-        doRotation(0);
+        doRotation(zeroAngleCalibration);
     }
 
     

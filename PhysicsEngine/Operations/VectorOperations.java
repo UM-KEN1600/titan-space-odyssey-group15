@@ -34,7 +34,7 @@ public class VectorOperations {
             return null;
         }
 
-        double[] A = new double[3];
+        double[] A = new double[vectorA.length];
 
         for(int i = 0; i < vectorA.length; i++)
         {

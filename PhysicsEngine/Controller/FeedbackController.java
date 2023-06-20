@@ -2,13 +2,15 @@ package PhysicsEngine.Controller;
 
 import java.util.Arrays;
 
+import javax.transaction.xa.Xid;
+
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import SolarSystem.CelestialBody;
 
 public class FeedbackController implements iController{
 
     //Position of Titan after one year, used for calculation of angle
-    final static public double[] LANDING_POSITION = {1368066052.585550,-485587471.846701 + CelestialBody.bodyList[7].getRadius()};
+    static public double[] LANDING_POSITION = {1368066052.585550,-485587471.846701 + CelestialBody.bodyList[7].getRadius()};
 
     final double zeroAngleCalibration = Math.PI/2;
     //Final Values needed
@@ -56,22 +58,30 @@ public class FeedbackController implements iController{
     //RK4
     public RungeKutta4Solver rk4 = new RungeKutta4Solver();
 
-    public FeedbackController(double timestep){
+    public FeedbackController(double timestep, double[] LANDING_POSITION){
         this.timestep = timestep;
+        this.LANDING_POSITION = LANDING_POSITION;
     }
 
     @Override
     public double[] getUV(double[][] state, int time) {
 
-
+        
         this.currentVelocity = state[1];
         this.currentPosition = state[0];
         System.out.println("Positions");
         System.out.println(Arrays.toString(currentPosition));
         this.currentAngle = currentPosition[2];
+        System.out.println("Angle:");
+        System.out.println(currentPosition[2]);
         this.currentAngularVelocity = currentVelocity[2];
 
+        double movement = LANDING_POSITION[0] - currentPosition[0];
+        System.out.println("Movement: ");
+        System.out.println(movement);
+        
         rotating();
+        thrustController();
         testOnce();
 
         double nextState[] = new double[2];
@@ -85,6 +95,8 @@ public class FeedbackController implements iController{
         System.out.println("Current thrust:");
         System.out.println(currentThrust);
 
+        System.out.println("Torque:");
+        System.out.println(torque);
         return nextState;
     }
 
@@ -120,10 +132,9 @@ public class FeedbackController implements iController{
      * Sets and controls any parameters that are needed for a successful x displacement
      */
     public void thrustController(){
-        if(thrustTime == halfThrust){
+        if((thrustTime == halfThrust) && thrustTime != 0){
             currentAngle = -currentAngle;
-            doRotation(currentAngle);
-            currentThrust = -currentThrust; //Starts the deceleration phase
+            doRotation(currentAngle); //Starts the deceleration phase
         }
         if(thrustTime > 0){
             thrustTime--; //Ticks down the turn time
@@ -145,6 +156,8 @@ public class FeedbackController implements iController{
         currentThrust = maxThrust;
         double time = Math.ceil(xTime(halfDistance));
         double thrust = xThrust(time, halfDistance);
+        System.out.println("Half thrust");
+        System.out.println(thrust);
         currentThrust = thrust;
         thrustTime = time + 2;
         halfThrust = Math.ceil(time/2);
@@ -159,7 +172,7 @@ public class FeedbackController implements iController{
      * @return the time needed 
      */
     public double xTime(double movement){
-        double acceleration = currentThrust * Math.sin(currentAngle);
+        double acceleration = Math.abs(currentThrust * Math.sin(currentAngle));
         System.out.println("Angle:");
         System.out.println(Math.sin(currentAngle));
         double time = Math.sqrt(Math.abs((movement*2)/acceleration));
@@ -187,8 +200,11 @@ public class FeedbackController implements iController{
      * Basically sets the thrust for one second in 1 direction for it to counteract any residual thrust
      */
     public void xVelocityCorrection(){
-        if(Math.signum(currentVelocity[1]) != Math.signum(currentAngle)){
-            double velocityCorrection = currentVelocity[1];
+        if(Math.signum(currentVelocity[0]) != Math.signum(currentAngle)){
+            double velocityCorrection = Math.abs(currentVelocity[0]);
+            if (currentVelocity[0] > maxThrust){
+                velocityCorrection = maxThrust;
+            }
             currentThrust = velocityCorrection;
             thrustTime = 1;
         } else{
@@ -204,7 +220,7 @@ public class FeedbackController implements iController{
         if(ydecelerationTime(maxThrust) + 50 < fallTime()){
             return;
         }
-        if(currentVelocity[1] < maxThrust - g){
+        if(Math.abs(currentVelocity[1]) < maxThrust - g){
             double time = fallTime();
             currentThrust = yAcceleration(time);
         } else{
@@ -285,7 +301,7 @@ public class FeedbackController implements iController{
         if(turnTime > 0){
             turnTime--; //Ticks down the turn time
         }
-        if(turnTime == halfTurn){
+        if((turnTime == halfTurn) && (turnTime != 0) ){
             torque = -torque; //Starts the deceleration phase
         }
         if(turnTime <= 0){
@@ -347,7 +363,7 @@ public class FeedbackController implements iController{
     }
 
     public boolean testXPosition(){
-        return currentPosition[0] < xFINAL ;
+        return currentPosition[0] < xFINAL && currentPosition[0]> -xFINAL;
     }
 
     public boolean testAngularVelocity(){
@@ -360,20 +376,25 @@ public class FeedbackController implements iController{
     public void testOnce(){
 
         if(!testXPosition()){
+            System.out.println("xCorrection");
             xCorrection();
         }
         if(!testXVelocity() && (thrustTime == 0)){
+            System.out.println("xVelocityCorrection");
             xVelocityCorrection();
         }
-        if(!testAngle()){
+        if(!testAngle() && (thrustTime != 0) && (turnTime != 0)){
+            System.out.println("AngleCorrection");
             rotationCorrection();
         }
         fullCircle();
         if(!testAngularVelocity() && (turnTime == 0)){
-            angularVelocityCorrection();
+            System.out.println("AngularCorrection");
+            //angularVelocityCorrection();
         }
         fullCircle();
         if(!testYVelocity() && (turnTime == 0)){
+            System.out.println("yCorrection");
             yCorrection();
         }
     }

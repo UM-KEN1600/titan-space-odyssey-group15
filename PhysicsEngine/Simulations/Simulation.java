@@ -107,8 +107,10 @@ public class Simulation {
 
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
+        double[] startingVelocity = {0,0};
+
         //Choosing of controller
-        controller = new FeedbackController(1);
+        controller = new OpenLoopController(calculateLandingPosition(stateInOrbit), startingVelocity);
 
         double[][] initialState = getInitialLandingState(stateInOrbit[8]);
         double[] newUV = new double[2];
@@ -130,7 +132,8 @@ public class Simulation {
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
             if(i % framesPer10Seconds == 0)
             {
-                state.setLandingPosition(initialState[0]);
+                //stores the position, minus by the position of titan to make titan center in the GUI
+                state.setLandingPosition(VectorOperations.vectorSubtraction(initialState[0], new double[] {stateInOrbit[7][0][0],stateInOrbit[7][0][1],0}));
             }
             
             double[] probePosition = new double[2];

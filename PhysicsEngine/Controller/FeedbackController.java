@@ -12,46 +12,41 @@ public class FeedbackController implements iController{
     //Position of Titan after one year, used for calculation of angle
     static public double[] LANDING_POSITION = {1368066052.585550,-485587471.846701 + CelestialBody.bodyList[7].getRadius()};
 
-    final double zeroAngleCalibration = Math.PI/2;
+    private final double zeroAngleCalibration = Math.PI/2;
     //Final Values needed
     //NOTE: Values are in km, not m. (Apart from angle)
-    final double xFINAL = 0.0001;
-    final double xVelocityFINAL = 0.0001;
-    final double yVelocityFINAL = 0.0001;
-    final double thetaFINAL = 0.02 + zeroAngleCalibration;
-    final double angularVelocityFINAL = 0.01;
-
-    
+    private final double xFINAL = 0.0001;
+    private final double xVelocityFINAL = 0.0001;
+    private final double yVelocityFINAL = 0.0001;
+    private final double thetaFINAL = 0.02 + zeroAngleCalibration;
+    private final double angularVelocityFINAL = 0.01;
 
     //Max constraints for some values
-    static final double g = 0.001352;
-    static final double maxThrust = 10*g;
-    static final double maxTorque = 1;
+    private final double g = 0.001352;
+    private final double maxThrust = 10*g;
+    private final double maxTorque = 1;
 
+    //timestep of the simulation
+    private double timeStep = 0;
 
     //Current Values of the probe
-    public double[] currentPosition;
-    public double[] currentVelocity;
-
-
-    //Timestep being used in the current instance
-    public double timestep;
+    private double[] currentPosition;
+    private double[] currentVelocity;
     
     //Angle of the probe
-    public double currentAngle;
-    public double currentAngularVelocity;
+    private double currentAngle;
+    private double currentAngularVelocity;
 
 
     //Torque that will be used
-    public double torque = 0; //rad s^2
-    public double turnTime = 0;
-    public double halfTurn = 0;
-    public double stepTime = 1;
-    public double currentThrust = 0;
-    public double turnAngle = 0.175 + zeroAngleCalibration; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
-    public double thrustTime = 0;
-    public double halfThrust = 0;
-    public RotationImpulse rotator = new RotationImpulse(0, 0);
+    private double torque = 0; //rad s^2
+    private double turnTime = 0;
+    private double halfTurn = 0;
+    private double currentThrust = 0;
+    private double turnAngle = 0.175 + zeroAngleCalibration; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+    private double thrustTime = 0;
+    private double halfThrust = 0;
+    private RotationImpulse rotator = new RotationImpulse(0, 0);
 
  
 
@@ -59,48 +54,88 @@ public class FeedbackController implements iController{
     public RungeKutta4Solver rk4 = new RungeKutta4Solver();
 
     public FeedbackController(double timestep, double[] LANDING_POSITION){
-        this.timestep = timestep;
+        this.timeStep = timestep;
         this.LANDING_POSITION = LANDING_POSITION;
     }
 
+    
     @Override
     public double[] getUV(double[][] state, int time) {
 
-        
-        this.currentVelocity = state[1];
+        // state [0][0] -> Xposition, [0][1] -> Yposition, [0][2] -> angle
+        // state [1][0] -> Xvel, [1][1] -> Yvel, [1][2] -> angularVelocity
         this.currentPosition = state[0];
-        System.out.println("Positions");
-        System.out.println(Arrays.toString(currentPosition));
-        System.out.println("Velocities");
-        System.out.println(Arrays.toString(currentVelocity));
+        this.currentVelocity = state[1];
         this.currentAngle = currentPosition[2];
-        System.out.println("Angle:");
-        System.out.println(currentPosition[2]);
         this.currentAngularVelocity = currentVelocity[2];
 
-        double movement = LANDING_POSITION[0] - currentPosition[0];
-        System.out.println("Movement: ");
-        System.out.println(movement);
+        //System.out.println("Positions");
+        //System.out.println(Arrays.toString(currentPosition));
+
+        //System.out.println("Angle:");
+        //System.out.println(currentPosition[2]);
+
+        double xDistanceProbeLandingPoint = LANDING_POSITION[0] - currentPosition[0];
         
-        rotating();
+        //System.out.println("Movement: ");
+        //System.out.println(xDistanceProbeLandingPoint);
+        
+        rotatingController();
+
+        //Sets and controls any parameters that are needed for a successful x displacement
         thrustController();
         testOnce();
-
-        double nextState[] = new double[2];
 
         //Corrects the angle just in case it is not in 2PI system
         fullCircle();
         
+        double nextState[] = new double[2];
         nextState[0] = currentThrust;
         nextState[1] = torque;
 
-        System.out.println("Current thrust:");
-        System.out.println(currentThrust);
+        //System.out.println("Current thrust:");
+        //System.out.println(currentThrust);
 
-        System.out.println("Torque:");
-        System.out.println(torque);
+        //System.out.println("Torque:");
+        //System.out.println(torque);
         return nextState;
     }
+
+    /* Controls the thrust, if is active decreases the amount of time it will further be active.
+     * If at halftime, it starts the deceleration phase
+     * else If the time is zero, it finishes.
+     */
+    //DO NOT REMOVE
+    private void thrustController(){
+        if(thrustTime > 0){
+            thrustTime--; //Ticks down the turn time
+
+            if((thrustTime == halfThrust) && thrustTime > 0){
+                double newAngle = (-(currentAngle-(0.5*Math.PI) % 2*Math.PI))+ 0.5*Math.PI;
+                doRotation(newAngle); //Starts the deceleration phase
+            }
+        }
+        else{
+            currentThrust = 0; //X movement has been finished
+        }
+    }   
+
+    /*Controls the rotation, if is running decreases the time of rotation and starts the decrease 
+     * of the velocity if at halftime. If the time is zero, it finishes.
+     */
+    private void rotatingController(){
+        if(turnTime > 0){// the turning is still in progress
+            turnTime--; //Ticks down the turn time
+
+            if((turnTime == halfTurn)){
+                torque = -torque; //Starts the deceleration phase
+            }
+        }
+        else{
+            torque = 0; //Turn has been finished
+        }
+    }
+
 
     //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
@@ -111,12 +146,12 @@ public class FeedbackController implements iController{
      * Plans out exactly for how long to run the engine to accelerate and then decelerate until it reaches the wanted position
      */
     //DO NOT REMOVE
-    public void xCorrection(){
+    private void xCorrection(){
         double movement = LANDING_POSITION[0] - currentPosition[0];
 
         System.out.println("Current X Position:");
         System.out.println(currentPosition[0]);
-        
+            
         double movementAngle = turnAngle * Math.signum(movement);
         if(currentAngle != movementAngle && (turnTime == 0)){
             doRotation(movementAngle);
@@ -131,30 +166,12 @@ public class FeedbackController implements iController{
 
     }
 
-    /**
-     * Controls the active thrust 
-     * Sets and controls any parameters that are needed for a successful x displacement
-     */
-    //DO NOT REMOVE
-    public void thrustController(){
-        if((thrustTime == halfThrust) && thrustTime != 0){
-            double newAngle = (-(currentAngle-(0.5*Math.PI) % 2*Math.PI))+ 0.5*Math.PI;
-            doRotation(newAngle); //Starts the deceleration phase
-        }
-        if(thrustTime > 0){
-            thrustTime--; //Ticks down the turn time
-        }
-        
-        if(thrustTime <= 0){
-            currentThrust = 0; //X movement has been finished
-        }
-    }   
 
     /**
      * Sets any necessary values for the rocket to move in the x axis
      * @param movement displacement amount
      */
-    public void doMovement(double movement){
+    private void doMovement(double movement){
         System.out.println("doMovement:");
         System.out.println(movement);
         double halfDistance = movement/2;
@@ -176,7 +193,7 @@ public class FeedbackController implements iController{
      * @param movement displacement
      * @return the time needed 
      */
-    public double xTime(double movement){
+    private double xTime(double movement){
         double acceleration = Math.abs(currentThrust * Math.sin(currentAngle));
         System.out.println("Angle:");
         System.out.println(Math.sin(currentAngle));
@@ -192,11 +209,9 @@ public class FeedbackController implements iController{
      * @param movement The displacement you want the probe to make
      * @return the thrust needed to push the rocket by for it to get to the deisre position
      */
-    public double xThrust(double time, double movement){
+    private double xThrust(double time, double movement){
         double acceleration = (movement*2) / (time*time);
-        System.out.println("xAcceleration");
-        System.out.println(acceleration);
-        double thrust = Math.abs(acceleration/Math.sin(currentAngle));
+        double thrust = Math.abs(acceleration/Math.asin(currentAngle));
         System.out.println("xThrust:");
         System.out.println(thrust);
         return thrust;
@@ -206,7 +221,7 @@ public class FeedbackController implements iController{
      * Handles the x velocity correction
      * Basically sets the thrust for one second in 1 direction for it to counteract any residual thrust
      */
-    public void xVelocityCorrection(){
+    private void xVelocityCorrection(){
         if(Math.signum(currentVelocity[0]) != Math.signum(currentAngle)){
             double velocityCorrection = Math.abs(currentVelocity[0]);
             if (currentVelocity[0] > maxThrust){
@@ -221,12 +236,12 @@ public class FeedbackController implements iController{
             double movementAngle = turnAngle * Math.signum(currentVelocity[1]) *-1;
             doRotation(movementAngle);
         }
-
     }
+
     /**
      * Main method to calculate for how long and how much to decelerate
      */
-    public void yCorrection(){
+    private void yCorrection(){
         double height = LANDING_POSITION[1] -currentPosition[1];
         if(ydecelerationTime(maxThrust) + 50 > fallTime() || height > 50){
             return;
@@ -252,10 +267,16 @@ public class FeedbackController implements iController{
      */
     //s = v0t - 0.5gt^2
     //0 = -0.5gt^2 + v0t - s
-    public double fallTime(){
+    private double fallTime(){
         double height = LANDING_POSITION[1] -currentPosition[1];
+        System.out.println("wtf is the height even");
+        System.out.println(height);
         double currentYVelocity = currentVelocity[1];
+        System.out.println("WTF IS THE VELOCITY");
+        System.out.println(currentYVelocity);
         double time = quadraticEquation(-0.5*g, currentYVelocity, height);
+        System.out.println("IS IT TIME?");
+        System.out.println(time);
         return time;
     }
 
@@ -263,7 +284,7 @@ public class FeedbackController implements iController{
      * Calculates the  time needed to decelerate from the current velocity to 0
      * @return amount of time needed to decelerate
      */
-    public double ydecelerationTime(double thrust){
+    private double ydecelerationTime(double thrust){
         double currentYVelocity = currentVelocity[1];
         double totalDeceleration = thrust - g;
         double decelerationTime = -currentYVelocity/totalDeceleration;
@@ -290,14 +311,14 @@ public class FeedbackController implements iController{
      * @param time
      * @return deceleration amount
      */
-    public double yAcceleration(double time){
+    private double yAcceleration(double time){
         double currentYVelocity = currentVelocity[1];
         double acceleration = currentYVelocity/time;
         return acceleration + g;
     }
 
     //Rotates the probe back to vertical position
-    public void rotationCorrection(){
+    private void rotationCorrection(){
         doRotation(zeroAngleCalibration);
     }
 
@@ -306,26 +327,11 @@ public class FeedbackController implements iController{
      * Finds which direction the spacecraft has to rotate
      * @param newAngle
      */
-    public void direction(double newAngle){
+    private void direction(double newAngle){
         if (newAngle - currentAngle < 0){
             torque = -torque; 
         }
     }
-
-    //Manages the current rotation
-    //Checks how long the rotation has to be for and manages when to start the deceleration phase
-    public void rotating(){
-        if(turnTime > 0){
-            turnTime--; //Ticks down the turn time
-        }
-        if((turnTime == halfTurn) && (turnTime != 0) ){
-            torque = -torque; //Starts the deceleration phase
-        }
-        if(turnTime <= 0){
-            torque = 0; //Turn has been finished
-        }
-    }
-
     
     /**
      * Calculates all necessary factors to implement the desired rotation to reach a new angle
@@ -394,10 +400,6 @@ public class FeedbackController implements iController{
 
     //Checks all constraints and corrects the probe as Necessary
     public void testOnce(){
-
-        System.out.println("Times");
-        System.out.println(thrustTime);
-        System.out.println(turnTime);
 
         if(!testXPosition()){
             System.out.println("xCorrection");

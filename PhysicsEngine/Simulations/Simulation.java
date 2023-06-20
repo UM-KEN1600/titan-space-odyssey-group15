@@ -118,11 +118,13 @@ public class Simulation {
         //in order to point straight away from titan, this step is necessary, starts off with a tiny velocity in the opposite direction
         double[] initialDirection = VectorOperations.vectorScalarMultiplication(VectorOperations.vectorSubtraction(position, landingSpot), 1E-12);
 
+        //Choosing of controller
+        controller = new OpenLoopController(landingSpot, initialDirection);
+
         System.out.println(VectorOperations.euclideanForm(position, OpenLoopController.LANDING_POSITION));
 
 
-        //Choosing of controller
-        controller = new OpenLoopController(landingSpot, initialDirection);
+
 
         
         double[] newUV = new double[2];

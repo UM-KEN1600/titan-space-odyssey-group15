@@ -29,7 +29,7 @@ public class Simulation {
 
     double framesTotal = 200;
     int secondsOfTravel = 31536000; //seconds in a year //
-    int secondsOfLanding = 1000; //seconds in a day
+    int secondsOfLanding = 500; //seconds in a day
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
@@ -106,17 +106,19 @@ public class Simulation {
         int framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
-        double[] landingSpot = calculateLandingPosition(stateInOrbit);
-        
 
-        double[][] initialState = getInitialLandingState(stateInOrbit[8],landingSpot);
+        //landing spot on the very top of titan
+        double[] landingSpot = new double[2];
+        landingSpot[0] = stateInOrbit[7][0][0];
+        landingSpot[1] = stateInOrbit[7][0][1] + CelestialBody.bodyList[7].getRadius();
+
+        //orbit until we are on the very top of titan
+        double[][] initialState = getInitialLandingState(stateInOrbit);
 
 
         //Choosing of controller
         controller = new OpenLoopController(landingSpot, initialState[1]);
 
-
-        
         double[] newUV = new double[2];
 
         for(int i = 0 ; i < (secondsOfLanding); i++)
@@ -134,34 +136,45 @@ public class Simulation {
                 state.setLandingPosition(VectorOperations.vectorSubtraction(initialState[0], new double[] {stateInOrbit[7][0][0],stateInOrbit[7][0][1],0}));
             }
             
+            
             double[] probePosition = new double[2];
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
             System.out.println(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+            if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)<1)
+            {
+                System.out.println("-----------------------------------------" + i);
+            }
 
             probePosition[0] = initialState[1][0];
             probePosition[1] = initialState[1][1];
             System.out.println(Arrays.toString(probePosition));
+            
         }
     }
 
-    private double[][] getInitialLandingState(double[][] state, double[] landingSpot)
+    private double[][] getInitialLandingState(double[][][] state)
     {
-        double[] position = new double[2];
-        position[0] = state[0][0];
-        position[1] = state[0][1];
-
-        //in order to point straight away from titan, this step is necessary, starts off with a tiny velocity in the opposite direction
-        double[] initialDirection = VectorOperations.vectorScalarMultiplication(VectorOperations.vectorSubtraction(position, landingSpot), 1E-15);
-
         double[][] newState = new double[2][3];
-        newState[0][0] = state[0][0];
-        newState[0][1] = state[0][1];
-
-        newState[1][0] = initialDirection[0];
-        newState[1][1] = initialDirection[1];
-        newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0], newState[1][1]}, new double[] {10,0});
+        newState[0][0] = state[7][0][0];
+        newState[0][1] = state[7][0][1] + CelestialBody.bodyList[7].getRadius() + 239.50899;
+        newState[0][2] = 1.57079633;
         return newState;
+        // double[] position = new double[2];
+        // position[0] = state[0][0];
+        // position[1] = state[0][1];
+
+        // //in order to point straight away from titan, this step is necessary, starts off with a tiny velocity in the opposite direction
+        // double[] initialDirection = VectorOperations.vectorScalarMultiplication(VectorOperations.vectorSubtraction(position, landingSpot), 1E-15);
+
+        // 
+        // newState[0][0] = state[0][0];
+        // newState[0][1] = state[0][1];
+
+        // newState[1][0] = initialDirection[0];
+        // newState[1][1] = initialDirection[1];
+        // newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0], newState[1][1]}, new double[] {10,0});
+        // return newState;
     }
 
     private double[] calculateLandingPosition(double[][][] state)

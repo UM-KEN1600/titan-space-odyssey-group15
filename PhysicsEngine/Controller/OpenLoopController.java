@@ -6,6 +6,8 @@ import SolarSystem.CelestialBody;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.xml.crypto.Data;
+
 public class OpenLoopController implements iController{
     //Final Values needed
     //NOTE: Values are in km, not m. (Apart from angle)
@@ -53,7 +55,9 @@ public class OpenLoopController implements iController{
     }
 
     public void initialDataStorageMainThrustImpulse(){
-
+        MainThrusterImpulse impulse1 = new MainThrusterImpulse(maxThrust, currentVelocity, 350, 377);
+        DataStorageMainThrustImpulse.add(impulse1);
+        
     }
 
 

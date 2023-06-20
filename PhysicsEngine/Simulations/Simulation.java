@@ -107,19 +107,25 @@ public class Simulation {
 
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
-        double[] startingVelocity = {0,0};
-
-        //Choosing of controller
-        controller = new OpenLoopController(calculateLandingPosition(stateInOrbit), startingVelocity);
-
         double[][] initialState = getInitialLandingState(stateInOrbit[8]);
-        double[] newUV = new double[2];
+
+        double[] landingSpot = calculateLandingPosition(stateInOrbit);
 
         double[] position = new double[2];
         position[0] = initialState[0][0];
         position[1] = initialState[0][1];
+
+        //in order to point straight away from titan, this step is necessary, starts off with a tiny velocity in the opposite direction
+        double[] initialDirection = VectorOperations.vectorScalarMultiplication(VectorOperations.vectorSubtraction(position, landingSpot), 1E-12);
+
         System.out.println(VectorOperations.euclideanForm(position, OpenLoopController.LANDING_POSITION));
 
+
+        //Choosing of controller
+        controller = new OpenLoopController(landingSpot, initialDirection);
+
+        
+        double[] newUV = new double[2];
 
         for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
         {
@@ -162,8 +168,8 @@ public class Simulation {
         distanceVector = takeOffRadius(distanceVector);
 
         double[] landingPosition = new double[2];
-        landingPosition[0] = state[8][0][0] + distanceVector[0];
-        landingPosition[1] = state[8][0][1] + distanceVector[1];
+        landingPosition[0] = state[8][0][0] - distanceVector[0];
+        landingPosition[1] = state[8][0][1] - distanceVector[1];
         return landingPosition;
     }
 

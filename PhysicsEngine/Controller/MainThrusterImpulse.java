@@ -8,14 +8,15 @@ public class MainThrusterImpulse {
 
     private double thrust;
     private double startTimeOfImpulse;
-    private double EndTimeOfPulse;
+    private double endTimeOfPulse;
     double[] currentVelocity;
 
-    public MainThrusterImpulse(double timeOfImpulse, double thrust, double[] currentVelocity)
+    public MainThrusterImpulse(double thrust, double[] currentVelocity,double startTimeOfImpulse, double endTimeOfPulse )
     {
         this.thrust = thrust;
         this.currentVelocity = currentVelocity;
-        this.startTimeOfImpulse = timeOfImpulse;
+        this.startTimeOfImpulse = startTimeOfImpulse;
+        this.endTimeOfPulse = endTimeOfPulse;
     }
 
     /**
@@ -40,7 +41,7 @@ public class MainThrusterImpulse {
     }
 
     public double getEndTimeOfPulse() {
-        return EndTimeOfPulse;
+        return endTimeOfPulse;
     }
 
     public double getStartTimeOfImpulse()

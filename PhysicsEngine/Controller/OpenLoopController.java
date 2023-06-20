@@ -53,8 +53,7 @@ public class OpenLoopController implements iController{
     }
 
     public void initialDataStorageMainThrustImpulse(){
-        MainThrusterImpulse impulse1 = new MainThrusterImpulse(maxThrust, currentVelocity, 409, 455);
-        DataStorageMainThrustImpulse.add(impulse1);
+
     }
 
 

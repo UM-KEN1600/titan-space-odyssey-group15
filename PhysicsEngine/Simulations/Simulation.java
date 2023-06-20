@@ -29,7 +29,7 @@ public class Simulation {
 
     double framesTotal = 200;
     int secondsOfTravel = 31536000; //seconds in a year //
-    int secondsOfLanding = 86400; //seconds in a day
+    int secondsOfLanding = 1000; //seconds in a day
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
@@ -106,35 +106,25 @@ public class Simulation {
         int framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
-
-        double[][] initialState = getInitialLandingState(stateInOrbit[8]);
-
         double[] landingSpot = calculateLandingPosition(stateInOrbit);
+        
 
-        double[] position = new double[2];
-        position[0] = initialState[0][0];
-        position[1] = initialState[0][1];
+        double[][] initialState = getInitialLandingState(stateInOrbit[8],landingSpot);
 
-        //in order to point straight away from titan, this step is necessary, starts off with a tiny velocity in the opposite direction
-        double[] initialDirection = VectorOperations.vectorScalarMultiplication(VectorOperations.vectorSubtraction(position, landingSpot), 1E-12);
 
         //Choosing of controller
-        controller = new OpenLoopController(landingSpot, initialDirection);
-
-        System.out.println(VectorOperations.euclideanForm(position, OpenLoopController.LANDING_POSITION));
-
-
+        controller = new OpenLoopController(landingSpot, initialState[1]);
 
 
         
         double[] newUV = new double[2];
 
-        for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
+        for(int i = 0 ; i < (secondsOfLanding); i++)
         {
 
             newUV = controller.getUV(initialState,i);
 
-            initialState = RK4Solver.solve(initialState[0], initialState[1], newUV[0],newUV[1], journeyPhase.getStepSize());
+            initialState = RK4Solver.solve(initialState,newUV[0],newUV[1], journeyPhase.getStepSize());
 
 
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
@@ -148,16 +138,28 @@ public class Simulation {
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
             System.out.println(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+
+            probePosition[0] = initialState[1][0];
+            probePosition[1] = initialState[1][1];
+            System.out.println(Arrays.toString(probePosition));
         }
     }
 
-    private double[][] getInitialLandingState(double[][] state)
+    private double[][] getInitialLandingState(double[][] state, double[] landingSpot)
     {
+        double[] position = new double[2];
+        position[0] = state[0][0];
+        position[1] = state[0][1];
+
+        //in order to point straight away from titan, this step is necessary, starts off with a tiny velocity in the opposite direction
+        double[] initialDirection = VectorOperations.vectorScalarMultiplication(VectorOperations.vectorSubtraction(position, landingSpot), 1E-15);
+
         double[][] newState = new double[2][3];
         newState[0][0] = state[0][0];
         newState[0][1] = state[0][1];
-        newState[1][0] = state[1][0];
-        newState[1][1] = state[1][1];
+
+        newState[1][0] = initialDirection[0];
+        newState[1][1] = initialDirection[1];
         newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0], newState[1][1]}, new double[] {10,0});
         return newState;
     }

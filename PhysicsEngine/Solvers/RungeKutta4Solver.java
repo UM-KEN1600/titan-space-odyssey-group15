@@ -115,41 +115,41 @@ public class RungeKutta4Solver implements iSolver
   }
 
 
-  public double[][] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep)
+  public double[][] solve(double[][] oldState, double mainThrust, double torque, double timestep)
   {
     double[][] newState = new double[2][3];
-    double[] tempState = new double[3];
+    double[][] tempState = new double[2][3];
 
-    double[] k1 = getK(oldState,mainThrust, torque, timestep); // stores positions and angle
-    tempState = VectorOperations.vectorAddition(oldState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k1, 1/2.0), velocities));
+    double[][] k1 = getK(oldState,mainThrust, torque, timestep); 
+    tempState = MatrixOperations.matrixAddition(oldState, addKToState(MatrixOperations.matrixScalarMultiplication(k1, 1/2.0), oldState));
 
-    double[] k2 = getK(tempState,mainThrust, torque, timestep/2.0);
-    tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k2, 1/2.0), velocities));
+    double[][] k2 = getK(tempState,mainThrust, torque, timestep/2.0);
+    tempState = MatrixOperations.matrixAddition(tempState, addKToState(MatrixOperations.matrixScalarMultiplication(k2, 1/2.0), oldState));
 
-    double[] k3 = getK(tempState,mainThrust, torque, timestep/2.0);
-    tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(k3, velocities));
+    double[][] k3 = getK(tempState,mainThrust, torque, timestep/2.0);
+    tempState = MatrixOperations.matrixAddition(tempState, addKToState(k3, oldState));
 
-    double[] k4 = getK(tempState,mainThrust, torque, timestep);
+    double[][] k4 = getK(tempState,mainThrust, torque, timestep);
 
-    k2 = VectorOperations.vectorScalarMultiplication(k2, 2);
-    k3 = VectorOperations.vectorScalarMultiplication(k3, 2);
+    k2 = MatrixOperations.matrixScalarMultiplication(k2, 2);
+    k3 = MatrixOperations.matrixScalarMultiplication(k3, 2);
 
-    double[] newVelocities = VectorOperations.vectorAddition(VectorOperations.vectorAddition(k1, k2), VectorOperations.vectorAddition(k3, k4));
-    newVelocities = VectorOperations.vectorScalarDivision(newVelocities, 6);
+    double[][] newVelocities = MatrixOperations.matrixAddition(MatrixOperations.matrixAddition(k1, k2), MatrixOperations.matrixAddition(k3, k4));
+    newVelocities = MatrixOperations.matrixScalarMultiplication(newVelocities, 1/6.0);
 
-    newState[0] = VectorOperations.vectorAddition(oldState, newVelocities);
-    newState[1] = newVelocities;
+    newState = MatrixOperations.matrixAddition(oldState, newVelocities);
     return newState;
   }
 
   final double g = 0.001352;
 
-  private double[] getK(double[] currentState, double mainThrust, double torque, double timestep)
+  private double[][] getK(double[][] currentState, double mainThrust, double torque, double timestep)
   {
-    double[] kx = new double[3];
-    kx[2] = calculateChangeInAngle(torque, timestep);
-    kx[0] = calculateXAcceleration(mainThrust, kx[2] + currentState[2]);
-    kx[1] = calculateYAcceleration(mainThrust, kx[2] + currentState[2], g);
+    double[][] kx = new double[2][3];
+    kx[0] = currentState[1];
+    kx[1][2] = calculateChangeInAngle(torque, timestep);
+    kx[1][0] = calculateXAcceleration(mainThrust, kx[1][2] + currentState[0][2]);
+    kx[1][1] = calculateYAcceleration(mainThrust, kx[1][2] + currentState[0][2]);
     return kx;
   }
     
@@ -158,7 +158,7 @@ public class RungeKutta4Solver implements iSolver
         return u * Math.sin(theta);
     }
 
-    private double calculateYAcceleration(double u, double theta, double g)
+    private double calculateYAcceleration(double u, double theta)
     {
         return u * Math.cos(theta) - g;
     }
@@ -168,14 +168,9 @@ public class RungeKutta4Solver implements iSolver
         return torque * timestep; //timestep is currently 1, so has no effect
     }
 
-    private double[] addAccelerationToVelocity(double[] acceleration, double[] velocities)
+    private double[][] addKToState(double[][] currentState, double[][] kx)
     {
-      double[] A = new double[3];
-      for(int i = 0; i < 2; i++)
-      {
-        A[i] = acceleration[i] + velocities[i];
-      }
-      return A;
+      return MatrixOperations.matrixAddition(currentState, kx);
     }
 
 }

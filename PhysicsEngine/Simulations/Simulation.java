@@ -108,7 +108,7 @@ public class Simulation {
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
         //Choosing of controller
-        controller = new FeedbackController(1);
+        controller = new FeedbackController(1, calculateLandingPosition(stateInOrbit));
 
         double[][] initialState = getInitialLandingState(stateInOrbit[8]);
         double[] newUV = new double[2];
@@ -116,10 +116,10 @@ public class Simulation {
         double[] position = new double[2];
         position[0] = initialState[0][0];
         position[1] = initialState[0][1];
-        System.out.println(VectorOperations.euclideanForm(position, OpenLoopController.LANDING_POSITION));
+        System.out.println(VectorOperations.euclideanForm(position, FeedbackController.LANDING_POSITION));
 
 
-        for(int i = 0 ; i < (amountOfPositionsStoredLanding); i++)
+        for(int i = 0 ; i < (900); i++)
         {
 
             newUV = controller.getUV(initialState,i);
@@ -136,7 +136,7 @@ public class Simulation {
             double[] probePosition = new double[2];
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
-            System.out.println(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+            System.out.println(VectorOperations.euclideanForm(probePosition, FeedbackController.LANDING_POSITION));
         }
     }
 

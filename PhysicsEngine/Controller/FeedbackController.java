@@ -108,6 +108,7 @@ public class FeedbackController implements iController{
      * Finds a suitable angle for the rocket to be at or uses the existing one
      * Plans out exactly for how long to run the engine to accelerate and then decelerate until it reaches the wanted position
      */
+    //DO NOT REMOVE
     public void xCorrection(){
         double movement = LANDING_POSITION[0] - currentPosition[0];
 
@@ -131,6 +132,7 @@ public class FeedbackController implements iController{
      * Controls the active thrust 
      * Sets and controls any parameters that are needed for a successful x displacement
      */
+    //DO NOT REMOVE
     public void thrustController(){
         if((thrustTime == halfThrust) && thrustTime != 0){
             currentAngle = -currentAngle;
@@ -206,6 +208,9 @@ public class FeedbackController implements iController{
                 velocityCorrection = maxThrust;
             }
             currentThrust = velocityCorrection;
+            System.out.println("correction thrust");
+            System.out.println(currentThrust);
+
             thrustTime = 1;
         } else{
             double movementAngle = turnAngle * Math.signum(currentVelocity[1]) *-1;
@@ -217,15 +222,22 @@ public class FeedbackController implements iController{
      * Main method to calculate for how long and how much to decelerate
      */
     public void yCorrection(){
-        if(ydecelerationTime(maxThrust) + 50 < fallTime()){
+        double height = LANDING_POSITION[1] -currentPosition[1];
+        if(ydecelerationTime(maxThrust) + 50 > fallTime() || height > 50){
             return;
         }
         if(Math.abs(currentVelocity[1]) < maxThrust - g){
+            System.out.println("WTF IS it DOING");
+            System.out.println(currentVelocity[1]);
             double time = fallTime();
             currentThrust = yAcceleration(time);
+            System.out.println("MAJOR FUCKUP POINT");
+            System.out.println(currentThrust);
         } else{
             currentThrust = maxThrust;
         }
+        System.out.println("yCorrection thrust");
+        System.out.println(currentThrust);
 
     }
     
@@ -236,9 +248,15 @@ public class FeedbackController implements iController{
     //s = v0t - 0.5gt^2
     //0 = -0.5gt^2 + v0t - s
     public double fallTime(){
-        double height = currentPosition[1] - LANDING_POSITION[1];
+        double height = LANDING_POSITION[1] -currentPosition[1];
+        System.out.println("wtf is the height even");
+        System.out.println(height);
         double currentYVelocity = currentVelocity[1];
+        System.out.println("WTF IS THE VELOCITY");
+        System.out.println(currentYVelocity);
         double time = quadraticEquation(-0.5*g, currentYVelocity, height);
+        System.out.println("IS IT TIME?");
+        System.out.println(time);
         return time;
     }
 
@@ -263,8 +281,8 @@ public class FeedbackController implements iController{
      * @return solved equation for x
      */
     static public double quadraticEquation(double a, double b, double c){
-        double discriminant = Math.sqrt(Math.abs((b*b) - 4 * a * c));
-        double x = (-b + discriminant)/ 2*a;
+        double discriminant = Math.sqrt(Math.abs((b*b) - (4*a*c)));
+        double x = (-b - discriminant)/ (2*a);
         return x;
     }
 

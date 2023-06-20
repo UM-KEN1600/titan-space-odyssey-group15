@@ -57,15 +57,15 @@ public class RungeKutta4Solver implements iSolver
     updatedForces = Functions.forceCalculator(tempPositions);
     for(int body = 0; body < oldState.length; body++)
     {
-      //euler step k2 = w(i) + 1/2*k1
-        k2[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k1[body][acceleration], 1/2.0));
-        k2[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
+    //euler step k2 = w(i) + 1/2*k1
+      k2[body][velocity2] = VectorOperations.vectorAddition(oldState[body][velocity1], VectorOperations.vectorScalarMultiplication(k1[body][acceleration], 1/2.0));
+      k2[body][acceleration] = VectorOperations.vectorScalarDivision(updatedForces[body], CelestialBody.bodyList[body].getMass());
 
-        //k2 * h
-        k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], timestep);
+      //k2 * h
+      k2[body] = MatrixOperations.matrixScalarMultiplication(k2[body], timestep);
 
-        //storing the new positions of k2
-        tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k2[body][velocity2]);
+      //storing the new positions of k2
+      tempPositions[body] = VectorOperations.vectorAddition(oldState[body][position], k2[body][velocity2]);
     }
 
     //updating the forces for position w(i) + 1/2*k2
@@ -113,5 +113,69 @@ public class RungeKutta4Solver implements iSolver
 
     return newState;
   }
+
+
+  public double[][] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep)
+  {
+    double[][] newState = new double[2][3];
+    double[] tempState = new double[3];
+
+    double[] k1 = getK(oldState,mainThrust, torque, timestep); // stores positions and angle
+    tempState = VectorOperations.vectorAddition(oldState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k1, 1/2.0), velocities));
+
+    double[] k2 = getK(tempState,mainThrust, torque, timestep/2.0);
+    tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(VectorOperations.vectorScalarMultiplication(k2, 1/2.0), velocities));
+
+    double[] k3 = getK(tempState,mainThrust, torque, timestep/2.0);
+    tempState = VectorOperations.vectorAddition(tempState, addAccelerationToVelocity(k3, velocities));
+
+    double[] k4 = getK(tempState,mainThrust, torque, timestep);
+
+    k2 = VectorOperations.vectorScalarMultiplication(k2, 2);
+    k3 = VectorOperations.vectorScalarMultiplication(k3, 2);
+
+    double[] newVelocities = VectorOperations.vectorAddition(VectorOperations.vectorAddition(k1, k2), VectorOperations.vectorAddition(k3, k4));
+    newVelocities = VectorOperations.vectorScalarDivision(newVelocities, 6);
+
+    newState[0] = VectorOperations.vectorAddition(oldState, newVelocities);
+    newState[1] = newVelocities;
+    return newState;
+  }
+
+  final double g = 0.001352;
+
+  private double[] getK(double[] currentState, double mainThrust, double torque, double timestep)
+  {
+    double[] kx = new double[3];
+    kx[2] = calculateChangeInAngle(torque, timestep);
+    kx[0] = calculateXAcceleration(mainThrust, kx[2] + currentState[2]);
+    kx[1] = calculateYAcceleration(mainThrust, kx[2] + currentState[2], g);
+    return kx;
+  }
     
+  private double calculateXAcceleration(double u, double theta)
+    {
+        return u * Math.sin(theta);
+    }
+
+    private double calculateYAcceleration(double u, double theta, double g)
+    {
+        return u * Math.cos(theta) - g;
+    }
+
+    private double calculateChangeInAngle(double torque, double timestep)
+    {
+        return torque * timestep; //timestep is currently 1, so has no effect
+    }
+
+    private double[] addAccelerationToVelocity(double[] acceleration, double[] velocities)
+    {
+      double[] A = new double[3];
+      for(int i = 0; i < 2; i++)
+      {
+        A[i] = acceleration[i] + velocities[i];
+      }
+      return A;
+    }
+
 }

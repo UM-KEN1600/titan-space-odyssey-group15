@@ -15,7 +15,7 @@ public class FeedbackController implements iController{
     final double zeroAngleCalibration = Math.PI/2;
     //Final Values needed
     //NOTE: Values are in km, not m. (Apart from angle)
-    final double xFINAL = LANDING_POSITION[0];
+    final double xFINAL = 0.0001;
     final double xVelocityFINAL = 0.0001;
     final double yVelocityFINAL = 0.0001;
     final double thetaFINAL = 0.02 + zeroAngleCalibration;
@@ -71,6 +71,8 @@ public class FeedbackController implements iController{
         this.currentPosition = state[0];
         System.out.println("Positions");
         System.out.println(Arrays.toString(currentPosition));
+        System.out.println("Velocities");
+        System.out.println(Arrays.toString(currentVelocity));
         this.currentAngle = currentPosition[2];
         System.out.println("Angle:");
         System.out.println(currentPosition[2]);
@@ -114,13 +116,14 @@ public class FeedbackController implements iController{
 
         System.out.println("Current X Position:");
         System.out.println(currentPosition[0]);
-        if(currentAngle == zeroAngleCalibration){
-            double movementAngle = turnAngle * Math.signum(movement);
-            
+        
+        double movementAngle = turnAngle * Math.signum(movement);
+        if(currentAngle != movementAngle && (turnTime == 0)){
             doRotation(movementAngle);
+            return;
         }
 
-        System.out.println("Movement: ");
+        System.out.println("Movement2: ");
         System.out.println(movement);
         doMovement(movement);
 
@@ -135,8 +138,8 @@ public class FeedbackController implements iController{
     //DO NOT REMOVE
     public void thrustController(){
         if((thrustTime == halfThrust) && thrustTime != 0){
-            currentAngle = -currentAngle;
-            doRotation(currentAngle); //Starts the deceleration phase
+            double newAngle = (-(currentAngle-(0.5*Math.PI) % 2*Math.PI))+ 0.5*Math.PI;
+            doRotation(newAngle); //Starts the deceleration phase
         }
         if(thrustTime > 0){
             thrustTime--; //Ticks down the turn time
@@ -191,7 +194,9 @@ public class FeedbackController implements iController{
      */
     public double xThrust(double time, double movement){
         double acceleration = (movement*2) / (time*time);
-        double thrust = Math.abs(acceleration/Math.asin(currentAngle));
+        System.out.println("xAcceleration");
+        System.out.println(acceleration);
+        double thrust = Math.abs(acceleration/Math.sin(currentAngle));
         System.out.println("xThrust:");
         System.out.println(thrust);
         return thrust;
@@ -249,14 +254,8 @@ public class FeedbackController implements iController{
     //0 = -0.5gt^2 + v0t - s
     public double fallTime(){
         double height = LANDING_POSITION[1] -currentPosition[1];
-        System.out.println("wtf is the height even");
-        System.out.println(height);
         double currentYVelocity = currentVelocity[1];
-        System.out.println("WTF IS THE VELOCITY");
-        System.out.println(currentYVelocity);
         double time = quadraticEquation(-0.5*g, currentYVelocity, height);
-        System.out.println("IS IT TIME?");
-        System.out.println(time);
         return time;
     }
 
@@ -381,7 +380,10 @@ public class FeedbackController implements iController{
     }
 
     public boolean testXPosition(){
-        return currentPosition[0] < xFINAL && currentPosition[0]> -xFINAL;
+        double xdistance = Math.abs(currentPosition[0] - LANDING_POSITION[0]);
+        System.out.println("xdistance");
+        System.out.println(xdistance);
+        return xdistance < xFINAL ;
     }
 
     public boolean testAngularVelocity(){
@@ -392,6 +394,10 @@ public class FeedbackController implements iController{
 
     //Checks all constraints and corrects the probe as Necessary
     public void testOnce(){
+
+        System.out.println("Times");
+        System.out.println(thrustTime);
+        System.out.println(turnTime);
 
         if(!testXPosition()){
             System.out.println("xCorrection");

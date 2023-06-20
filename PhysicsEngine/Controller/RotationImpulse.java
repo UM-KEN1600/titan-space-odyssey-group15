@@ -86,7 +86,7 @@ public class RotationImpulse {
     //CALL THIS TO DO THE ROTATION
     public void xRotationPlan(double newAngle){
         //calculates half the newAngle since the rotation will have 2 phases (acceleration and deceleration)
-        double halfAngle = Math.ceil(newAngle/2);
+        double halfAngle = newAngle/2;
     
         //calculates the full amount of acceleration time needed
         double averageAccelerationAngle = halfAngle;

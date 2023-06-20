@@ -93,11 +93,11 @@ public class FeedbackController implements iController{
         nextState[0] = currentThrust;
         nextState[1] = torque;
 
-        //System.out.println("Current thrust:");
-        //System.out.println(currentThrust);
+        System.out.println("Current thrust:");
+        System.out.println(currentThrust);
 
-        //System.out.println("Torque:");
-        //System.out.println(torque);
+        System.out.println("Torque:");
+        System.out.println(torque);
         return nextState;
     }
 
@@ -136,8 +136,6 @@ public class FeedbackController implements iController{
         }
     }
 
-
-    //public double[] solve(double[] oldState, double[] velocities, double mainThrust, double torque, double timestep, double g)
 
     
     /**
@@ -211,7 +209,7 @@ public class FeedbackController implements iController{
      */
     private double xThrust(double time, double movement){
         double acceleration = (movement*2) / (time*time);
-        double thrust = Math.abs(acceleration/Math.asin(currentAngle));
+        double thrust = Math.abs(acceleration/Math.sin(currentAngle));
         System.out.println("xThrust:");
         System.out.println(thrust);
         return thrust;
@@ -341,6 +339,8 @@ public class FeedbackController implements iController{
         //Find the amount of angle that needs to be displaced
         double changeInAngle = Math.abs(newAngle - currentAngle);
 
+        System.out.println("New Angle");
+        System.out.println(changeInAngle);
         //calculates for how long an amount of torque has to be applied to reach the wanted angle
         rotator.xRotationPlan(changeInAngle);
         turnTime = rotator.getRotationTime();
@@ -405,7 +405,7 @@ public class FeedbackController implements iController{
             System.out.println("xCorrection");
             xCorrection();
         }
-        if(!testXVelocity() && (thrustTime == 0)){
+        if(!testXVelocity() && (thrustTime == 0) && (turnTime == 0)){
             System.out.println("xVelocityCorrection");
             xVelocityCorrection();
         }

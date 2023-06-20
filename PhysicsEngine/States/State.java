@@ -58,6 +58,7 @@ public class State {
     public void setLandingPosition(double[] state)
     {
         landingPositionsAngle[iterationsLanding] = state;
+        iterationsLanding++;
     }
 
     public double[] getSpaceshipVelocity()

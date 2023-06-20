@@ -29,7 +29,7 @@ public class Simulation {
 
     double framesTotal = 200;
     int secondsOfTravel = 31536000; //seconds in a year //
-    int secondsOfLanding = 500; //seconds in a day
+    int secondsOfLanding = 405; //seconds in a day
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
@@ -141,10 +141,11 @@ public class Simulation {
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
             System.out.println(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
-            if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)<1)
+            if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)>previousDistance)
             {
                 System.out.println("-----------------------------------------" + i);
             }
+            previousDistance = VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION);
 
             probePosition[0] = initialState[1][0];
             probePosition[1] = initialState[1][1];
@@ -153,12 +154,14 @@ public class Simulation {
         }
     }
 
+    private double previousDistance = Integer.MAX_VALUE;
+
     private double[][] getInitialLandingState(double[][][] state)
     {
         double[][] newState = new double[2][3];
         newState[0][0] = state[7][0][0];
         newState[0][1] = state[7][0][1] + CelestialBody.bodyList[7].getRadius() + 239.50899;
-        newState[0][2] = 1.57079633;
+        newState[0][2] = 0;
         return newState;
         // double[] position = new double[2];
         // position[0] = state[0][0];

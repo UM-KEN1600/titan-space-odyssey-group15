@@ -77,6 +77,7 @@ public class Simulation {
 
 
         landingSimulation(nextState);
+        System.out.println(Arrays.deepToString(State.landingPositionsAngle));
 
 
 
@@ -139,7 +140,7 @@ public class Simulation {
             double[] probePosition = new double[2];
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
-            System.out.println(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+           // System.out.println(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
             if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)>previousDistance)
             {
                 System.out.println("-----------------------------------------" + i);
@@ -148,7 +149,7 @@ public class Simulation {
 
             probePosition[0] = initialState[1][0];
             probePosition[1] = initialState[1][1];
-            System.out.println(Arrays.toString(initialState[1]));
+         //   System.out.println(Arrays.toString(initialState[1]));
             
         }
     }

@@ -9,10 +9,6 @@ import PhysicsEngine.States.State;
 public class ScalingTest {
    
 
-
-
-    
-
     public static void main(String[] args) {
         
         double xSpaceship = 1.3680655320287082E9;
@@ -47,12 +43,12 @@ public class ScalingTest {
 
     public static void scaleX(int x) {
             x = x * 80 - 30080;
-            System.out.println(x);
+          
         }
 
     public static void scaleY(int x) {
             x = x * 80 - 10640;
-            System.out.println(x);
+           
         }
     
 }

@@ -138,17 +138,6 @@ public class Draw extends JPanel implements KeyListener {
             
             x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
             y =-(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
-
-            if(i ==7){
-                System.out.println("TITAN _________");
-                System.out.println(x);
-                System.out.println(y);
-            }
-            if(i == 8){
-                System.out.println("EARTH _________");
-                System.out.println(x);
-                System.out.println(y);
-            }
             
             switch(i){
                 //sun

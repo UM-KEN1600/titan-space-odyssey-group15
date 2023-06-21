@@ -55,6 +55,8 @@ public class OpenLoopController implements iController{
     }
 
     public void initialDataStorageRotationImpulse(){
+        RotationImpulseOLC rotation1 = new RotationImpulseOLC(VectorOperations.calculateAngle(currentVelocity, new double[] {0,10}),0);
+        DataStorageRotationImpulse.add(rotation1);
     }
 
     public void initialDataStorageMainThrustImpulse(){

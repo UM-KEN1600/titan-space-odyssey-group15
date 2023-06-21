@@ -114,7 +114,6 @@ public class Simulation {
         //orbit until we are on the very top of titan
         double[][] initialState = getInitialLandingState(stateInOrbit);
 
-
         //Choosing of controller
         controller = new OpenLoopController(landingSpot, initialState[1]);
 
@@ -247,22 +246,5 @@ public class Simulation {
         state.fuelConsumption += fuelUsed;
         state.setSpaceshipVelocity(newVelocity);
        
-    }
-
-    static double closestDistanceToTitan = Double.MAX_VALUE;
-
-    private void checkClosestDistance()
-    {
-        double distance = getDistaceProbeTitan();
-
-        if(distance < closestDistanceToTitan)
-        {
-            closestDistanceToTitan = distance;
-        }
-    }
-
-    public double getClosestDistanceToTitan()
-    {
-        return closestDistanceToTitan;
     }
 }

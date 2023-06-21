@@ -6,7 +6,7 @@ package PhysicsEngine.Wind;
  */
 public class LeftWind extends Wind {
 
-    // Chosing an angle such that cos(angle) is negative. Using degrees, in the range 90-180
+    // Chosing an angle such that cos(angle) is negative. Using degrees, in the range 90-270
     private final double[] angleBoundaries= {90, 270};
 
     /**

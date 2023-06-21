@@ -29,7 +29,7 @@ public class Simulation {
 
     double framesTotal = 200;
     int secondsOfTravel = 31536000; //seconds in a year //
-    int secondsOfLanding = 412; //seconds in a day
+    final int secondsOfLanding = 431; //seconds for landing DO NOT CHANGE
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back

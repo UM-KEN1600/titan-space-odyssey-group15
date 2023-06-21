@@ -55,12 +55,12 @@ public class OpenLoopController implements iController{
     }
 
     public void initialDataStorageRotationImpulse(){
-        RotationImpulseOLC rotation1 = new RotationImpulseOLC(VectorOperations.calculateAngle(currentVelocity, new double[] {0,10}),0);
+        RotationImpulseOLC rotation1 = new RotationImpulseOLC(VectorOperations.calculateAngle(currentVelocity, new double[] {10,0}),0);
         DataStorageRotationImpulse.add(rotation1);
     }
 
     public void initialDataStorageMainThrustImpulse(){
-        //Big Deceleration thrusts
+        //Big Deceleration thrust
         MainThrusterImpulse impulse1 = new MainThrusterImpulse(maxThrust, currentVelocity, 357, 395);
         DataStorageMainThrustImpulse.add(impulse1);
 
@@ -141,7 +141,7 @@ public class OpenLoopController implements iController{
             if(time<= currentRotationImpulse.getStartTimeTorqueAcceleration() && time < currentRotationImpulse.getStartTimeTorqueDeceleration()){
                 UV[1]= currentRotationImpulse.getTorqueAcceleration();
             }
-            else if((time >= currentRotationImpulse.getStartTimeTorqueDeceleration()) && ((currentRotationImpulse.getStartTimeTorqueDeceleration() + currentRotationImpulse.getTime()) >= time)){
+            else if((time >= currentRotationImpulse.getStartTimeTorqueDeceleration()) && ((currentRotationImpulse.getStartTimeTorqueDeceleration() + currentRotationImpulse.getTime()) <= time)){
                 UV[1]= currentRotationImpulse.getTorqueDeceleration();
             }
             else{

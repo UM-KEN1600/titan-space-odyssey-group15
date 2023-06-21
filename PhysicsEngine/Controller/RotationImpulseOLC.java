@@ -9,7 +9,7 @@ public class RotationImpulseOLC {
     private int startTimeTorqueDeceleration;
     private int time;
     public final double VMAX = 1;
-    public final int maxTimeRotation = 3;
+    public final int maxTimeRotation = 4;
 
 
 

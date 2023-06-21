@@ -17,7 +17,7 @@ public class RotationImpulseOLC {
     public RotationImpulseOLC(double targetAngle, int startTimeTorqueAcceleration)
     {
         this.startTimeTorqueAcceleration = startTimeTorqueAcceleration;
-        this.targetAngle = targetAngle;
+        this.targetAngle = -targetAngle;
         changeAngle();
     }
 
@@ -40,7 +40,7 @@ public class RotationImpulseOLC {
         double intermediateAngle = targetAngle/2;
 
         for (int t = 0; t <= maxTimeRotation; t++) {
-            if(intermediateAngle/t <= VMAX){
+            if(Math.abs(intermediateAngle/t) <= VMAX){
                 return t;
             }
         }

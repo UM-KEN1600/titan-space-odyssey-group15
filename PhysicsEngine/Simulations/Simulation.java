@@ -117,6 +117,8 @@ public class Simulation {
 
         //Choosing of controller
         controller = new OpenLoopController(landingSpot, initialState[1]);
+        initialState[1][0] = 0;
+        initialState[1][1] = 0;
 
         double[] newUV = new double[2];
 
@@ -139,7 +141,7 @@ public class Simulation {
             double[] probePosition = new double[2];
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
-            System.out.println(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+            System.out.println(i + ": " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
             if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)>previousDistance)
             {
                 System.out.println("-----------------------------------------" + i);
@@ -160,10 +162,10 @@ public class Simulation {
         double[][] newState = new double[2][3];
         newState[0][0] = state[7][0][0];
         newState[0][1] = state[7][0][1] + CelestialBody.bodyList[7].getRadius() + 239.50899;
-        newState[0][2] = 0;
 
         newState[1][0] = state[8][1][0];
         newState[1][1] = state[8][1][1];
+        newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0],newState[1][1]}, new double[] {10,0});
         return newState;
         // double[] position = new double[2];
         // position[0] = state[0][0];

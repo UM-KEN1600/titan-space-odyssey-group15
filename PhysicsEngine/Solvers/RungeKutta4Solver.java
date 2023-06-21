@@ -138,6 +138,7 @@ public class RungeKutta4Solver implements iSolver
     newVelocities = MatrixOperations.matrixScalarMultiplication(newVelocities, 1/6.0);
 
     newState = MatrixOperations.matrixAddition(oldState, newVelocities);
+    newState[0][2] = oldState[0][2] + oldState[1][2] + torque;
     return newState;
   }
 
@@ -147,7 +148,7 @@ public class RungeKutta4Solver implements iSolver
   {
     double[][] kx = new double[2][3];
     kx[0] = currentState[1];
-    kx[1][2] = calculateChangeInAngle(torque, timestep);
+    kx[1][2] = torque;
     kx[1][0] = calculateXAcceleration(mainThrust, kx[1][2] + currentState[0][2]);
     kx[1][1] = calculateYAcceleration(mainThrust, kx[1][2] + currentState[0][2]);
     return kx;
@@ -161,11 +162,6 @@ public class RungeKutta4Solver implements iSolver
     private double calculateYAcceleration(double u, double theta)
     {
         return u * Math.cos(theta) - g;
-    }
-
-    private double calculateChangeInAngle(double torque, double timestep)
-    {
-        return torque * timestep; //timestep is currently 1, so has no effect
     }
 
     private double[][] addKToState(double[][] currentState, double[][] kx)

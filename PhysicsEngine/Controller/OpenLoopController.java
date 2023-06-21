@@ -60,6 +60,7 @@ public class OpenLoopController implements iController{
     }
 
     public void initialDataStorageMainThrustImpulse(){
+        currentVelocity = new double[] {0,0};
         //Big Deceleration thrust
         MainThrusterImpulse impulse1 = new MainThrusterImpulse(maxThrust, currentVelocity, 357, 395);
         DataStorageMainThrustImpulse.add(impulse1);
@@ -136,19 +137,29 @@ public class OpenLoopController implements iController{
      */
     public void handleCurrentRotation(int time){
 
-        if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time<= currentRotationImpulse.getStartTimeTorqueDeceleration()){
-
-            if(time<= currentRotationImpulse.getStartTimeTorqueAcceleration() && time < currentRotationImpulse.getStartTimeTorqueDeceleration()){
-                UV[1]= currentRotationImpulse.getTorqueAcceleration();
-            }
-            else if((time >= currentRotationImpulse.getStartTimeTorqueDeceleration()) && ((currentRotationImpulse.getStartTimeTorqueDeceleration() + currentRotationImpulse.getTime()) <= time)){
-                UV[1]= currentRotationImpulse.getTorqueDeceleration();
-            }
-            else{
-                UV[1] = 0;
-            }
-
+        if(time == currentRotationImpulse.getStartTimeTorqueAcceleration())
+        {
+            UV[1]= currentRotationImpulse.getTorqueAcceleration();
         }
+        else if (time == currentRotationImpulse.getEndTimeTorqueDeceleration())
+        {
+            UV[1]= currentRotationImpulse.getTorqueDeceleration();
+        }
+        else{
+            UV[1] = 0;
+        }
+        // if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time<= currentRotationImpulse.getStartTimeTorqueDeceleration()){
+
+        //     if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time < currentRotationImpulse.getStartTimeTorqueDeceleration()){
+        //         UV[1]= currentRotationImpulse.getTorqueAcceleration();
+        //     }
+        //     else if((time >= currentRotationImpulse.getStartTimeTorqueDeceleration()) && ((currentRotationImpulse.getEndTimeTorqueDeceleration()) > time)){
+        //         UV[1]= currentRotationImpulse.getTorqueDeceleration();
+        //     }
+        // }
+        // else{
+        //     UV[1] = 0;
+        // }
     }
 
     public void handleCurrentMainThrust(int time){

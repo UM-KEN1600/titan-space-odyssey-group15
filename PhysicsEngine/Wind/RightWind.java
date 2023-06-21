@@ -5,7 +5,7 @@ package PhysicsEngine.Wind;
  */
 public class RightWind extends Wind {
 
-    // Chosing an angle such that cos(angle) is positive. Using degrees, in the range 270-360, 0-90
+    // Choosing an angle such that cos(angle) is positive. Using degrees, in the range 270-360, 0-90
     final double[] angleBoundaries = {270, 360, 0, 90};
 
     /**

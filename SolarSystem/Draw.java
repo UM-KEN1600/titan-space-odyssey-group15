@@ -135,20 +135,8 @@ public class Draw extends JPanel implements KeyListener {
         //each celestial objects gets drawn into the Image
         for (int i = 0; i < 9 ; i++) {
             //stores the scaled down and casted x and y coordinates of the given celestial body, which is given by the index
-            
-            x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
-            y =-(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
-
-            if(i ==7){
-                System.out.println("TITAN _________");
-                System.out.println(x);
-                System.out.println(y);
-            }
-            if(i == 8){
-                System.out.println("EARTH _________");
-                System.out.println(x);
-                System.out.println(y);
-            }
+             x = (int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][0],i));
+             y =-(int)Math.round(CelestialBody.scaleDownPosition(State.allPositions[i][index][1],i));
             
             switch(i){
                 //sun

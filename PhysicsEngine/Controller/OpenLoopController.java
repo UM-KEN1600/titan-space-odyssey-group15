@@ -44,10 +44,7 @@ public class OpenLoopController implements iController{
 
     public OpenLoopController(double[] landingPosition, double[] currentVelocity)
     {
-        double[] velocities = new double[2];
-        velocities[0] = currentVelocity[0];
-        velocities[1] = currentVelocity[1];
-        this.currentVelocity = velocities;
+        this.currentVelocity = currentVelocity;
         this.LANDING_POSITION = landingPosition;
         initialDataStorageRotationImpulse();
         initialDataStorageMainThrustImpulse();
@@ -55,8 +52,6 @@ public class OpenLoopController implements iController{
     }
 
     public void initialDataStorageRotationImpulse(){
-        RotationImpulseOLC rotation1 = new RotationImpulseOLC(VectorOperations.calculateAngle(currentVelocity, new double[] {10,0}),0);
-        DataStorageRotationImpulse.add(rotation1);
     }
 
     public void initialDataStorageMainThrustImpulse(){
@@ -64,8 +59,6 @@ public class OpenLoopController implements iController{
         //Big Deceleration thrust
         MainThrusterImpulse impulse1 = new MainThrusterImpulse(maxThrust, currentVelocity, 357, 395);
         DataStorageMainThrustImpulse.add(impulse1);
-
-        //Smaller deceleration thrusts to reach wanted velocity while still descending
         MainThrusterImpulse impulse2 = new MainThrusterImpulse(0.00215, currentVelocity, 397, 407);
         DataStorageMainThrustImpulse.add(impulse2);
         MainThrusterImpulse impulse3 = new MainThrusterImpulse(g, currentVelocity, 408, 424);
@@ -79,7 +72,6 @@ public class OpenLoopController implements iController{
         MainThrusterImpulse impulse7 = new MainThrusterImpulse(1.442E-3, currentVelocity, 430, 430);
         DataStorageMainThrustImpulse.add(impulse7);
 
-        //Final impulse to stop
         MainThrusterImpulse impulse8 = new MainThrusterImpulse(g, currentVelocity, 431, 450);
         DataStorageMainThrustImpulse.add(impulse8);
     }

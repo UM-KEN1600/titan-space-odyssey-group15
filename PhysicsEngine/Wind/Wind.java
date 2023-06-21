@@ -30,6 +30,12 @@ public abstract class Wind {
     public abstract double[] applyWind(double[] currentProbeVelocity, double distanceFromSurface);
 
 
+    /**
+     * Calculates the wind velocity depending on the angle boundaries and the distance from Titan's surface
+     * @param angleBoundaries an array of angle boundaries in degrees 
+     * @param distanceFromSurface the distance from Titan's surface
+     * @return an array with x and y wind velocity (y wind velocity = 0)
+     */
     public double[] calculateWindVelocity(double[] angleBoundaries, double distanceFromSurface) {
 
         Random random = new Random();
@@ -47,7 +53,8 @@ public abstract class Wind {
         double windVelocity = random.nextDouble(0, maxWindVelocity);
 
         //find the angle the wind arrives from
-        angle = random.nextDouble(endAngle - startAngle) + startAngle;
+        angle = random.nextDouble() * (endAngle - startAngle) + startAngle;
+
 
         windChangeX = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.cos(Math.toRadians(angle)); // radiants are expected in imput, not degrees
         windChangeY = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.sin(Math.toRadians(angle)); // not changing it for now
@@ -68,6 +75,23 @@ public abstract class Wind {
      */
     private double adaptWindToLayerOfAtmosphere(double currentDistanceFromSurface, double windVelocity){
 
+<<<<<<< HEAD
+        int troposphereDistance = 32;
+        int stratosphereDistance = 100;
+        int mesosphereDistance = 210;
+
+        if (currentDistanceFromSurface <= troposphereDistance) {  //Troposphere
+            return (4/4 * maxWindVelocity);
+
+        } else if (currentDistanceFromSurface <= stratosphereDistance) { //Stratosphere
+            return (3/4 * maxWindVelocity);
+
+        } else if (currentDistanceFromSurface <= mesosphereDistance) { //Mesosphere
+            return (2/4 * maxWindVelocity);
+
+        } else {     //Thermosphere over 210km
+            return (1/4 * maxWindVelocity);
+=======
         if (currentDistanceFromSurface <= 32) {  //Troposphere
             return 4/4 * windVelocity;
 
@@ -79,6 +103,7 @@ public abstract class Wind {
 
         } else {     //Thermosphere over 210km
             return 1/4 * windVelocity;
+>>>>>>> 23e0293b7210a51ee10a26d2520fde42402e8638
         } 
     }
 

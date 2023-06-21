@@ -7,10 +7,9 @@ public class RotationImpulseOLC {
     private double torqueDeceleration;
     private int startTimeTorqueAcceleration;
     private int startTimeTorqueDeceleration;
-    private int endTimeTorqueDeceleration;
     private int time;
     public final double VMAX = 1;
-    public final int maxTimeRotation = 4;
+    public final int maxTimeRotation = 3;
 
 
 
@@ -68,17 +67,12 @@ public class RotationImpulseOLC {
 
         time = calculateTimeNeeded(targetAngle);
         startTimeTorqueDeceleration = time + startTimeTorqueAcceleration;
-        endTimeTorqueDeceleration = startTimeTorqueDeceleration + time;
         torqueAcceleration = calculateVMax(targetAngle, calculateTimeNeeded(targetAngle));
         torqueDeceleration = - torqueAcceleration;
     }
 
     public double getTargetAngle() {
         return targetAngle;
-    }
-
-    public int getEndTimeTorqueDeceleration() {
-        return endTimeTorqueDeceleration;
     }
 
     public double getTorqueAcceleration() {

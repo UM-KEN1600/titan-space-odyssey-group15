@@ -67,6 +67,11 @@ public class OpenLoopController implements iController{
         DataStorageMainThrustImpulse.add(impulse5);
         MainThrusterImpulse impulse6 = new MainThrusterImpulse(g+2.3600000000258766E-4-9E-5, currentVelocity, 429, 430);
         DataStorageMainThrustImpulse.add(impulse6);
+        MainThrusterImpulse impulse7 = new MainThrusterImpulse(1.442E-3, currentVelocity, 430, 430);
+        DataStorageMainThrustImpulse.add(impulse7);
+
+        MainThrusterImpulse impulse8 = new MainThrusterImpulse(g, currentVelocity, 431, 450);
+        DataStorageMainThrustImpulse.add(impulse8);
     }
 
 

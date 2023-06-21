@@ -4,7 +4,6 @@ import java.util.Arrays;
 import PhysicsEngine.Functions;
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import PhysicsEngine.Thrust;
-import PhysicsEngine.Controller.FeedbackController;
 import PhysicsEngine.Controller.OpenLoopController;
 import PhysicsEngine.Controller.iController;
 import PhysicsEngine.JourneyPhase.LandingPhase;
@@ -29,7 +28,7 @@ public class Simulation {
 
     double framesTotal = 200;
     int secondsOfTravel = 31536000; //seconds in a year //
-    final int secondsOfLanding = 431; //seconds for landing DO NOT CHANGE
+    final int secondsOfLanding = 433; //seconds for landing DO NOT CHANGE
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back

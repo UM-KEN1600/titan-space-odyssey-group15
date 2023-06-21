@@ -58,8 +58,11 @@ public class OpenLoopController implements iController{
     }
 
     public void initialDataStorageMainThrustImpulse(){
+        //Big Deceleration thrusts
         MainThrusterImpulse impulse1 = new MainThrusterImpulse(maxThrust, currentVelocity, 357, 395);
         DataStorageMainThrustImpulse.add(impulse1);
+
+        //Smaller deceleration thrusts to reach wanted velocity while still descending
         MainThrusterImpulse impulse2 = new MainThrusterImpulse(0.00215, currentVelocity, 397, 407);
         DataStorageMainThrustImpulse.add(impulse2);
         MainThrusterImpulse impulse3 = new MainThrusterImpulse(g, currentVelocity, 408, 424);
@@ -73,6 +76,7 @@ public class OpenLoopController implements iController{
         MainThrusterImpulse impulse7 = new MainThrusterImpulse(1.442E-3, currentVelocity, 430, 430);
         DataStorageMainThrustImpulse.add(impulse7);
 
+        //Final impulse to stop
         MainThrusterImpulse impulse8 = new MainThrusterImpulse(g, currentVelocity, 431, 450);
         DataStorageMainThrustImpulse.add(impulse8);
     }

@@ -99,7 +99,7 @@ public class RotationImpulse {
         //calculates the average acceleration that will be used in the rotation
         double acceleration = calculateAcceleration(halfAngle, accelerationTime);
     
-        torque = acceleration/2;
+        torque = acceleration;
         rotationTime = accelerationTime + decelerationTime;
 
     }

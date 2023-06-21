@@ -21,7 +21,7 @@ public class FeedbackController implements iController{
     private final double thetaDifference = 0.02;
     private final double thetaFINAL = thetaDifference + zeroAngleCalibration;
    
-    private final double angularVelocityFINAL = 0.01;
+    private final double angularVelocityFINAL = 0.0001; //0.01 is og
 
     //Max constraints for some values
     private final double g = 0.001352;
@@ -45,7 +45,7 @@ public class FeedbackController implements iController{
     private double turnTime = 0;
     private double halfTurn = 0;
     private double currentThrust = 0;
-    private double turnAngle = 0.175; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+    private double turnAngle = 0.7; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
     private double thrustTime = 0;
     private double halfThrust = 0;
     private RotationImpulse rotator = new RotationImpulse(0, 0);
@@ -71,6 +71,7 @@ public class FeedbackController implements iController{
         this.currentAngle = currentPosition[2];
         this.currentAngularVelocity = currentVelocity[2];
 
+        fullCircle();
         System.out.println("Positions");
         System.out.println(Arrays.toString(currentPosition));
 
@@ -85,6 +86,8 @@ public class FeedbackController implements iController{
         System.out.println("Movement: ");
         System.out.println(xDistanceProbeLandingPoint);
         
+        System.out.println("Thrust time");
+        System.out.println(thrustTime);
         rotatingController();
 
         //Sets and controls any parameters that are needed for a successful x displacement
@@ -202,7 +205,7 @@ public class FeedbackController implements iController{
         double acceleration = Math.abs(currentThrust * Math.sin(currentAngle));
         System.out.println("Angle:");
         System.out.println(Math.sin(currentAngle));
-        double time = Math.sqrt(Math.abs((movement*2)/acceleration));
+        double time = Math.sqrt(Math.abs(((movement-currentVelocity[0])*2)/acceleration));
         System.out.println("xTime:");
         System.out.println(time);
         return time;
@@ -215,7 +218,7 @@ public class FeedbackController implements iController{
      * @return the thrust needed to push the rocket by for it to get to the deisre position
      */
     private double xThrust(double time, double movement){
-        double acceleration = (movement*2) / (time*time);
+        double acceleration = ((movement-currentVelocity[0])*2) / (time*time);
         double thrust = Math.abs(acceleration/Math.sin(currentAngle));
         System.out.println("xThrust:");
         System.out.println(thrust);
@@ -369,8 +372,10 @@ public class FeedbackController implements iController{
 
     //Fixes the angularVelocity in case any error has been made
     public void angularVelocityCorrection(){
-        double fixRotate = currentAngularVelocity;
-        doRotation(fixRotate);
+        torque = -currentAngularVelocity;
+        if(torque > maxTorque){
+            torque = -maxTorque;
+        }
     }
     
     //Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
@@ -429,7 +434,7 @@ public class FeedbackController implements iController{
         fullCircle();
         if(!testAngularVelocity() && (turnTime == 0)){
             System.out.println("AngularCorrection");
-            //angularVelocityCorrection();
+            angularVelocityCorrection();
         }
         fullCircle();
         if(!testYVelocity() && (turnTime == 0)){

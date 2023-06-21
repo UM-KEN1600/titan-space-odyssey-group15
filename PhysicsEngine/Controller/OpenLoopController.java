@@ -44,7 +44,10 @@ public class OpenLoopController implements iController{
 
     public OpenLoopController(double[] landingPosition, double[] currentVelocity)
     {
-        this.currentVelocity = currentVelocity;
+        double[] velocities = new double[2];
+        velocities[0] = currentVelocity[0];
+        velocities[1] = currentVelocity[1];
+        this.currentVelocity = velocities;
         this.LANDING_POSITION = landingPosition;
         initialDataStorageRotationImpulse();
         initialDataStorageMainThrustImpulse();

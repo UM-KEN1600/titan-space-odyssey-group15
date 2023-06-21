@@ -12,13 +12,15 @@ public class FeedbackController implements iController{
     //Position of Titan after one year, used for calculation of angle
     static public double[] LANDING_POSITION = {1368066052.585550,-485587471.846701 + CelestialBody.bodyList[7].getRadius()};
 
-    private final double zeroAngleCalibration = Math.PI/2;
+    private final double zeroAngleCalibration = 0;
     //Final Values needed
     //NOTE: Values are in km, not m. (Apart from angle)
     private final double xFINAL = 0.0001;
     private final double xVelocityFINAL = 0.0001;
     private final double yVelocityFINAL = 0.0001;
-    private final double thetaFINAL = 0.02 + zeroAngleCalibration;
+    private final double thetaDifference = 0.02;
+    private final double thetaFINAL = thetaDifference + zeroAngleCalibration;
+   
     private final double angularVelocityFINAL = 0.01;
 
     //Max constraints for some values
@@ -43,7 +45,7 @@ public class FeedbackController implements iController{
     private double turnTime = 0;
     private double halfTurn = 0;
     private double currentThrust = 0;
-    private double turnAngle = 0.175 + zeroAngleCalibration; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+    private double turnAngle = 0.175; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
     private double thrustTime = 0;
     private double halfThrust = 0;
     private RotationImpulse rotator = new RotationImpulse(0, 0);
@@ -69,16 +71,19 @@ public class FeedbackController implements iController{
         this.currentAngle = currentPosition[2];
         this.currentAngularVelocity = currentVelocity[2];
 
-        //System.out.println("Positions");
-        //System.out.println(Arrays.toString(currentPosition));
+        System.out.println("Positions");
+        System.out.println(Arrays.toString(currentPosition));
 
-        //System.out.println("Angle:");
-        //System.out.println(currentPosition[2]);
+        System.out.println("Velocity");
+        System.out.println(Arrays.toString(currentVelocity));
+
+        System.out.println("Angle:");
+        System.out.println(currentPosition[2]);
 
         double xDistanceProbeLandingPoint = LANDING_POSITION[0] - currentPosition[0];
         
-        //System.out.println("Movement: ");
-        //System.out.println(xDistanceProbeLandingPoint);
+        System.out.println("Movement: ");
+        System.out.println(xDistanceProbeLandingPoint);
         
         rotatingController();
 
@@ -150,8 +155,13 @@ public class FeedbackController implements iController{
         System.out.println("Current X Position:");
         System.out.println(currentPosition[0]);
             
-        double movementAngle = turnAngle * Math.signum(movement);
-        if(currentAngle != movementAngle && (turnTime == 0)){
+        double movementAngle = (turnAngle * Math.signum(movement));
+        if(Math.signum(movementAngle) == -1){
+            movementAngle += 2*Math.PI;
+        }
+        System.out.println("movement angle");
+        System.out.println(movementAngle);
+        if(!((currentAngle > movementAngle-thetaDifference) && (currentAngle < movementAngle+thetaDifference))  && (turnTime == 0)){
             doRotation(movementAngle);
             return;
         }
@@ -159,9 +169,6 @@ public class FeedbackController implements iController{
         System.out.println("Movement2: ");
         System.out.println(movement);
         doMovement(movement);
-
-
-
     }
 
 
@@ -175,15 +182,15 @@ public class FeedbackController implements iController{
         double halfDistance = movement/2;
         currentThrust = maxThrust;
         double time = Math.ceil(xTime(halfDistance));
+        if((time % 2) != 0){
+            time++;
+        }
         double thrust = xThrust(time, halfDistance);
         System.out.println("Half thrust");
         System.out.println(thrust);
         currentThrust = thrust;
-        thrustTime = time + 2;
+        thrustTime = time;
         halfThrust = Math.ceil(time/2);
-        if(halfThrust % 2 != 0){
-            halfThrust++;
-        }
     }
 
     /**
@@ -231,7 +238,7 @@ public class FeedbackController implements iController{
 
             thrustTime = 1;
         } else{
-            double movementAngle = turnAngle * Math.signum(currentVelocity[1]) *-1;
+            double movementAngle = (Math.PI/2) * (turnAngle * Math.signum(currentVelocity[1]) *-1);
             doRotation(movementAngle);
         }
     }
@@ -326,9 +333,15 @@ public class FeedbackController implements iController{
      * @param newAngle
      */
     private void direction(double newAngle){
+        System.out.println("direciton");
+        System.out.println(newAngle - currentAngle);
+        System.out.println(newAngle);
+        System.out.println(currentAngle);
         if (newAngle - currentAngle < 0){
             torque = -torque; 
         }
+        System.out.println("New torque");
+        System.out.println(torque);
     }
     
     /**
@@ -386,7 +399,7 @@ public class FeedbackController implements iController{
     }
 
     public boolean testXPosition(){
-        double xdistance = Math.abs(currentPosition[0] - LANDING_POSITION[0]);
+        double xdistance = Math.abs(LANDING_POSITION[0] - currentPosition[0]);
         System.out.println("xdistance");
         System.out.println(xdistance);
         return xdistance < xFINAL ;
@@ -401,7 +414,7 @@ public class FeedbackController implements iController{
     //Checks all constraints and corrects the probe as Necessary
     public void testOnce(){
 
-        if(!testXPosition()){
+        if(!testXPosition() && (turnTime == 0) && (thrustTime == 0)){
             System.out.println("xCorrection");
             xCorrection();
         }
@@ -409,7 +422,7 @@ public class FeedbackController implements iController{
             System.out.println("xVelocityCorrection");
             xVelocityCorrection();
         }
-        if(!testAngle() && (thrustTime != 0) && (turnTime != 0)){
+        if(!testAngle() && (thrustTime == 0) && (turnTime == 0)){
             System.out.println("AngleCorrection");
             rotationCorrection();
         }
@@ -423,6 +436,8 @@ public class FeedbackController implements iController{
             System.out.println("yCorrection");
             yCorrection();
         }
+        System.out.println("Rotation time");
+        System.out.println(turnTime);
     }
 
 

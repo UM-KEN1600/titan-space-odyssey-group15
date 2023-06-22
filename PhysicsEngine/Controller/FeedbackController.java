@@ -71,7 +71,7 @@ public class FeedbackController implements iController{
         this.currentAngle = currentPosition[2];
         this.currentAngularVelocity = currentVelocity[2];
 
-        fullCircle();
+        
         System.out.println("Positions");
         System.out.println(Arrays.toString(currentPosition));
 
@@ -94,8 +94,7 @@ public class FeedbackController implements iController{
         thrustController();
         testOnce();
 
-        //Corrects the angle just in case it is not in 2PI system
-        fullCircle();
+    
         
         double nextState[] = new double[2];
         nextState[0] = currentThrust;
@@ -378,6 +377,7 @@ public class FeedbackController implements iController{
         }
     }
     
+    /* REDUNDANT SINCE IT'S ALREADY IN SIM
     //Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
     public void fullCircle(){
         if (currentAngle < 0){
@@ -387,6 +387,7 @@ public class FeedbackController implements iController{
             currentAngle -= 2* Math.PI;
         }
     }
+    */
 
 
     //Constraint Tester Block
@@ -431,12 +432,12 @@ public class FeedbackController implements iController{
             System.out.println("AngleCorrection");
             rotationCorrection();
         }
-        fullCircle();
+
         if(!testAngularVelocity() && (turnTime == 0)){
             System.out.println("AngularCorrection");
             angularVelocityCorrection();
         }
-        fullCircle();
+    
         if(!testYVelocity() && (turnTime == 0)){
             System.out.println("yCorrection");
             yCorrection();

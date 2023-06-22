@@ -119,7 +119,7 @@ public class Simulation {
         System.out.println(VectorOperations.euclideanForm(position, FeedbackController.LANDING_POSITION));
 
 
-        for(int i = 0 ; i < (900); i++)
+        for(int i = 0 ; i < (20); i++)
         {
 
             newUV = controller.getUV(initialState,i);
@@ -137,6 +137,7 @@ public class Simulation {
             double[] probePosition = new double[2];
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
+            System.out.println("Distance from probe to landing position");
             System.out.println(VectorOperations.euclideanForm(probePosition, FeedbackController.LANDING_POSITION));
         }
     }

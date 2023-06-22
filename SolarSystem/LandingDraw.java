@@ -26,7 +26,7 @@ public class LandingDraw extends JPanel {
 
     int spaceshipX; 
     int spaceshipY; 
-    int i;
+    static int i = 0;
 
     //Angle rotation for every image used
     double arrowRotate = 0.0;
@@ -38,6 +38,8 @@ public class LandingDraw extends JPanel {
     Image spaceShip;
     Image background;
     Image arrow;
+
+    boolean paintFlag = false;
 
 
     public LandingDraw() {
@@ -132,21 +134,20 @@ public class LandingDraw extends JPanel {
         
 
         
+
         // sets initial coordiantes for spaceship
-        double[][] newLandingPos = new double[200][3];
+        if(i < 100){
         spaceshipX =(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][0])) + 485;
         spaceshipY =-(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][1])) + 400;
-        for (int i = 0; i < newLandingPos.length; i++) {
-
-            
-        }
-             //   rotateSpaceship(-135);
+             
                 g2.drawImage(spaceShip, spaceshipX, spaceshipY, null);
-
-    
+        }
+        else 
+        g2.drawImage(spaceShip , spaceshipX, spaceshipY, null);
+        
+        rotateSpaceship(-135);
         
         
-
         // calculates the center point coordinates on the spaceship
         int spaceshipCenterX = spaceshipX + spaceShip.getWidth(null) / 2;
         int spaceshipCenterY = spaceshipY + spaceShip.getHeight(null) / 2;
@@ -169,7 +170,12 @@ public class LandingDraw extends JPanel {
         g2.drawString("E", arrowCenterX + textOffset, arrowCenterY);
         g2.drawString("W", arrowCenterX - textOffset, arrowCenterY);
 
-      i++;
+        i++;
+        // if(!paintFlag)
+        // i++;
+        // else 
+        // paintFlag = false;
+
     }
     /**
      * rotates the spaceship

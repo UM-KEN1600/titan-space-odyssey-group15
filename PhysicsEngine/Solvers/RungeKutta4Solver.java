@@ -114,7 +114,14 @@ public class RungeKutta4Solver implements iSolver
     return newState;
   }
 
-
+/**
+ * Solves the equations that are used in the landing process. Since now torque and thrust are included, this needed a different method
+ * @param oldState the current state of the spaceship, with oldState[0] being the positions/angle, and oldState[1] the respective velocities
+ * @param mainThrust in km/s
+ * @param torque in radians/s
+ * @param timestep in seconds
+ * @return the next state of the spaceship, updating the positions and velocities based on the thrust and torque
+ */
   public double[][] solve(double[][] oldState, double mainThrust, double torque, double timestep)
   {
     double[][] newState = new double[2][3];
@@ -144,6 +151,14 @@ public class RungeKutta4Solver implements iSolver
 
   final double g = 0.001352;
 
+  /**
+   * Calculates the new accelerations based on thrust, gravity and torque
+   * @param currentState current state that is modified
+   * @param mainThrust in km/s
+   * @param torque in radians/s
+   * @param timestep given timestep
+   * @return the 'derivative' of the current State
+   */
   private double[][] getK(double[][] currentState, double mainThrust, double torque, double timestep)
   {
     double[][] kx = new double[2][3];

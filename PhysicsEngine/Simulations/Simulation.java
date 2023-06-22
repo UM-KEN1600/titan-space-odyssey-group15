@@ -28,7 +28,7 @@ public class Simulation {
 
     double framesTotal = 200;
     int secondsOfTravel = 31536000; //seconds in a year //
-    final int secondsOfLanding = 433; //seconds for landing DO NOT CHANGE
+    final int secondsOfLanding = 500;// 433; //seconds for landing DO NOT CHANGE
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
@@ -102,8 +102,7 @@ public class Simulation {
     private void landingSimulation(double[][][] stateInOrbit)
     {
         journeyPhase = new LandingPhase();
-        int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
-        int framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
+        int storePositionsEveryXSeconds = 5;
 
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
@@ -132,26 +131,26 @@ public class Simulation {
 
 
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
-            if(i % framesPer10Seconds == 0)
+            if(i % storePositionsEveryXSeconds == 0)
             {
                 //stores the position, minus by the position of titan to make titan center in the GUI
-                state.setLandingPosition(VectorOperations.vectorSubtraction(initialState[0], new double[] {stateInOrbit[7][0][0],stateInOrbit[7][0][1],0}));
+                state.setLandingPosition(VectorOperations.vectorSubtraction(initialState[0], new double[] {OpenLoopController.LANDING_POSITION[0],OpenLoopController.LANDING_POSITION[1],0}));
             }
             
             
             double[] probePosition = new double[2];
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
-            System.out.println(i + ": " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+           // System.out.println(i + "seconds: " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
             if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)>previousDistance)
             {
-                System.out.println("-----------------------------------------" + i);
+               // System.out.println("-----------------------------------------" + i);
             }
             previousDistance = VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION);
 
             probePosition[0] = initialState[1][0];
             probePosition[1] = initialState[1][1];
-            System.out.println(Arrays.toString(probePosition));
+          //  System.out.println(Arrays.toString(probePosition));
             
         }
     }

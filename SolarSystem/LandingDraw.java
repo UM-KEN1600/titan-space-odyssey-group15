@@ -2,7 +2,7 @@ package SolarSystem;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 
@@ -74,6 +74,12 @@ public class LandingDraw extends JPanel {
      * @return
      */
     public void paintComponent(Graphics g) {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 

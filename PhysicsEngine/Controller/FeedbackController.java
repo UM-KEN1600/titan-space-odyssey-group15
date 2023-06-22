@@ -122,7 +122,7 @@ public class FeedbackController implements iController{
                 doRotation(newAngle); //Starts the deceleration phase
             }
         }
-        else{
+        if(thrustTime == 0){
             currentThrust = 0; //X movement has been finished
         }
     }   
@@ -164,6 +164,7 @@ public class FeedbackController implements iController{
         System.out.println("movement angle");
         System.out.println(movementAngle);
         if(!((currentAngle > movementAngle-thetaDifference) && (currentAngle < movementAngle+thetaDifference))  && (turnTime == 0)){
+            System.out.println("modifed movement angle");
             doRotation(movementAngle);
             return;
         }
@@ -229,18 +230,20 @@ public class FeedbackController implements iController{
      * Basically sets the thrust for one second in 1 direction for it to counteract any residual thrust
      */
     private void xVelocityCorrection(){
-        if(Math.signum(currentVelocity[0]) != Math.signum(currentAngle)){
-            double velocityCorrection = Math.abs(currentVelocity[0]);
-            if (currentVelocity[0] > maxThrust){
+        if(Math.signum(currentVelocity[0]) != Math.sin(currentAngle)){
+            double velocityCorrection = Math.abs(currentVelocity[0]/Math.sin(currentAngle));
+            if (Math.abs(currentVelocity[0]/Math.sin(currentAngle)) > maxThrust){
                 velocityCorrection = maxThrust;
             }
             currentThrust = velocityCorrection;
+            thrustTime = 1;
             System.out.println("correction thrust");
             System.out.println(currentThrust);
 
             thrustTime = 1;
         } else{
-            double movementAngle = (Math.PI/2) * (turnAngle * Math.signum(currentVelocity[1]) *-1);
+
+            double movementAngle = 0 + turnAngle * -Math.signum(currentVelocity[0]);
             doRotation(movementAngle);
         }
     }
@@ -420,14 +423,15 @@ public class FeedbackController implements iController{
     //Checks all constraints and corrects the probe as Necessary
     public void testOnce(){
 
-        if(!testXPosition() && (turnTime == 0) && (thrustTime == 0)){
-            System.out.println("xCorrection");
-            xCorrection();
-        }
         if(!testXVelocity() && (thrustTime == 0) && (turnTime == 0)){
             System.out.println("xVelocityCorrection");
             xVelocityCorrection();
         }
+        if(!testXPosition() && (turnTime == 0) && (thrustTime == 0)){
+            System.out.println("xCorrection");
+            xCorrection();
+        }
+        
         if(!testAngle() && (thrustTime == 0) && (turnTime == 0)){
             System.out.println("AngleCorrection");
             rotationCorrection();

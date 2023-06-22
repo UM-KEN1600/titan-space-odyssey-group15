@@ -2,6 +2,7 @@ package PhysicsEngine.Simulations;
 import java.util.Arrays;
 
 import PhysicsEngine.Functions;
+import PhysicsEngine.Solvers.EulerSolver;
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import PhysicsEngine.Thrust;
 import PhysicsEngine.Controller.FeedbackController;
@@ -105,7 +106,8 @@ public class Simulation {
         int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
         int framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
-        RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
+        //RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
+        EulerSolver eulerSolver = new EulerSolver();
 
         //Choosing of controller
         controller = new FeedbackController(1, calculateLandingPosition(stateInOrbit));
@@ -119,12 +121,12 @@ public class Simulation {
         System.out.println(VectorOperations.euclideanForm(position, FeedbackController.LANDING_POSITION));
 
 
-        for(int i = 0 ; i < (20); i++)
+        for(int i = 0 ; i < (100); i++)
         {
 
             newUV = controller.getUV(initialState,i);
 
-            initialState = RK4Solver.solve(initialState, newUV[0],newUV[1], journeyPhase.getStepSize());
+            initialState = eulerSolver.landSolve(initialState, newUV[0],newUV[1], journeyPhase.getStepSize());
             initialState[0][2] = fullCircle(initialState[0][2]);
 
 

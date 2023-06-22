@@ -136,4 +136,34 @@ public class EulerSolver implements iSolver {
         return newState;
     }
 
+    public double[][] landSolve(double[][] oldState, double mainThrust, double torque, double timestep){
+
+        double[][] newState = new double[2][3];
+
+        newState[0] = VectorOperations.vectorAddition(oldState[0], VectorOperations.vectorScalarMultiplication(oldState[1], timestep));
+
+        double[] velocityAddition = new double[3];
+        velocityAddition[2] = torque;
+        velocityAddition[0] = calculateXAcceleration(mainThrust, velocityAddition[2] + newState[0][2]);
+        velocityAddition[1] = calculateYAcceleration(mainThrust, velocityAddition[2] + newState[0][2]);
+
+        newState[1] = VectorOperations.vectorAddition(oldState[1], VectorOperations.vectorScalarMultiplication(velocityAddition, timestep));
+
+        return newState;
+    }
+
+    private double calculateXAcceleration(double u, double theta)
+    {   
+
+        return u * Math.sin(theta);
+        
+    }
+
+    private double calculateYAcceleration(double u, double theta)
+    {
+        return u * Math.cos(theta) - g;
+    }
+
+    final double g = 0.001352;
+
 }

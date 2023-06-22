@@ -1,5 +1,7 @@
 package PhysicsEngine.Solvers;
 
+import java.util.Arrays;
+
 import PhysicsEngine.Functions;
 import PhysicsEngine.Operations.MatrixOperations;
 import PhysicsEngine.Operations.VectorOperations;
@@ -138,6 +140,7 @@ public class RungeKutta4Solver implements iSolver
 
     double[][] k4 = getK(tempState,mainThrust, torque, timestep);
 
+
     k2 = MatrixOperations.matrixScalarMultiplication(k2, 2);
     k3 = MatrixOperations.matrixScalarMultiplication(k3, 2);
 
@@ -146,6 +149,7 @@ public class RungeKutta4Solver implements iSolver
 
     newState = MatrixOperations.matrixAddition(oldState, newVelocities);
     newState[0][2] = oldState[0][2] + oldState[1][2] + torque;
+  
     return newState;
   }
 
@@ -170,8 +174,10 @@ public class RungeKutta4Solver implements iSolver
   }
     
   private double calculateXAcceleration(double u, double theta)
-    {
+    {   
+
         return u * Math.sin(theta);
+        
     }
 
     private double calculateYAcceleration(double u, double theta)

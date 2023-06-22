@@ -42,6 +42,17 @@ public class OpenLoopController implements iController{
     private Queue<RotationImpulseOLC> DataStorageRotationImpulse = new LinkedList();
     private Queue<MainThrusterImpulse> DataStorageMainThrustImpulse = new LinkedList();
 
+    /**
+     * The Open Loop Controller uses a set of anticipated actions that will lead us to a successful completion of the landing
+     * under normal condition (e.g. no wind). This controller is simple and easy to understand. 
+     * 
+     * We selected main thrusts that will lead us to have the anticipated velocity (<0.1m/s) at the wanted final distance (<0.1m)
+     * to the landing spot. This was done by calculating our most optimal path by hand.
+     * Additionally, we also correct the initial position of the spaceship, so that it is in the correct angle for landing (<0.02radians)
+     * with a zero angular velocity.
+     * @param landingPosition
+     * @param currentVelocity
+     */
     public OpenLoopController(double[] landingPosition, double[] currentVelocity)
     {
         double[] velocities = new double[2];
@@ -54,11 +65,17 @@ public class OpenLoopController implements iController{
 
     }
 
+    /**
+     * Initializes the pre-calculated rotation thrusts and stores them in the queue to be executed
+     */
     public void initialDataStorageRotationImpulse(){
         RotationImpulseOLC rotation1 = new RotationImpulseOLC(VectorOperations.calculateAngle(currentVelocity, new double[] {10,0}),0);
         DataStorageRotationImpulse.add(rotation1);
     }
 
+    /**
+     * Initializes the pre-calculated main thrusts and stores them in the queue to be executed
+     */
     public void initialDataStorageMainThrustImpulse(){
         currentVelocity = new double[] {0,0};
         //Big Deceleration thrust
@@ -86,33 +103,39 @@ public class OpenLoopController implements iController{
 
 
     @Override
-    public double[] getUV(double[][] state, int time) {
+    /**
+     * Based on the time, this method gives the respective main thrust or torque that is scheduled at that second
+     * @param state 
+     * @param time in seconds
+     * @return an array, UV[0] = u and UV[1] = v
+     */
+    public double[] getUV(double[][] state, int time) 
+    {
+        //Check rotation queue for current rotation
+        if(!DataStorageRotationImpulse.isEmpty()) {
 
-
-    if(!DataStorageRotationImpulse.isEmpty()) {
-
-        if(DataStorageRotationImpulse.peek().getStartTimeTorqueAcceleration() == time){
-            currentRotationImpulse = DataStorageRotationImpulse.peek();
-            DataStorageRotationImpulse.remove();
+            if(DataStorageRotationImpulse.peek().getStartTimeTorqueAcceleration() == time){
+                currentRotationImpulse = DataStorageRotationImpulse.peek();
+                DataStorageRotationImpulse.remove();
+            }
         }
-    }
-    if(currentRotationImpulse != null){
-        handleCurrentRotation((int)time);
-    }
-
-
-
-    if(!DataStorageMainThrustImpulse.isEmpty()){
-
-        if(DataStorageMainThrustImpulse.peek().getStartTimeOfImpulse() == time){
-            currentMainThrustImpulse = DataStorageMainThrustImpulse.peek();
-            DataStorageMainThrustImpulse.remove();
-
+        if(currentRotationImpulse != null){
+            handleCurrentRotation((int)time);
         }
-    }
-    if(currentMainThrustImpulse != null){
-        handleCurrentMainThrust((int)time);
-    }
+
+
+        //Check main thrust queue for current thrust
+        if(!DataStorageMainThrustImpulse.isEmpty()){
+
+            if(DataStorageMainThrustImpulse.peek().getStartTimeOfImpulse() == time){
+                currentMainThrustImpulse = DataStorageMainThrustImpulse.peek();
+                DataStorageMainThrustImpulse.remove();
+
+            }
+        }
+        if(currentMainThrustImpulse != null){
+            handleCurrentMainThrust((int)time);
+        }
         return UV;
     }
 

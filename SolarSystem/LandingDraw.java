@@ -6,6 +6,8 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.*;
 
+import PhysicsEngine.Wind.Wind;
+
 public class LandingDraw extends JPanel {
     // Titan 
     int titanX = 0;
@@ -84,7 +86,15 @@ public class LandingDraw extends JPanel {
         int arrowCenterX = permX + arrow.getWidth(null) / 2;
         int arrowCenterY = permY + arrow.getHeight(null) / 2;
         
-        rotateArrow(90);
+
+
+        //Arrow is drawn depending on the way the wind is blowing
+        if(Wind.getDirection() == true){
+            rotateArrow(90);
+        } else {
+            rotateArrow(-90);
+        }
+        
 
         AffineTransform arrowTransform = g2.getTransform();
 

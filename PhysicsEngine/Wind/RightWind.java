@@ -17,7 +17,7 @@ public class RightWind extends Wind {
 
     @Override
     public double[] applyWind(double[] currentProbeVelocity, double currentDistanceFromSurface) { 
-
+        setDirection(false);
         //calculate the X and Y 
         double[] windVelocity = super.calculateWindVelocity(angleBoundaries, currentDistanceFromSurface);
 
@@ -27,7 +27,7 @@ public class RightWind extends Wind {
 
     @Override
     public double[] applyWind(double[] currentProbeVelocity) { 
-
+        setDirection(false);
         //calculate the X and Y 
         double[] windVelocity = super.calculateWindVelocity(angleBoundaries, 0);
 

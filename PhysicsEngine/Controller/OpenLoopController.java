@@ -97,7 +97,7 @@ public class OpenLoopController implements iController{
         DataStorageMainThrustImpulse.add(impulse7);
 
         //Final impulse to stop
-        MainThrusterImpulse impulse8 = new MainThrusterImpulse(g, currentVelocity, 431, 450);
+        MainThrusterImpulse impulse8 = new MainThrusterImpulse(g, currentVelocity, 431, 500);
         DataStorageMainThrustImpulse.add(impulse8);
     }
 

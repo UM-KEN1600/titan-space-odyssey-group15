@@ -124,7 +124,8 @@ public class Simulation {
 
             newUV = controller.getUV(initialState,i);
 
-            initialState = RK4Solver.solve(initialState[0], initialState[1], newUV[0],newUV[1], journeyPhase.getStepSize());
+            initialState = RK4Solver.solve(initialState, newUV[0],newUV[1], journeyPhase.getStepSize());
+            initialState[0][2] = fullCircle(initialState[0][2]);
 
 
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
@@ -180,6 +181,17 @@ public class Simulation {
         distanceToSurface[1] = b;
 
         return distanceToSurface;
+    }
+
+    //Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
+    public double fullCircle(double currentAngle){
+        if (currentAngle < 0){
+            currentAngle += 2* Math.PI;
+        }
+        if(currentAngle > 0){
+            currentAngle -= 2* Math.PI;
+        }
+        return currentAngle;
     }
 
     /*

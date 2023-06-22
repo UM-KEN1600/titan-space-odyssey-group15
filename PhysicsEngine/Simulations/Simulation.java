@@ -141,7 +141,7 @@ public class Simulation {
             double[] probePosition = new double[2];
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
-            System.out.println(i + ": " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+            System.out.println(i + "seconds: " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
             if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)>previousDistance)
             {
                 System.out.println("-----------------------------------------" + i);

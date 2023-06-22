@@ -188,7 +188,7 @@ public class Simulation {
         if (currentAngle < 0){
             currentAngle += 2* Math.PI;
         }
-        if(currentAngle > 0){
+        if(currentAngle > 2*Math.PI){
             currentAngle -= 2* Math.PI;
         }
         return currentAngle;

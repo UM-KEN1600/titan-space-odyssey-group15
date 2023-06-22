@@ -134,7 +134,7 @@ public class Simulation {
             if(i % framesPer10Seconds == 0)
             {
                 //stores the position, minus by the position of titan to make titan center in the GUI
-                state.setLandingPosition(VectorOperations.vectorSubtraction(initialState[0], new double[] {stateInOrbit[7][0][0],stateInOrbit[7][0][1],0}));
+                state.setLandingPosition(VectorOperations.vectorSubtraction(initialState[0], new double[] {OpenLoopController.LANDING_POSITION[0],OpenLoopController.LANDING_POSITION[1],0}));
             }
             
             

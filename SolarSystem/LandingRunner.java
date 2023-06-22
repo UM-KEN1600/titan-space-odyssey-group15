@@ -23,7 +23,6 @@ public class LandingRunner {
         Timer t = new Timer();
         TimerTask tt = new TimerTask() {
             int a = 0;
-
             @Override
             public void run() {
                 landing.repaint();

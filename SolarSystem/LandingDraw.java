@@ -10,6 +10,9 @@ import PhysicsEngine.States.State;
 import PhysicsEngine.Wind.Wind;
 
 public class LandingDraw extends JPanel {
+    //Iteration index
+    static int i = 0;
+    
     // Titan 
     int titanX = 0;
     int titanY = 0;
@@ -17,6 +20,9 @@ public class LandingDraw extends JPanel {
     //Spaceship
     int spaceshipCenterX;
     int spaceshipCenterY; 
+    int spaceshipX; 
+    int spaceshipY; 
+    
 
     //Arrow
     int arrowX = 0;
@@ -24,9 +30,7 @@ public class LandingDraw extends JPanel {
     int permX = 0;
     int permY = 0;
 
-    int spaceshipX; 
-    int spaceshipY; 
-    static int i = 0;
+    
 
     //Angle rotation for every image used
     double arrowRotate = 0.0;
@@ -39,6 +43,7 @@ public class LandingDraw extends JPanel {
     Image background;
     Image arrow;
 
+    //flag 
     boolean paintFlag = false;
 
 
@@ -77,7 +82,6 @@ public class LandingDraw extends JPanel {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         super.paintComponent(g);
@@ -160,13 +164,7 @@ public class LandingDraw extends JPanel {
         }
         // else 
         // g2.drawImage(spaceShip , spaceshipX, spaceshipY, null);
-        
-        
-        
-        
-        
-        // calculates the center point coordinates on the spaceship
-       
+           
 
 
         Font font = new Font("Arial", Font.BOLD, 16);
@@ -186,6 +184,7 @@ public class LandingDraw extends JPanel {
         // paintFlag = false;
 
     }
+    
     /**
      * rotates the spaceship
      * 

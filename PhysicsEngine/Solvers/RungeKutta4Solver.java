@@ -114,7 +114,14 @@ public class RungeKutta4Solver implements iSolver
     return newState;
   }
 
-
+/**
+ * Solves the equations that are used in the landing process. Since now torque and thrust are included, this needed a different method
+ * @param oldState the current state of the spaceship, with oldState[0] being the positions/angle, and oldState[1] the respective velocities
+ * @param mainThrust in km/s
+ * @param torque in radians/s
+ * @param timestep in seconds
+ * @return the next state of the spaceship, updating the positions and velocities based on the thrust and torque
+ */
   public double[][] solve(double[][] oldState, double mainThrust, double torque, double timestep)
   {
     double[][] newState = new double[2][3];
@@ -138,16 +145,25 @@ public class RungeKutta4Solver implements iSolver
     newVelocities = MatrixOperations.matrixScalarMultiplication(newVelocities, 1/6.0);
 
     newState = MatrixOperations.matrixAddition(oldState, newVelocities);
+    newState[0][2] = oldState[0][2] + oldState[1][2] + torque;
     return newState;
   }
 
   final double g = 0.001352;
 
+  /**
+   * Calculates the new accelerations based on thrust, gravity and torque
+   * @param currentState current state that is modified
+   * @param mainThrust in km/s
+   * @param torque in radians/s
+   * @param timestep given timestep
+   * @return the 'derivative' of the current State
+   */
   private double[][] getK(double[][] currentState, double mainThrust, double torque, double timestep)
   {
     double[][] kx = new double[2][3];
     kx[0] = currentState[1];
-    kx[1][2] = calculateChangeInAngle(torque, timestep);
+    kx[1][2] = torque;
     kx[1][0] = calculateXAcceleration(mainThrust, kx[1][2] + currentState[0][2]);
     kx[1][1] = calculateYAcceleration(mainThrust, kx[1][2] + currentState[0][2]);
     return kx;
@@ -161,11 +177,6 @@ public class RungeKutta4Solver implements iSolver
     private double calculateYAcceleration(double u, double theta)
     {
         return u * Math.cos(theta) - g;
-    }
-
-    private double calculateChangeInAngle(double torque, double timestep)
-    {
-        return torque * timestep; //timestep is currently 1, so has no effect
     }
 
     private double[][] addKToState(double[][] currentState, double[][] kx)

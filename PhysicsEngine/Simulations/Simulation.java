@@ -128,6 +128,7 @@ public class Simulation {
             newUV = controller.getUV(initialState,i);
 
             initialState = RK4Solver.solve(initialState,newUV[0],newUV[1], journeyPhase.getStepSize());
+            initialState[0][2] = fullCircle(initialState[0][2]);
 
 
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
@@ -166,8 +167,6 @@ public class Simulation {
         newState[1][0] = state[8][1][0];
         newState[1][1] = state[8][1][1];
         newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0],newState[1][1]}, new double[] {10,0});
-
-        newState[0][2] = fullCircle(newState[0][2]);
         return newState;
         // double[] position = new double[2];
         // position[0] = state[0][0];

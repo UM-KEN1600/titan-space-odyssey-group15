@@ -4,6 +4,7 @@ import java.lang.Math;
 import java.util.Random;
 
 /**
+ * An abstract class representing the wind in Titan's atmosphere
  * Create an instance of Wind using LeftWind, RightWind or LeftAndRightWind classes.
  * Call the constructor with the preferred maxWindVelocity in km/h value.
  * Call the method applyWind (i.e. currentVelocity = instanceName.applyWind(currentVelocity); )
@@ -14,19 +15,25 @@ public abstract class Wind {
     protected final double maxWindVelocity;
     
     /**
-     * @param maxWindVelocityKmh is the maximum velocity the wind can have in km/h, it descreases getting closer titan
+     * @param maxWindVelocityKmh the maximum velocity the wind can have in km/h, decreasing getting closer titan
      */
     protected Wind(double maxWindVelocityKmh){
         this.maxWindVelocity = maxWindVelocityKmh /3600;// transform km/h in km/s
     }
 
     /**
-     * @param currentProbeVelocity is the velocity the wind have to be applied to
+     * @param currentProbeVelocity the velocity that will be applied to the wind
      * @return new probe velocity after the wind effect, i.e. currentVelocity = applyWind(currentVelocity)
      */
     public abstract double[] applyWind(double[] currentProbeVelocity);
 
-    //adapt the the wind to the altitude (lower altitude, more wind)
+
+    /**
+     * Adapt the the wind to the probe's distance away from Titan's surface (closer to Titan = less wind)
+     * @param currentProbeVelocity the velocity that will be applied to the wind
+     * @param distanceFromSurface the distance from Titan's surface
+     * @return new probe velocity after the wind effect, i.e. currentVelocity = applyWind(currentVelocity)
+     */
     public abstract double[] applyWind(double[] currentProbeVelocity, double distanceFromSurface);
 
 
@@ -50,22 +57,23 @@ public abstract class Wind {
         double endAngle = angleBoundaries[randomIndex * 2 + 1];
         
         //randomizing a wind strength in the boundaries 1-maxWindVelocity, always in km/s
-        double windVelocity = random.nextDouble(0, maxWindVelocity);
+        double windVelocity = random.nextDouble() * (maxWindVelocity - 1) + 1;
 
-        //find the angle the wind arrives from
+        //randomly finding the angle the wind arrives from 
         angle = random.nextDouble() * (endAngle - startAngle) + startAngle;
 
-
-        windChangeX = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.cos(Math.toRadians(angle)); // radiants are expected in imput, not degrees
-        windChangeY = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.sin(Math.toRadians(angle)); // not changing it for now
+        // radiants are expected in input, not degrees
+        windChangeX = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.cos(Math.toRadians(angle)); 
+        windChangeY = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.sin(Math.toRadians(angle)); 
 
         return new double[] {windChangeX, windChangeY};
 
     }
 
     /**
-     * 
-     * @param currentDistanceFromSurface
+     * Adapts the wind velocity depending on the atmosphere of Titan that the probe is in
+     * @param windVelocity the randomised current wind velocity 
+     * @param currentDistanceFromSurface the probe's distance from Titan's surface
      * @return the maxWindvelocity relative to the layer of the atmosphere the probe is in and the maxVelocity bound
      * Layers of Titan's atmosphere:
             1. Troposphere: 0-32 km (0-20 mi)

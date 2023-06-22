@@ -1,15 +1,16 @@
 package PhysicsEngine.Wind;
 
 /**
- * The wind arrives from the right
+ * The wind arriving from the right
+ * Extends Wind abstract class
  */
 public class RightWind extends Wind {
 
-    // Choosing an angle such that cos(angle) is positive. Using degrees, in the range 270-360, 0-90
+    // Choosing an angle such that cos(angle) is positive. Using degrees, in the range [270-360], [0-90]
     final double[] angleBoundaries = {270, 360, 0, 90};
 
     /**
-     *@param maxWindVelocityKmh is the maximum velocity the wind can have in km/h, it descreases getting closer titan
+     *@param maxWindVelocityKmh the maximum velocity the wind can have in km/h, decreasing getting closer titan
      */
     public RightWind(double maxWindVelocityKmh){
         super(maxWindVelocityKmh);
@@ -18,20 +19,26 @@ public class RightWind extends Wind {
     @Override
     public double[] applyWind(double[] currentProbeVelocity, double currentDistanceFromSurface) { 
 
-        //calculate the X and Y 
+        //calculate wind in x and y directions 
         double[] windVelocity = super.calculateWindVelocity(angleBoundaries, currentDistanceFromSurface);
+        
+        int xDirection = 0;
+        int yDirection = 1;
 
-        double[] velocityAfterWind = {currentProbeVelocity[0] - windVelocity[0], currentProbeVelocity[1] - windVelocity[1]};
+        double[] velocityAfterWind = {(currentProbeVelocity[xDirection] - windVelocity[xDirection]), (currentProbeVelocity[yDirection] - windVelocity[yDirection])};
         return velocityAfterWind;
     }
 
     @Override
     public double[] applyWind(double[] currentProbeVelocity) { 
 
-        //calculate the X and Y 
+        //calculate wind in x and y directions 
         double[] windVelocity = super.calculateWindVelocity(angleBoundaries, 0);
 
-        double[] velocityAfterWind = {currentProbeVelocity[0] - windVelocity[0], currentProbeVelocity[1] - windVelocity[1]};
+        int xDirection = 0;
+        int yDirection = 1;
+
+        double[] velocityAfterWind = {currentProbeVelocity[xDirection] - windVelocity[xDirection], currentProbeVelocity[yDirection] - windVelocity[yDirection]};
         return velocityAfterWind;
     }
 }

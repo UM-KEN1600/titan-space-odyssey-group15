@@ -139,15 +139,15 @@ public class OpenLoopController implements iController{
 
         if(time == currentRotationImpulse.getStartTimeTorqueAcceleration())
         {
-            UV[1]= currentRotationImpulse.getTorqueAcceleration();
-        }
+                UV[1]= currentRotationImpulse.getTorqueAcceleration();
+            }
         else if (time == currentRotationImpulse.getEndTimeTorqueDeceleration())
         {
-            UV[1]= currentRotationImpulse.getTorqueDeceleration();
-        }
-        else{
-            UV[1] = 0;
-        }
+                UV[1]= currentRotationImpulse.getTorqueDeceleration();
+            }
+            else{
+                UV[1] = 0;
+            }
         // if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time<= currentRotationImpulse.getStartTimeTorqueDeceleration()){
 
         //     if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time < currentRotationImpulse.getStartTimeTorqueDeceleration()){
@@ -251,6 +251,6 @@ public class OpenLoopController implements iController{
         return VectorOperations.vectorSubtraction(LANDING_POSITION,subject);
     }
 
-
+    
 
 }

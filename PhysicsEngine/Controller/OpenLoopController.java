@@ -69,7 +69,7 @@ public class OpenLoopController implements iController{
      * Initializes the pre-calculated rotation thrusts and stores them in the queue to be executed
      */
     public void initialDataStorageRotationImpulse(){
-        RotationImpulseOLC rotation1 = new RotationImpulseOLC(VectorOperations.calculateAngle(currentVelocity, new double[] {10,0}),0);
+        RotationImpulseOLC rotation1 = new RotationImpulseOLC(VectorOperations.calculateAngle(currentVelocity, new double[] {10,0}),0,20);
         DataStorageRotationImpulse.add(rotation1);
     }
 

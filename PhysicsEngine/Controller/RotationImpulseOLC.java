@@ -25,11 +25,28 @@ public class RotationImpulseOLC {
         changeAngle();
     }
 
+    public RotationImpulseOLC(double changeInAngle, int startTimeTorqueAcceleration, int timeOfRotation)
+    {
+        this.startTimeTorqueAcceleration = startTimeTorqueAcceleration;
+        this.endTimeTorqueDeceleration = startTimeTorqueAcceleration + timeOfRotation;
+        this.targetAngle = -changeInAngle; 
+        this.torqueAcceleration = - calculateTorqueNeeded(changeInAngle, timeOfRotation);
+        this.torqueDeceleration = - torqueAcceleration;
+    }
+
     public void setTargetAngle(double angle){
         targetAngle = angle;
     }
 
+    private double calculateTorqueNeeded(double changeInAngle, double timeOfRotation)
+    {
+        if(changeInAngle/timeOfRotation <= 1)
+        return changeInAngle/timeOfRotation;
 
+        else
+        System.out.println("Error: maximum Torque is surpassed");
+        return 0;
+    }
 
 
     /**

@@ -171,18 +171,7 @@ public class OpenLoopController implements iController{
         else{
             UV[1] = 0;
         }
-        // if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time<= currentRotationImpulse.getStartTimeTorqueDeceleration()){
 
-        //     if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time < currentRotationImpulse.getStartTimeTorqueDeceleration()){
-        //         UV[1]= currentRotationImpulse.getTorqueAcceleration();
-        //     }
-        //     else if((time >= currentRotationImpulse.getStartTimeTorqueDeceleration()) && ((currentRotationImpulse.getEndTimeTorqueDeceleration()) > time)){
-        //         UV[1]= currentRotationImpulse.getTorqueDeceleration();
-        //     }
-        // }
-        // else{
-        //     UV[1] = 0;
-        // }
     }
 
     public void handleCurrentMainThrust(int time){

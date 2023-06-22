@@ -10,7 +10,7 @@ import java.util.Random;
  * Calling applyWind with the parameters (currentVelocity, distanceProbeTitan), maxWindVelocity is adapted to the atmosphere layer
 */
 public abstract class Wind {
-
+    static boolean Direction = true;
     protected final double maxWindVelocity;
     
     /**
@@ -75,7 +75,6 @@ public abstract class Wind {
      */
     private double adaptWindToLayerOfAtmosphere(double currentDistanceFromSurface, double windVelocity){
 
-<<<<<<< HEAD
         int troposphereDistance = 32;
         int stratosphereDistance = 100;
         int mesosphereDistance = 210;
@@ -91,20 +90,16 @@ public abstract class Wind {
 
         } else {     //Thermosphere over 210km
             return (1/4 * maxWindVelocity);
-=======
-        if (currentDistanceFromSurface <= 32) {  //Troposphere
-            return 4/4 * windVelocity;
-
-        } else if (currentDistanceFromSurface <= 100) { //Stratosphere
-            return 3/4 * windVelocity;
-
-        } else if (currentDistanceFromSurface <= 210) { //Mesosphere
-            return 2/4 * windVelocity;
-
-        } else {     //Thermosphere over 210km
-            return 1/4 * windVelocity;
->>>>>>> 23e0293b7210a51ee10a26d2520fde42402e8638
         } 
     }
 
+
+    public void setDirection(boolean direction) {
+        Direction = direction;
+    }
+
+    public static boolean getDirection(){
+        return Direction;
+    }
+        
 }

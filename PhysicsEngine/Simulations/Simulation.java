@@ -76,6 +76,7 @@ public class Simulation {
 
 
         landingSimulation(nextState);
+        System.out.println(Arrays.deepToString(State.landingPositionsAngle));
 
 
 

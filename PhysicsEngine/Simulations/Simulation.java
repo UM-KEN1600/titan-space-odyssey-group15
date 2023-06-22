@@ -166,6 +166,8 @@ public class Simulation {
         newState[1][0] = state[8][1][0];
         newState[1][1] = state[8][1][1];
         newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0],newState[1][1]}, new double[] {10,0});
+
+        newState[0][2] = fullCircle(newState[0][2]);
         return newState;
         // double[] position = new double[2];
         // position[0] = state[0][0];
@@ -182,6 +184,16 @@ public class Simulation {
         // newState[1][1] = initialDirection[1];
         // newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0], newState[1][1]}, new double[] {10,0});
         // return newState;
+    }
+    //Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
+    public double fullCircle(double currentAngle){
+        if (currentAngle < 0){
+            currentAngle += 2* Math.PI;
+        }
+        if(currentAngle > 0){
+            currentAngle -= 2* Math.PI;
+        }
+        return currentAngle;
     }
 
     private double[] calculateLandingPosition(double[][][] state)

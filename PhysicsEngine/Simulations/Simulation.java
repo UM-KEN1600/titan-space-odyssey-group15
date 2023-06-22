@@ -102,7 +102,7 @@ public class Simulation {
     private void landingSimulation(double[][][] stateInOrbit)
     {
         journeyPhase = new LandingPhase();
-        int framesPer10Seconds = 5;
+        int storePositionsEveryXSeconds = 5;
 
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
@@ -131,7 +131,7 @@ public class Simulation {
 
 
             //IMPLEMENT EVERYTHING ABOVE -----------------------------------------
-            if(i % framesPer10Seconds == 0)
+            if(i % storePositionsEveryXSeconds == 0)
             {
                 //stores the position, minus by the position of titan to make titan center in the GUI
                 state.setLandingPosition(VectorOperations.vectorSubtraction(initialState[0], new double[] {OpenLoopController.LANDING_POSITION[0],OpenLoopController.LANDING_POSITION[1],0}));

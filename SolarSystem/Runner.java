@@ -10,6 +10,7 @@ public class Runner {
 
     public static CelestialBody body = new CelestialBody();
     public static Draw drawPanel = new Draw();
+    public static LandingDraw landing = new LandingDraw();
   
     public static void run(iSolver solver){
 
@@ -44,16 +45,9 @@ public class Runner {
                             
                             //when the first step of the simulation ends, we open up the landing frame
                             mainFrame.dispose();
-                            LandingDraw landing = new LandingDraw();
-                            JFrame landFrame = new JFrame("Landing");
-                            landFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            landFrame.setSize(1000, 600);
-                            landFrame.setLocationRelativeTo(null);
-                            landFrame.add(landing);
-                            landFrame.setVisible(true);
-                        
-                            
-                        }
+                           LandingRunner.run();
+                       
+                         }
                     });
                 }
                 a++;

@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.*;
 
+import PhysicsEngine.States.State;
 import PhysicsEngine.Wind.Wind;
 
 public class LandingDraw extends JPanel {
@@ -23,6 +24,10 @@ public class LandingDraw extends JPanel {
     int permX = 0;
     int permY = 0;
 
+    int spaceshipX; 
+    int spaceshipY; 
+    static int i = 0;
+
     //Angle rotation for every image used
     double arrowRotate = 0.0;
     double titanRotationAngle = 0.0;
@@ -33,6 +38,8 @@ public class LandingDraw extends JPanel {
     Image spaceShip;
     Image background;
     Image arrow;
+
+    boolean paintFlag = false;
 
 
     public LandingDraw() {
@@ -127,12 +134,20 @@ public class LandingDraw extends JPanel {
         
 
         
+
         // sets initial coordiantes for spaceship
-        int spaceshipX = 485; 
-        int spaceshipY = 20; 
+        if(i < 100){
+        spaceshipX =(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][0])) + 485;
+        spaceshipY =-(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][1])) + 400;
+             
+                g2.drawImage(spaceShip, spaceshipX, spaceshipY, null);
+        }
+        else 
+        g2.drawImage(spaceShip , spaceshipX, spaceshipY, null);
         
         rotateSpaceship(-135);
-
+        
+        
         // calculates the center point coordinates on the spaceship
         int spaceshipCenterX = spaceshipX + spaceShip.getWidth(null) / 2;
         int spaceshipCenterY = spaceshipY + spaceShip.getHeight(null) / 2;
@@ -141,7 +156,6 @@ public class LandingDraw extends JPanel {
 
         g2.rotate(Math.toRadians(rotationAngle), spaceshipCenterX, spaceshipCenterY);
 
-        g2.drawImage(spaceShip, spaceshipX, spaceshipY, null);
 
         g2.setTransform(oldTransform);
 
@@ -155,9 +169,14 @@ public class LandingDraw extends JPanel {
         g2.drawString("S", arrowCenterX, arrowCenterY + textOffset);
         g2.drawString("E", arrowCenterX + textOffset, arrowCenterY);
         g2.drawString("W", arrowCenterX - textOffset, arrowCenterY);
-        
-    }
 
+        i++;
+        // if(!paintFlag)
+        // i++;
+        // else 
+        // paintFlag = false;
+
+    }
     /**
      * rotates the spaceship
      * 

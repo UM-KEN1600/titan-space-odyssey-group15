@@ -106,14 +106,12 @@ public class Simulation {
 
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
-        //landing spot on the very top of titan
         double[] landingSpot = new double[2];
         landingSpot[0] = stateInOrbit[7][0][0];
         landingSpot[1] = stateInOrbit[7][0][1] + CelestialBody.bodyList[7].getRadius();
 
-        //orbit until we are on the very top of titan
+        //orbit until we are on top of the wanted position of titan
         double[][] initialState = getInitialLandingState(stateInOrbit);
-
 
         //Choosing of controller
         controller = new OpenLoopController(landingSpot, initialState[1]);
@@ -124,9 +122,10 @@ public class Simulation {
 
         for(int i = 0 ; i < (secondsOfLanding); i++)
         {
-
+            //gets needed U and V dependant on time or the current state of the spaceship
             newUV = controller.getUV(initialState,i);
 
+            //passes UV into the solver to apply UV on the current state
             initialState = RK4Solver.solve(initialState,newUV[0],newUV[1], journeyPhase.getStepSize());
 
 

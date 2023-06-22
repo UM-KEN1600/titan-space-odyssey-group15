@@ -42,6 +42,17 @@ public class OpenLoopController implements iController{
     private Queue<RotationImpulseOLC> DataStorageRotationImpulse = new LinkedList();
     private Queue<MainThrusterImpulse> DataStorageMainThrustImpulse = new LinkedList();
 
+    /**
+     * The Open Loop Controller uses a set of anticipated actions that will lead us to a successful completion of the landing
+     * under normal condition (e.g. no wind). This controller is simple and easy to understand. 
+     * 
+     * We selected main thrusts that will lead us to have the anticipated velocity (<0.1m/s) at the wanted final distance (<0.1m)
+     * to the landing spot. This was done by calculating our most optimal path by hand.
+     * Additionally, we also correct the initial position of the spaceship, so that it is in the correct angle for landing (<0.02radians)
+     * with a zero angular velocity.
+     * @param landingPosition
+     * @param currentVelocity
+     */
     public OpenLoopController(double[] landingPosition, double[] currentVelocity)
     {
         double[] velocities = new double[2];
@@ -54,11 +65,17 @@ public class OpenLoopController implements iController{
 
     }
 
+    /**
+     * Initializes the pre-calculated rotation thrusts and stores them in the queue to be executed
+     */
     public void initialDataStorageRotationImpulse(){
         RotationImpulseOLC rotation1 = new RotationImpulseOLC(VectorOperations.calculateAngle(currentVelocity, new double[] {10,0}),0);
         DataStorageRotationImpulse.add(rotation1);
     }
 
+    /**
+     * Initializes the pre-calculated main thrusts and stores them in the queue to be executed
+     */
     public void initialDataStorageMainThrustImpulse(){
         currentVelocity = new double[] {0,0};
         //Big Deceleration thrust
@@ -80,39 +97,45 @@ public class OpenLoopController implements iController{
         DataStorageMainThrustImpulse.add(impulse7);
 
         //Final impulse to stop
-        MainThrusterImpulse impulse8 = new MainThrusterImpulse(g, currentVelocity, 431, 450);
+        MainThrusterImpulse impulse8 = new MainThrusterImpulse(g, currentVelocity, 431, 500);
         DataStorageMainThrustImpulse.add(impulse8);
     }
 
 
     @Override
-    public double[] getUV(double[][] state, int time) {
+    /**
+     * Based on the time, this method gives the respective main thrust or torque that is scheduled at that second
+     * @param state 
+     * @param time in seconds
+     * @return an array, UV[0] = u and UV[1] = v
+     */
+    public double[] getUV(double[][] state, int time) 
+    {
+        //Check rotation queue for current rotation
+        if(!DataStorageRotationImpulse.isEmpty()) {
 
-
-    if(!DataStorageRotationImpulse.isEmpty()) {
-
-        if(DataStorageRotationImpulse.peek().getStartTimeTorqueAcceleration() == time){
-            currentRotationImpulse = DataStorageRotationImpulse.peek();
-            DataStorageRotationImpulse.remove();
+            if(DataStorageRotationImpulse.peek().getStartTimeTorqueAcceleration() == time){
+                currentRotationImpulse = DataStorageRotationImpulse.peek();
+                DataStorageRotationImpulse.remove();
+            }
         }
-    }
-    if(currentRotationImpulse != null){
-        handleCurrentRotation((int)time);
-    }
-
-
-
-    if(!DataStorageMainThrustImpulse.isEmpty()){
-
-        if(DataStorageMainThrustImpulse.peek().getStartTimeOfImpulse() == time){
-            currentMainThrustImpulse = DataStorageMainThrustImpulse.peek();
-            DataStorageMainThrustImpulse.remove();
-
+        if(currentRotationImpulse != null){
+            handleCurrentRotation((int)time);
         }
-    }
-    if(currentMainThrustImpulse != null){
-        handleCurrentMainThrust((int)time);
-    }
+
+
+        //Check main thrust queue for current thrust
+        if(!DataStorageMainThrustImpulse.isEmpty()){
+
+            if(DataStorageMainThrustImpulse.peek().getStartTimeOfImpulse() == time){
+                currentMainThrustImpulse = DataStorageMainThrustImpulse.peek();
+                DataStorageMainThrustImpulse.remove();
+
+            }
+        }
+        if(currentMainThrustImpulse != null){
+            handleCurrentMainThrust((int)time);
+        }
         return UV;
     }
 
@@ -143,23 +166,12 @@ public class OpenLoopController implements iController{
             }
         else if (time == currentRotationImpulse.getEndTimeTorqueDeceleration())
         {
-                UV[1]= currentRotationImpulse.getTorqueDeceleration();
-            }
-            else{
-                UV[1] = 0;
-            }
-        // if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time<= currentRotationImpulse.getStartTimeTorqueDeceleration()){
+            UV[1]= currentRotationImpulse.getTorqueDeceleration();
+        }
+        else{
+            UV[1] = 0;
+        }
 
-        //     if(time>= currentRotationImpulse.getStartTimeTorqueAcceleration() && time < currentRotationImpulse.getStartTimeTorqueDeceleration()){
-        //         UV[1]= currentRotationImpulse.getTorqueAcceleration();
-        //     }
-        //     else if((time >= currentRotationImpulse.getStartTimeTorqueDeceleration()) && ((currentRotationImpulse.getEndTimeTorqueDeceleration()) > time)){
-        //         UV[1]= currentRotationImpulse.getTorqueDeceleration();
-        //     }
-        // }
-        // else{
-        //     UV[1] = 0;
-        // }
     }
 
     public void handleCurrentMainThrust(int time){
@@ -171,70 +183,6 @@ public class OpenLoopController implements iController{
         }
 
     }
-    
-    private double calculateNeededThrust(double wantedChangeInAngle)
-    {
-        if(wantedChangeInAngle % maxTorque > 1)
-        {
-            return maxTorque;
-        }
-
-        return wantedChangeInAngle % maxTorque;
-    }
-
-
-    /**
-     * Calculates the angle between the velocity of the spaceship and the wanted landing position
-     * Assumes that the landing angle is 90 degrees and therefore the yAxis
-     * @return angle between tail and Titan
-     */
-    private static double calculateAngleBetweenSpaceshipAndTitan(double[] passedVelocity)
-    {
-        double[] velocities = {passedVelocity[0],passedVelocity[1]};
-        double[] xAxis = {10,0};
-
-        //calculate the angle between spaceship "perpendicularness"
-        double dotProduct = VectorOperations.dotProduct(xAxis,velocities);
-        double aMag = VectorOperations.magnitude(velocities);
-        double bMag = VectorOperations.magnitude(xAxis);
-
-        double check = passedVelocity[0]*xAxis[1] - passedVelocity[0]*xAxis[0];
-        
-        if(check < 0)
-        {
-            return 2*Math.PI - Math.acos(dotProduct/(aMag * bMag));
-        }
-
-        return Math.acos(dotProduct/(aMag * bMag));
-    }
-
-    /**
-     * Calculates the angle between the velocity of the spaceship and the wanted landing position
-     * Assumes that the landing angle is 90 degrees and therefore the yAxis
-     * @return angle between tail and Titan
-     */
-    private static double calculateAngleBetweenSpaceshipAndLandigAxis(double[] passedVelocity)
-    {
-        double[] velocities = {passedVelocity[0],passedVelocity[1]};
-        double[] xAxis = {0,10};
-
-        //calculate the angle between spaceship "perpendicularness"
-        double dotProduct = VectorOperations.dotProduct(xAxis,velocities);
-        double aMag = VectorOperations.magnitude(velocities);
-        double bMag = VectorOperations.magnitude(xAxis);
-
-        double check = passedVelocity[0]*xAxis[1] - passedVelocity[0]*xAxis[0];
-        
-        if(check < 0)
-        {
-            return 2*Math.PI - Math.acos(dotProduct/(aMag * bMag));
-        }
-
-        return Math.acos(dotProduct/(aMag * bMag));
-    }
-
-
-
 
     /**
      * Returns the difference in positions of the spaceship's current position and a celestial body's position

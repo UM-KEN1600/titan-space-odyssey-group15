@@ -95,6 +95,10 @@ public class CelestialBody extends JPanel{
         }
     }
 
+    public static double scaleDownLanding(double xValue){
+        return 1.583 * xValue;
+    }
+
     /**
      * sets up the celestial bodies with their respective mass, radisu and row in the State matrix. They are then added to the list of celestial bodies
      */

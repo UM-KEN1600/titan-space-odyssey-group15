@@ -13,11 +13,15 @@ public class RotationImpulseOLC {
     public final int maxTimeRotation = 4;
 
 
-
-    public RotationImpulseOLC(double targetAngle, int startTimeTorqueAcceleration)
+    /**
+     * Used in Open Loop Controller. Stores the wanted change in angle and when it should happen
+     * @param changeInAngle change in angle
+     * @param startTimeTorqueAcceleration start time of the acceleration applied
+     */
+    public RotationImpulseOLC(double changeInAngle, int startTimeTorqueAcceleration)
     {
         this.startTimeTorqueAcceleration = startTimeTorqueAcceleration;
-        this.targetAngle = -targetAngle;
+        this.targetAngle = -changeInAngle; 
         changeAngle();
     }
 
@@ -69,7 +73,7 @@ public class RotationImpulseOLC {
         time = calculateTimeNeeded(targetAngle);
         startTimeTorqueDeceleration = time + startTimeTorqueAcceleration;
         endTimeTorqueDeceleration = startTimeTorqueDeceleration + time;
-        torqueAcceleration = calculateVMax(targetAngle, calculateTimeNeeded(targetAngle));
+        torqueAcceleration = calculateVMax(targetAngle,time);
         torqueDeceleration = - torqueAcceleration;
     }
 

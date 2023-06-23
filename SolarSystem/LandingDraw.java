@@ -2,8 +2,6 @@ package SolarSystem;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.*;
 
 import PhysicsEngine.States.State;
@@ -141,20 +139,18 @@ public class LandingDraw extends JPanel {
 
         g2.setTransform(titanTransform);
 
-        
 
-        
 
         // sets initial coordiantes for spaceship
         if(i < 100){
-            rotateSpaceship(-135);
+        rotateSpaceship(-135);
         int spaceshipCenterX = spaceshipX + spaceShip.getWidth(null) / 2;
         int spaceshipCenterY = spaceshipY + spaceShip.getHeight(null) / 2;
 
         AffineTransform oldTransform = g2.getTransform();
 
-        g2.rotate(Math.toRadians(rotationAngle), spaceshipCenterX, spaceshipCenterY);
-
+        g2.rotate(Math.toRadians(rotationAngle)+State.landingPositionsAngle[i][2], spaceshipCenterX, spaceshipCenterY);
+        System.out.println(State.landingPositionsAngle[i][2]);
         spaceshipX =(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][0])) + 485;
         spaceshipY =-(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][1])) + 400;
              

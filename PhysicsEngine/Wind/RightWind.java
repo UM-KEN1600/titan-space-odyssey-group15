@@ -25,7 +25,7 @@ public class RightWind extends Wind {
         int xDirection = 0;
         int yDirection = 1;
 
-        double[] velocityAfterWind = {(currentProbeVelocity[xDirection] - windVelocity[xDirection]), (currentProbeVelocity[yDirection] - windVelocity[yDirection])};
+        double[] velocityAfterWind = {(currentProbeVelocity[xDirection] - windVelocity[xDirection]), (currentProbeVelocity[yDirection] - windVelocity[yDirection]), currentProbeVelocity[2]};
         return velocityAfterWind;
     }
 
@@ -38,7 +38,7 @@ public class RightWind extends Wind {
         int xDirection = 0;
         int yDirection = 1;
 
-        double[] velocityAfterWind = {currentProbeVelocity[xDirection] - windVelocity[xDirection], currentProbeVelocity[yDirection] - windVelocity[yDirection]};
+        double[] velocityAfterWind = {currentProbeVelocity[xDirection] - windVelocity[xDirection], currentProbeVelocity[yDirection] - windVelocity[yDirection], currentProbeVelocity[2]};
         return velocityAfterWind;
     }
 }

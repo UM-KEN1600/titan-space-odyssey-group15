@@ -16,6 +16,7 @@ public class Draw extends JPanel implements KeyListener {
     int x = 0;
     int y = 0;
     
+    //images for planets and background
     Image finalIm;
     Image sun;
     Image venus;
@@ -27,11 +28,12 @@ public class Draw extends JPanel implements KeyListener {
     Image titan;
     Image spaceShip;
     Image background;
-    int zoomOffsetX;
-    int zoomOffsetY;
-    
-    double zoomFactor = 1.0;   
+   
+    //scaling and zooming in
     AffineTransform transform = new AffineTransform();
+    int zoomOffsetX;
+    int zoomOffsetY; 
+    double zoomFactor = 1.0;   
     boolean zoomFlag = false;  
     int zoomedInX;
     int zoomedInY;

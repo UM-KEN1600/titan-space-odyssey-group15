@@ -85,8 +85,8 @@ public class Main {
                 }
 
             solverChooser.dispose();
-            Runner.run(solver);
             //start the simulation
+            Runner.run(solver);
                 }
             }
             }

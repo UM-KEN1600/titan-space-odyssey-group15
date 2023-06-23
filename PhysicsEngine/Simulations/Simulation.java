@@ -106,20 +106,26 @@ public class Simulation {
         int amountOfPositionsStoredLanding = journeyPhase.getAmountOfPositionsStored(secondsOfLanding, journeyPhase.getStepSize());
         int framesPer10Seconds = journeyPhase.getAmountOfFramesNeeded(amountOfPositionsStoredLanding, framesTotal, journeyPhase.getStepSize());
 
+        double[] landingSpot = new double[2];
+        landingSpot[0] = stateInOrbit[7][0][0];
+        landingSpot[1] = stateInOrbit[7][0][1] + CelestialBody.bodyList[7].getRadius();
+
         //RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
         EulerSolver eulerSolver = new EulerSolver();
 
         //Choosing of controller
-        controller = new FeedbackController(journeyPhase.getStepSize(), calculateLandingPosition(stateInOrbit));
+        controller = new FeedbackController(journeyPhase.getStepSize(), landingSpot);
 
         double[][] initialState = getInitialLandingState(stateInOrbit[8]);
         double[] newUV = new double[2];
+
+       
 
         double[] position = new double[2];
         position[0] = initialState[0][0];
         position[1] = initialState[0][1];
         System.out.println(VectorOperations.euclideanForm(position, FeedbackController.LANDING_POSITION));
-        System.out.println(FeedbackController.LANDING_POSITION[1] - initialState[0][1]);
+        System.out.println(initialState[0][1] - landingSpot[1]);
 
 
         for(int i = 0 ; i < 20/journeyPhase.getStepSize(); i++)

@@ -13,6 +13,7 @@ import PhysicsEngine.Solvers.iSolver;
 import PhysicsEngine.States.State;
 import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
+import PhysicsEngine.Wind.*;
 
 public class Simulation {
 
@@ -98,12 +99,18 @@ public class Simulation {
         initialState[1][0] = 0;
         initialState[1][1] = 0;
 
+
         double[] newUV = new double[2];
 
         for(int i = 0 ; i < (secondsOfLanding); i++)
         {
             //gets needed U and V dependant on time or the current state of the spaceship
             newUV = controller.getUV(initialState,i);
+
+            // LeftAndRightWind, RightWind, LeftWind
+            Wind wind = new LeftAndRightWind(10);
+            //applywind
+            initialState[1] = wind.applyWind(initialState[1]);
 
             //passes UV into the solver to apply UV on the current state
             initialState = RK4Solver.solve(initialState,newUV[0],newUV[1], journeyPhase.getStepSize());

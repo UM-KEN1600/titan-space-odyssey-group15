@@ -45,7 +45,7 @@ public class FeedbackController implements iController{
     private double turnTime = 0;
     private double halfTurn = 0;
     private double currentThrust = 0;
-    private double turnAngle = 1.56; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+    private double turnAngle = 1.3; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
     private double thrustTime = 0;
     private double halfThrust = 0;
     private RotationImpulse rotator = new RotationImpulse(0, 0);

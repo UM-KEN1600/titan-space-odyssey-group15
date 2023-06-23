@@ -128,7 +128,7 @@ public class Simulation {
         System.out.println(initialState[0][1] - landingSpot[1]);
 
 
-        for(int i = 0 ; i < 20/journeyPhase.getStepSize(); i++)
+        for(int i = 0 ; i < 10/journeyPhase.getStepSize(); i++)
         {
 
             newUV = controller.getUV(initialState,i);
@@ -148,6 +148,9 @@ public class Simulation {
             probePosition[1] = initialState[0][1];
             System.out.println("Distance from probe to landing position");
             System.out.println(VectorOperations.euclideanForm(probePosition, FeedbackController.LANDING_POSITION));
+            if((initialState[0][1] - landingSpot[1]) <= 0){
+                break;
+            }
         }
     }
 

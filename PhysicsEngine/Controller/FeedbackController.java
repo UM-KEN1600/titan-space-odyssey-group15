@@ -45,7 +45,7 @@ public class FeedbackController implements iController{
     private double turnTime = 0;
     private double halfTurn = 0;
     private double currentThrust = 0;
-    private double turnAngle = 0.7; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+    private double turnAngle = 1.56; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
     private double thrustTime = 0;
     private double halfThrust = 0;
     private RotationImpulse rotator = new RotationImpulse(0, 0);
@@ -118,7 +118,7 @@ public class FeedbackController implements iController{
             thrustTime += timeStep*-1; //Ticks down the turn time
 
             if((thrustTime == halfThrust) && thrustTime > 0){
-                double newAngle = (-(currentAngle-(0.5*Math.PI) % 2*Math.PI))+ 0.5*Math.PI;
+                double newAngle = 2* Math.PI - currentAngle;
                 doRotation(newAngle); //Starts the deceleration phase
             }
         }
@@ -256,7 +256,7 @@ public class FeedbackController implements iController{
      * Main method to calculate for how long and how much to decelerate
      */
     private void yCorrection(){
-        double height = LANDING_POSITION[1] -currentPosition[1];
+        double height = currentPosition[1] - LANDING_POSITION[1];
         if(ydecelerationTime(maxThrust) + 50 > fallTime() || height > 50){
             return;
         }
@@ -274,7 +274,7 @@ public class FeedbackController implements iController{
         System.out.println(currentThrust);
 
     }
-    
+        
     /**
      * Calculates the time that it would take in the current state for the probe to reach titan
      * @return time that it would take to reach titan;
@@ -282,7 +282,7 @@ public class FeedbackController implements iController{
     //s = v0t - 0.5gt^2
     //0 = -0.5gt^2 + v0t - s
     private double fallTime(){
-        double height = LANDING_POSITION[1] -currentPosition[1];
+        double height = currentPosition[1] - LANDING_POSITION[1];
         System.out.println("wtf is the height even");
         System.out.println(height);
         double currentYVelocity = currentVelocity[1];

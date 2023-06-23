@@ -119,9 +119,10 @@ public class Simulation {
         position[0] = initialState[0][0];
         position[1] = initialState[0][1];
         System.out.println(VectorOperations.euclideanForm(position, FeedbackController.LANDING_POSITION));
+        System.out.println(FeedbackController.LANDING_POSITION[1] - initialState[0][1]);
 
 
-        for(int i = 0 ; i < 10/journeyPhase.getStepSize(); i++)
+        for(int i = 0 ; i < 20/journeyPhase.getStepSize(); i++)
         {
 
             newUV = controller.getUV(initialState,i);

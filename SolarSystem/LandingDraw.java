@@ -150,7 +150,7 @@ public class LandingDraw extends JPanel {
         AffineTransform oldTransform = g2.getTransform();
 
         g2.rotate(Math.toRadians(rotationAngle)+State.landingPositionsAngle[i][2], spaceshipCenterX, spaceshipCenterY);
-        System.out.println(State.landingPositionsAngle[i][2]);
+
         spaceshipX =(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][0])) + 485;
         spaceshipY =-(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][1])) + 400;
              

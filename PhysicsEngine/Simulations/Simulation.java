@@ -116,7 +116,7 @@ public class Simulation {
         //Choosing of controller
         controller = new FeedbackController(journeyPhase.getStepSize(), landingSpot);
 
-        double[][] initialState = getInitialLandingState(stateInOrbit[8]);
+        double[][] initialState = getInitialLandingState(stateInOrbit);
         double[] newUV = new double[2];
 
        
@@ -151,14 +151,15 @@ public class Simulation {
         }
     }
 
-    private double[][] getInitialLandingState(double[][] state)
+    private double[][] getInitialLandingState(double[][][] state)
     {
         double[][] newState = new double[2][3];
-        newState[0][0] = state[0][0];
-        newState[0][1] = state[0][1];
-        newState[1][0] = state[1][0];
-        newState[1][1] = state[1][1];
-        newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0], newState[1][1]}, new double[] {10,0});
+        newState[0][0] = state[7][0][0];
+        newState[0][1] = state[7][0][1] + CelestialBody.bodyList[7].getRadius() + 239.50899;
+
+        newState[1][0] = state[8][1][0];
+        newState[1][1] = state[8][1][1];
+        newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0],newState[1][1]}, new double[] {10,0});
         return newState;
     }
 

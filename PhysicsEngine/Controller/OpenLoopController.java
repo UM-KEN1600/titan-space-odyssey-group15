@@ -20,19 +20,10 @@ public class OpenLoopController implements iController{
     //Max constraints for some values
     final double g = 0.001352;
     final double maxThrust = 10*g;
-    final double maxTorque = 1.0;
-    final double SIZE_OF_SPACESHIP = 0.1; //100 meters :)
+    final double SIZE_OF_SPACESHIP = 0.1; //100 meters
 
-    //Position of Titan after one year, used for calculation of angle
-    //Top of titan
     static public double[] LANDING_POSITION;
     private double[] currentVelocity;
-    //Timestep being used in the current instance
-    private double timestep;
-    
-    //90 degrees in radians
-    final double ANGLE_TOWARDS_SURFACE = 1.571;
-
     double[] UV = new double[2];
 
     RotationImpulseOLC currentRotationImpulse;
@@ -111,9 +102,20 @@ public class OpenLoopController implements iController{
      * @param time in seconds
      * @return an array, UV[0] = u and UV[1] = v
      */
-    public double[] getUV(double[][] state, int time) 
-    {
-        //Check rotation queue for current rotation
+    public double[] getUV(double[][] state, int time) {
+
+    checkRotationQueue(time);
+
+    checkImpulseQueue(time);
+
+        return UV;
+    }
+
+    /**
+     * checks if queue needs to be dequeued and if so updates currentRotationImpulse
+     * @param time
+     */
+    public void  checkRotationQueue(int time){
         if(!DataStorageRotationImpulse.isEmpty()) {
 
             if(DataStorageRotationImpulse.peek().getStartTimeTorqueAcceleration() == time){
@@ -125,20 +127,23 @@ public class OpenLoopController implements iController{
             handleCurrentRotation((int)time);
         }
 
+    }
 
-        //Check main thrust queue for current thrust
+    /**
+     * checks if queue needs to be dequeued and if so updates currentMainThrustImpulse
+     * @param time
+     */
+    public void checkImpulseQueue(int time){
         if(!DataStorageMainThrustImpulse.isEmpty()){
 
             if(DataStorageMainThrustImpulse.peek().getStartTimeOfImpulse() == time){
                 currentMainThrustImpulse = DataStorageMainThrustImpulse.peek();
                 DataStorageMainThrustImpulse.remove();
-
             }
         }
         if(currentMainThrustImpulse != null){
             handleCurrentMainThrust((int)time);
         }
-        return UV;
     }
 
 
@@ -176,6 +181,10 @@ public class OpenLoopController implements iController{
 
     }
 
+    /**
+     * Methods sets the appropriate thrust if a change is required given by time
+     * @param time
+     */
     public void handleCurrentMainThrust(int time){
         if(time>= currentMainThrustImpulse.getStartTimeOfImpulse() && time<= currentMainThrustImpulse.getEndTimeOfPulse()){
             UV[0] = currentMainThrustImpulse.getThrust();

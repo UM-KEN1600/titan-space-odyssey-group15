@@ -11,6 +11,7 @@ import java.util.Random;
  * Calling applyWind with the parameters (currentVelocity, distanceProbeTitan), maxWindVelocity is adapted to the atmosphere layer
 */
 public abstract class Wind {
+
     static boolean Direction = true;
     protected final double maxWindVelocity;
     
@@ -64,7 +65,7 @@ public abstract class Wind {
 
         // radiants are expected in input, not degrees
         windChangeX = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.cos(Math.toRadians(angle)); 
-        windChangeY = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.sin(Math.toRadians(angle)); 
+        //windChangeY = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.sin(Math.toRadians(angle)); 
 
         return new double[] {windChangeX, windChangeY};
 
@@ -100,7 +101,6 @@ public abstract class Wind {
             return (1/4 * maxWindVelocity);
         } 
     }
-
 
     public void setDirection(boolean direction) {
         Direction = direction;

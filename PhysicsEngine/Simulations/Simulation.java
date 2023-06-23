@@ -166,21 +166,7 @@ public class Simulation {
         newState[1][1] = state[8][1][1];
         newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0],newState[1][1]}, new double[] {10,0});
         return newState;
-        // double[] position = new double[2];
-        // position[0] = state[0][0];
-        // position[1] = state[0][1];
 
-        // //in order to point straight away from titan, this step is necessary, starts off with a tiny velocity in the opposite direction
-        // double[] initialDirection = VectorOperations.vectorScalarMultiplication(VectorOperations.vectorSubtraction(position, landingSpot), 1E-15);
-
-        // 
-        // newState[0][0] = state[0][0];
-        // newState[0][1] = state[0][1];
-
-        // newState[1][0] = initialDirection[0];
-        // newState[1][1] = initialDirection[1];
-        // newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0], newState[1][1]}, new double[] {10,0});
-        // return newState;
     }
     //Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
     public double fullCircle(double currentAngle){

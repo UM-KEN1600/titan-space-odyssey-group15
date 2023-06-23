@@ -114,16 +114,18 @@ public class FeedbackController implements iController{
      */
     //DO NOT REMOVE
     private void thrustController(){
-        if(thrustTime > 0){
-            thrustTime--; //Ticks down the turn time
+        if(thrustTime > 1){
+            thrustTime += timeStep*-1; //Ticks down the turn time
 
             if((thrustTime == halfThrust) && thrustTime > 0){
                 double newAngle = (-(currentAngle-(0.5*Math.PI) % 2*Math.PI))+ 0.5*Math.PI;
                 doRotation(newAngle); //Starts the deceleration phase
             }
         }
-        if(thrustTime == 0){
+        if(thrustTime == 1){
             currentThrust = 0; //X movement has been finished
+            thrustTime = 0;
+            halfThrust = 0;
         }
     }   
 
@@ -131,8 +133,8 @@ public class FeedbackController implements iController{
      * of the velocity if at halftime. If the time is zero, it finishes.
      */
     private void rotatingController(){
-        if(turnTime > 0){// the turning is still in progress
-            turnTime--; //Ticks down the turn time
+        if(turnTime > 1){// the turning is still in progress
+            turnTime += timeStep * -1; //Ticks down the turn time
 
             if((turnTime == halfTurn)){
                 torque = -torque; //Starts the deceleration phase
@@ -140,6 +142,8 @@ public class FeedbackController implements iController{
         }
         else{
             torque = 0; //Turn has been finished
+            turnTime = 0;
+            halfTurn = 0;
         }
     }
 
@@ -185,15 +189,12 @@ public class FeedbackController implements iController{
         double halfDistance = movement/2;
         currentThrust = maxThrust;
         double time = Math.ceil(xTime(halfDistance));
-        if((time % 2) != 0){
-            time++;
-        }
         double thrust = xThrust(time, halfDistance);
         System.out.println("Half thrust");
         System.out.println(thrust);
         currentThrust = thrust;
-        thrustTime = time;
-        halfThrust = Math.ceil(time/2);
+        halfThrust = time;
+        thrustTime = halfThrust * 2;
     }
 
     /**
@@ -202,7 +203,10 @@ public class FeedbackController implements iController{
      * @return the time needed 
      */
     private double xTime(double movement){
+        System.out.println("xTime values");
+        System.out.println(movement);
         double acceleration = Math.abs(currentThrust * Math.sin(currentAngle));
+        System.out.println(acceleration);
         System.out.println("Angle:");
         System.out.println(Math.sin(currentAngle));
         double time = Math.sqrt(Math.abs(((movement-currentVelocity[0])*2)/acceleration));

@@ -110,7 +110,7 @@ public class Simulation {
         EulerSolver eulerSolver = new EulerSolver();
 
         //Choosing of controller
-        controller = new FeedbackController(1, calculateLandingPosition(stateInOrbit));
+        controller = new FeedbackController(journeyPhase.getStepSize(), calculateLandingPosition(stateInOrbit));
 
         double[][] initialState = getInitialLandingState(stateInOrbit[8]);
         double[] newUV = new double[2];
@@ -121,7 +121,7 @@ public class Simulation {
         System.out.println(VectorOperations.euclideanForm(position, FeedbackController.LANDING_POSITION));
 
 
-        for(int i = 0 ; i < (100); i++)
+        for(int i = 0 ; i < 10/journeyPhase.getStepSize(); i++)
         {
 
             newUV = controller.getUV(initialState,i);

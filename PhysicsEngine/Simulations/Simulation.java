@@ -76,25 +76,6 @@ public class Simulation {
 
 
         landingSimulation(nextState);
-       
-
-
-        if(SHOWENDPOSITIONS)
-        {   
-            state.printPositions();
-             
-            double[] probePosition = State.getPosition(8);
-            double[] titanPosition = State.getPosition(7);
-
-            System.out.println("Probe:");
-            System.out.println(Arrays.toString(probePosition));
-            System.out.println("Probe velocity entering titan:");
-            System.out.println(Arrays.toString(state.getState()[8][1]));
-            System.out.println("Titan:");
-            System.out.println(Arrays.toString(titanPosition));
-            System.out.println("distance:");
-            System.out.println(getDistaceProbeTitan());
-        }
 
     }
 

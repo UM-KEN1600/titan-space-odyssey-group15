@@ -47,6 +47,7 @@ public class FeedbackController implements iController{
     private double currentThrust = 0;
     private double turnAngle = 1.3; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
     private double thrustTime = 0;
+    private double tempThrust = 0;
     private double halfThrust = 0;
     private RotationImpulse rotator = new RotationImpulse(0, 0);
 
@@ -114,6 +115,12 @@ public class FeedbackController implements iController{
      */
     //DO NOT REMOVE
     private void thrustController(){
+        if((turnTime != 0)){
+            currentThrust = 0;
+        }
+        if(thrustTime > 1 && (currentThrust == 0)){
+            currentThrust = tempThrust;
+        }
         if(thrustTime > 1){
             thrustTime += timeStep*-1; //Ticks down the turn time
 
@@ -126,6 +133,7 @@ public class FeedbackController implements iController{
             currentThrust = 0; //X movement has been finished
             thrustTime = 0;
             halfThrust = 0;
+            tempThrust = 0;
         }
     }   
 
@@ -193,6 +201,7 @@ public class FeedbackController implements iController{
         System.out.println("Half thrust");
         System.out.println(thrust);
         currentThrust = thrust;
+        tempThrust = thrust;
         halfThrust = time;
         thrustTime = halfThrust * 2;
     }

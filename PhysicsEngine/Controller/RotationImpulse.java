@@ -2,6 +2,10 @@ package PhysicsEngine.Controller;
 
 import PhysicsEngine.States.RocketState;
 
+/**
+ * This class handles the rotation of the spaceship during the landing
+ */
+
 public class RotationImpulse {
 
     private double angleOfRotation;
@@ -42,6 +46,7 @@ public class RotationImpulse {
         angleOfRotation = newAngle;
     }
 
+    //Getter for the time needed for the rotation
     public double getTimeNeededForRotation()
     {
         return angleOfRotation/torque;
@@ -51,7 +56,7 @@ public class RotationImpulse {
      * calculates the angle that is overshot based on the time needed to rotate, since we can only
      * check the angle every timestep we do calculations, if we use the maxTorque, the
      * rotation will never be perfect
-     * @return
+     * @return angle that is overshot
      */
     private double getOvershoot()
     {
@@ -81,19 +86,22 @@ public class RotationImpulse {
      * Plans the rotation of the spacecraft
      * Will give the amount of seconds needed with a specific torque
      * (The switch to deceleration will have to be done externally)
-     * @param newAngle
+     * @param newAngle angle to rotate the spaceship
      */
     //CALL THIS TO DO THE ROTATION
     public void xRotationPlan(double newAngle){
+
         //calculates half the newAngle since the rotation will have 2 phases (acceleration and deceleration)
         double halfAngle = Math.ceil(newAngle/2);
     
         //calculates the full amount of acceleration time needed
         double averageAccelerationAngle = halfAngle;
         double accelerationTime = calculateAccelerationTime(averageAccelerationAngle);
+
         if(accelerationTime % 1 != 0){
             accelerationTime = Math.ceil(accelerationTime);
         }
+        
         double decelerationTime = accelerationTime;
 
         //calculates the average acceleration that will be used in the rotation

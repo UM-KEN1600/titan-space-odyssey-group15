@@ -8,7 +8,13 @@ import java.util.Queue;
 
 import javax.xml.crypto.Data;
 
+/**
+ * This class implements an Open-Loop Controller 
+ * implements the iController interface
+ */
+
 public class OpenLoopController implements iController{
+    
     //Final Values needed
     //NOTE: Values are in km, not m. (Apart from angle)
     final double xFINAL = 0.0001;
@@ -98,7 +104,7 @@ public class OpenLoopController implements iController{
     @Override
     /**
      * Based on the time, this method gives the respective main thrust or torque that is scheduled at that second
-     * @param state 
+     * @param state the state of the spaceship with position, velocity and angle
      * @param time in seconds
      * @return an array, UV[0] = u and UV[1] = v
      */
@@ -113,7 +119,7 @@ public class OpenLoopController implements iController{
 
     /**
      * checks if queue needs to be dequeued and if so updates currentRotationImpulse
-     * @param time
+     * @param time in seconds
      */
     public void  checkRotationQueue(int time){
         if(!DataStorageRotationImpulse.isEmpty()) {
@@ -131,7 +137,7 @@ public class OpenLoopController implements iController{
 
     /**
      * checks if queue needs to be dequeued and if so updates currentMainThrustImpulse
-     * @param time
+     * @param time in seconds
      */
     public void checkImpulseQueue(int time){
         if(!DataStorageMainThrustImpulse.isEmpty()){
@@ -151,7 +157,7 @@ public class OpenLoopController implements iController{
      * calculates the time needed to appraoch the landing position based on the starting velocity and the alowed thrust
      * @param distanceVector distance from spaceship to titan
      * @param velocity beginning velocity
-     * @return
+     * @return time in seconds needed
      */
     private static double calculateTimeNeededToApproach(double[] distanceVector, double[] velocity)
     {
@@ -163,7 +169,7 @@ public class OpenLoopController implements iController{
 
     /**
      * Methods sets the appropriate torque if a change is required given by time
-     * @param time
+     * @param time in seconds
      */
     public void handleCurrentRotation(int time){
 
@@ -183,7 +189,7 @@ public class OpenLoopController implements iController{
 
     /**
      * Methods sets the appropriate thrust if a change is required given by time
-     * @param time
+     * @param time in seconds
      */
     public void handleCurrentMainThrust(int time){
         if(time>= currentMainThrustImpulse.getStartTimeOfImpulse() && time<= currentMainThrustImpulse.getEndTimeOfPulse()){
@@ -196,15 +202,20 @@ public class OpenLoopController implements iController{
     }
 
     /**
-     * Returns the difference in positions of the spaceship's current position and a celestial body's position
+     * Returns the difference in positions of the landing position on Titan and a celestial body's position
      * @param subject a celestial body's position
-     * @return position of the celestial body relative to the spaceship
+     * @return position of the celestial body relative to the landing position
      */
     private double[] getPositionRelativeToTitan(double[] subject)
     {
         return VectorOperations.vectorSubtraction(subject, LANDING_POSITION);
     }
 
+    /**
+     * Returns the difference in positions of the spaceship's current position and  a celestial body's position
+     * @param subject a celestial body's position
+     * @return position of celestial body relative to spaceship's position
+     */
     private double[] getPositionRelativeToSpaceship(double[] subject)
     {
         return VectorOperations.vectorSubtraction(LANDING_POSITION,subject);

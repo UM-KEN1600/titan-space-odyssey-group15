@@ -1,5 +1,9 @@
 package PhysicsEngine.Controller;
 
+/**
+ * This class handles the rotation of the spaceship for the Open-Loop Controller during the landing
+ */
+
 public class RotationImpulseOLC {
 
     private double targetAngle;
@@ -34,10 +38,17 @@ public class RotationImpulseOLC {
         this.torqueDeceleration = - torqueAcceleration;
     }
 
+    //Setter for target angle
     public void setTargetAngle(double angle){
         targetAngle = angle;
     }
 
+    /**
+     * Calculates the amount of torque needed to do a rotation
+     * @param changeInAngle rotation of the spaceship
+     * @param timeOfRotation the time of the rotation
+     * @return torque needed to do the rotation
+     */
     private double calculateTorqueNeeded(double changeInAngle, double timeOfRotation)
     {
         if(changeInAngle/timeOfRotation <= 1)
@@ -73,7 +84,7 @@ public class RotationImpulseOLC {
      Calculates acceleration that is needed to rotate the rocket in a specific time to a given angle.
      * @param targetAngle the new angle that you want the rocket to face
      * @param t the amount of time that the rocket has to turn in
-     * @return
+     * @return acceleration needed to rotate
      */
     private double calculateVMax(double targetAngle, double t){
         double intermediateAngle = targetAngle/2;
@@ -83,7 +94,6 @@ public class RotationImpulseOLC {
 
     /**
      Calculates acceleration and deceleration to rotate the rocket to the given angle.
-     * @return
      */
     public void changeAngle(){
 
@@ -94,6 +104,7 @@ public class RotationImpulseOLC {
         torqueDeceleration = - torqueAcceleration;
     }
 
+   
     public double getTargetAngle() {
         return targetAngle;
     }

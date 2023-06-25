@@ -3,6 +3,11 @@ package PhysicsEngine.JourneyPhase;
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import PhysicsEngine.Solvers.iSolver;
 
+/**
+ * This class represents the landing journey of the spaceship
+ * implements the iJourneyPhase interface
+ */
+
 public class LandingPhase implements iJourneyPhase{
 
     private double timestep = 1;

@@ -15,6 +15,10 @@ import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
 import PhysicsEngine.Wind.*;
 
+/**
+ * This class simulates the spaceship's journey to Titan and the landing
+ */
+
 public class Simulation {
 
     final boolean SHOWENDPOSITIONS = false;
@@ -46,6 +50,9 @@ public class Simulation {
         this.solver = solver;
     }
 
+    /**
+     * Sets up the celestial bodies in the solar system in their starting positions and updates them 
+     */
     public void planetarySetUp() 
     {   
         CelestialBody.setupCelestialBodies();
@@ -80,6 +87,10 @@ public class Simulation {
 
     }
 
+    /**
+     * Simulates the landing of the spaceship on Titan
+     * @param stateInOrbit the state of the spaceship while in orbit of Titan
+     */
     private void landingSimulation(double[][][] stateInOrbit)
     {
         journeyPhase = new LandingPhase();
@@ -96,6 +107,7 @@ public class Simulation {
 
         //Choosing of controller
         controller = new OpenLoopController(landingSpot, initialState[1]);
+        //Setting the x and y velocities to 0
         initialState[1][0] = 0;
         initialState[1][1] = 0;
 
@@ -109,7 +121,7 @@ public class Simulation {
 
             // LeftAndRightWind, RightWind, LeftWind
             Wind wind = new LeftAndRightWind(10);
-            //applywind
+            //applywind to velocities
             initialState[1] = wind.applyWind(initialState[1]);
 
             //passes UV into the solver to apply UV on the current state
@@ -144,6 +156,11 @@ public class Simulation {
 
     private double previousDistance = Integer.MAX_VALUE;
 
+    /**
+     * Gets the initial landing state of the spaceship
+     * @param state
+     * @return
+     */
     private double[][] getInitialLandingState(double[][][] state)
     {
         double[][] newState = new double[2][3];
@@ -156,7 +173,12 @@ public class Simulation {
         return newState;
 
     }
-    //Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
+    
+    /**
+     * Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
+     * @param currentAngle
+     * @return
+     */
     public double fullCircle(double currentAngle){
         if (currentAngle < 0){
             currentAngle += 2* Math.PI;
@@ -167,6 +189,11 @@ public class Simulation {
         return currentAngle;
     }
 
+    /**
+     * Calculates the landing position based on a state of the spaceship
+     * @param state
+     * @return
+     */
     private double[] calculateLandingPosition(double[][][] state)
     {
         double[] distanceVector = new double[2];
@@ -180,6 +207,11 @@ public class Simulation {
         return landingPosition;
     }
 
+    /**
+     * Calculates the distance to Titan's surface with respect to its radius and centre
+     * @param distance 
+     * @return
+     */
     private double[] takeOffRadius(double[] distance)
     {
         double h = Math.sqrt(Math.pow(distance[0], 2) + Math.pow(distance[1], 2));
@@ -199,7 +231,7 @@ public class Simulation {
     }
 
     /*
-     * returns the actual distance from Titan to the probe
+     * Returns the actual distance from Titan to the probe
      */
     private double getDistaceProbeTitan(){
         return VectorOperations.euclideanForm(state.getState()[8][0],state.getState()[7][0])- CelestialBody.bodyList[7].radius;

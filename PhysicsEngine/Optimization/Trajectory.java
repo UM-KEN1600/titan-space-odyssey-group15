@@ -3,7 +3,9 @@ import PhysicsEngine.Operations.VectorOperations;
 
 import java.util.Random;
 
-//This class is used to store the trajectory for the genetic algorithm
+/**
+ * This class is used to store the trajectory for the genetic algorithm
+ */
 class Trajectory{
 
     public double[] velocity; //stores the velocity vector

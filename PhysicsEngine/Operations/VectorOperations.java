@@ -131,12 +131,25 @@ public class VectorOperations {
         return A;
     }
     
+    /**
+     * Calculates the magnitude of three vectors in x, y, z coordinate system
+     * @param vectorx vector in x coordinate system
+     * @param vectory vector in y coordinate system
+     * @param vectorz vector in z coordinate system
+     * @return magnitude of the three vectors
+     */
     public static double magnitude(double vectorx, double vectory, double vectorz){
         double first = Math.pow(vectorx, 2) + Math.pow(vectory, 2) + Math.pow(vectorz, 2);
         double magnitude = Math.sqrt(first);
         return magnitude; 
     }
 
+    /**
+     * Calculates the dot product between 2 vectors
+     * @param vectorA 
+     * @param vectorB
+     * @return
+     */
     public static double dotProduct(double[] vectorA, double[] vectorB)
     {
         double dotProduct = 0;
@@ -149,6 +162,11 @@ public class VectorOperations {
         return dotProduct;
     }
 
+    /**
+     * Calculates the magnitude of a single vector
+     * @param vector
+     * @return
+     */
     public static double magnitude(double[] vector)
     {
         double magnitude = 0;
@@ -161,6 +179,12 @@ public class VectorOperations {
         return Math.sqrt(magnitude);
     }
 
+    /**
+     * Calculates the angle between vectorA and vectorB
+     * @param vectorA
+     * @param vectorB
+     * @return
+     */
     public static double calculateAngle(double[] vectorA, double[] vectorB)
     {
         double dotProduct = VectorOperations.dotProduct(vectorA,vectorB);

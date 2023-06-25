@@ -3,6 +3,11 @@ package PhysicsEngine.JourneyPhase;
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import PhysicsEngine.Solvers.iSolver;
 
+/**
+ * This class represents the travel of the spaceship to Titan from Earth
+ * implements the iJourneyPhase interface
+ */
+
 public class TravelPhase implements iJourneyPhase{
 
     private double timestep;

@@ -281,7 +281,7 @@ public class FeedbackController implements iController{
     private void yCorrection(){
         double height = currentPosition[1] - LANDING_POSITION[1];
         System.out.println(ydecelerationTime(maxThrust));
-        if(ydecelerationTime(maxThrust) + 50 < fallTime() || height > 50){
+        if((ydecelerationTime(maxThrust) + 50 < fallTime() || height > 50) && (height >1)){
             return;
         }
         if(Math.abs(currentVelocity[1]) < maxThrust - g){
@@ -293,6 +293,9 @@ public class FeedbackController implements iController{
             System.out.println(currentThrust);
         } else{
             currentThrust = maxThrust;
+        }
+        if(fallTime() < 2){
+            currentThrust = (Math.abs(currentVelocity[1]) + g) - 0.5*yVelocityFINAL;
         }
         System.out.println("yCorrection thrust");
         System.out.println(currentThrust);
@@ -433,7 +436,7 @@ public class FeedbackController implements iController{
     }
 
     public boolean testYVelocity(){
-        return Math.abs(currentVelocity[1]) < yVelocityFINAL;
+        return (Math.abs(currentVelocity[1]) < yVelocityFINAL) && (fallTime() > 2);
     }
 
     public boolean testXPosition(){

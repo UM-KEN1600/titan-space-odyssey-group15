@@ -115,26 +115,29 @@ public class FeedbackController implements iController{
      */
     //DO NOT REMOVE
     private void thrustController(){
-        if((turnTime != 0)){
-            currentThrust = 0;
-        }
-        if(thrustTime > 1 && (currentThrust == 0)){
-            currentThrust = tempThrust;
-        }
-        if(thrustTime > 1){
-            thrustTime += timeStep*-1; //Ticks down the turn time
-
-            if((thrustTime == halfThrust) && thrustTime > 0){
-                double newAngle = 2* Math.PI - currentAngle;
-                doRotation(newAngle); //Starts the deceleration phase
-            }
-        }
-        if(thrustTime == 1){
+        if(thrustTime == 0){
             currentThrust = 0; //X movement has been finished
             thrustTime = 0;
             halfThrust = 0;
             tempThrust = 0;
         }
+        if(thrustTime >= 1 && (currentThrust == 0) && (turnTime == 0)){
+            currentThrust = tempThrust;
+        }
+        if((thrustTime >= 1) && (turnTime == 0)){
+            thrustTime += timeStep*-1; //Ticks down the turn time
+        }
+        if((thrustTime == halfThrust) && (thrustTime > 0) && (turnTime == 0)){
+            double newAngle = 2* Math.PI - currentAngle;
+            doRotation(newAngle); //Starts the deceleration phase
+        }
+        if((turnTime > 1)){
+            currentThrust = 0;
+        }
+        
+        
+        
+        
     }   
 
     /*Controls the rotation, if is running decreases the time of rotation and starts the decrease 
@@ -184,6 +187,8 @@ public class FeedbackController implements iController{
         System.out.println("Movement2: ");
         System.out.println(movement);
         doMovement(movement);
+        System.out.println("half thurst");
+        System.out.println(halfThrust);
     }
 
 
@@ -201,9 +206,15 @@ public class FeedbackController implements iController{
         System.out.println("Half thrust");
         System.out.println(thrust);
         currentThrust = thrust;
-        tempThrust = thrust;
+        
         halfThrust = time;
-        thrustTime = halfThrust * 2;
+        thrustTime = (halfThrust * 2) -2;
+        if(thrustTime < 2){
+            thrustTime = halfThrust+1;
+            currentThrust = (movement/4)/Math.sin(currentAngle);
+        }
+        tempThrust = (currentThrust+1)-1;
+    
     }
 
     /**
@@ -235,7 +246,10 @@ public class FeedbackController implements iController{
         double thrust = Math.abs(acceleration/Math.sin(currentAngle));
         System.out.println("xThrust:");
         System.out.println(thrust);
-        return thrust;
+        System.out.println("xTIme thrust");
+        System.out.println(time);
+        double correctedThrust = Math.abs((movement / (((time*time)/2) -8))/Math.sin(currentAngle));
+        return correctedThrust;
     }
 
     /**
@@ -243,17 +257,17 @@ public class FeedbackController implements iController{
      * Basically sets the thrust for one second in 1 direction for it to counteract any residual thrust
      */
     private void xVelocityCorrection(){
-        if(Math.signum(currentVelocity[0]) != Math.sin(currentAngle)){
+        if(Math.signum(currentVelocity[0]) != Math.signum(Math.sin(currentAngle))){
             double velocityCorrection = Math.abs(currentVelocity[0]/Math.sin(currentAngle));
             if (Math.abs(currentVelocity[0]/Math.sin(currentAngle)) > maxThrust){
                 velocityCorrection = maxThrust;
             }
             currentThrust = velocityCorrection;
-            thrustTime = 1;
             System.out.println("correction thrust");
             System.out.println(currentThrust);
 
-            thrustTime = 1;
+            thrustTime = 0;
+            halfThrust = 1;
         } else{
 
             double movementAngle = 0 + turnAngle * -Math.signum(currentVelocity[0]);
@@ -266,7 +280,8 @@ public class FeedbackController implements iController{
      */
     private void yCorrection(){
         double height = currentPosition[1] - LANDING_POSITION[1];
-        if(ydecelerationTime(maxThrust) + 50 > fallTime() || height > 50){
+        System.out.println(ydecelerationTime(maxThrust));
+        if(ydecelerationTime(maxThrust) + 50 < fallTime() || height > 50){
             return;
         }
         if(Math.abs(currentVelocity[1]) < maxThrust - g){
@@ -413,7 +428,8 @@ public class FeedbackController implements iController{
     }
 
     public boolean testXVelocity(){
-        return Math.abs(currentVelocity[0]) < xVelocityFINAL;
+        //return Math.abs(currentVelocity[0]) < xVelocityFINAL;
+        return Math.abs(currentVelocity[0]) == 0;
     }
 
     public boolean testYVelocity(){
@@ -445,7 +461,7 @@ public class FeedbackController implements iController{
             xCorrection();
         }
         
-        if(!testAngle() && (thrustTime == 0) && (turnTime == 0)){
+        if(!testAngle() && (thrustTime == 0) && (turnTime == 0) && (halfThrust == 0)){
             System.out.println("AngleCorrection");
             rotationCorrection();
         }

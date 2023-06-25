@@ -99,9 +99,11 @@ public class RotationImpulse {
         //calculates the average acceleration that will be used in the rotation
         double acceleration = calculateAcceleration(halfAngle, accelerationTime);
 
+        /* 
         if(accelerationTime == 1){
             acceleration = newAngle;
         }
+        */
     
         torque = acceleration;
         rotationTime = accelerationTime + decelerationTime;
@@ -114,7 +116,7 @@ public class RotationImpulse {
      * @return the amount of time that the rocket has to accelerate to achieve the necessary velocity
      */
     public double calculateAccelerationTime(double newAngle){
-        double time = Math.sqrt(newAngle);
+        double time = Math.sqrt(newAngle*2);
         return time;
     }
 
@@ -125,7 +127,7 @@ public class RotationImpulse {
      * @return the acceleration needed 
      */
     public double calculateAcceleration(double newAngle, double time){
-        double acceleration = newAngle / time;
+        double acceleration = (newAngle*2) / (time*time);
         return acceleration;
     }
 

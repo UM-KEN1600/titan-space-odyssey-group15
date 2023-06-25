@@ -19,7 +19,7 @@ public abstract class Wind {
      * @param maxWindVelocityKmh the maximum velocity the wind can have in km/h, decreasing getting closer titan
      */
     protected Wind(double maxWindVelocityKmh){
-        this.maxWindVelocity = maxWindVelocityKmh /3600;// transform km/h in km/s
+        this.maxWindVelocity = maxWindVelocityKmh;// transform km/h in km/s
     }
 
     /**
@@ -64,23 +64,23 @@ public abstract class Wind {
         angle = random.nextDouble() * (endAngle - startAngle) + startAngle;
 
         // radiants are expected in input, not degrees
-        windChangeX = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.cos(Math.toRadians(angle)); 
-        //windChangeY = adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.sin(Math.toRadians(angle)); 
+        windChangeX = (adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.cos(Math.toRadians(angle)))/3600; // transform km/h in km/s
+        //windChangeY = (adaptWindToLayerOfAtmosphere(distanceFromSurface,windVelocity) * Math.sin(Math.toRadians(angle)))/ 3600; 
 
         return new double[] {windChangeX, windChangeY};
 
     }
 
     /**
-     * Adapts the wind velocity depending on the atmosphere of Titan that the probe is in
+     * Adapts the wind velocity depending on the atmosphere of Titan that the probe is in(proportion is based on below data)
      * @param windVelocity the randomised current wind velocity 
      * @param currentDistanceFromSurface the probe's distance from Titan's surface
      * @return the maxWindvelocity relative to the layer of the atmosphere the probe is in and the maxVelocity bound
      * Layers of Titan's atmosphere:
-            1. Troposphere: 0-32 km (0-20 mi)
-            2. Stratosphere: 32-100 km (20-62 mi)
-            3. Mesosphere: 100-210 km (62-130 mi)
-            4. Thermosphere: Above 210 km (130 mi)
+            1. Troposphere: 0-32 km (0-20 mi),  wind speeds range from 0 to 100 kilometers per hour
+            2. Stratosphere: 32-100 km (20-62 mi), wind speeds range from  100 to 400 kilometers per hour
+            3. Mesosphere: 100-210 km (62-130 mi),  wind speeds range from  50 to 200 kilometers per hour
+            4. Thermosphere: Above 210 km (130 mi), wind speeds range from  0 to 50 kilometers per hour
      */
     private double adaptWindToLayerOfAtmosphere(double currentDistanceFromSurface, double windVelocity){
 
@@ -89,16 +89,16 @@ public abstract class Wind {
         int mesosphereDistance = 210;
 
         if (currentDistanceFromSurface <= troposphereDistance) {  //Troposphere
-            return (4/4 * maxWindVelocity);
+            return ((1/4) * windVelocity);
 
         } else if (currentDistanceFromSurface <= stratosphereDistance) { //Stratosphere
-            return (3/4 * maxWindVelocity);
+            return ((4/4) * windVelocity);
 
         } else if (currentDistanceFromSurface <= mesosphereDistance) { //Mesosphere
-            return (2/4 * maxWindVelocity);
+            return ((2/4) * windVelocity);
 
         } else {     //Thermosphere over 210km
-            return (1/4 * maxWindVelocity);
+            return ((1/8) * windVelocity);
         } 
     }
 

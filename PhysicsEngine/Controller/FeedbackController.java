@@ -242,6 +242,7 @@ public class FeedbackController implements iController{
      */
     private void yCorrection(){
         double height = currentPosition[1] - LANDING_POSITION[1];
+        
         //Here it checks how long it takes to fall
         //If the deceleration time needed at max thrust + 50 seconds is smaller than the fallTime left, the y deceleration would kick in
         if((ydecelerationTime(maxThrust) + 50 < fallTime() || height > 50) && (height > 0.5)){

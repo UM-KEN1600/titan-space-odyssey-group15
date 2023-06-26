@@ -102,6 +102,7 @@ public class Simulation {
 
         if(!openLoop){
             EulerSolver eulerSolver = new EulerSolver();
+            storePositionsEveryXSeconds = 15;
         }
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
@@ -121,7 +122,7 @@ public class Simulation {
         EulerSolver eulerSolver = new EulerSolver();
         if(!openLoop){
             controller = new FeedbackController(1, landingSpot);
-            secondsOfLanding = 2000;
+            secondsOfLanding = 1500;
         }
 
         double[] newUV = new double[2];
@@ -156,7 +157,13 @@ public class Simulation {
             double[] probePosition = new double[2];
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
-           // System.out.println(i + "seconds: " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+
+            if(!openLoop){
+                if(probePosition[1] - OpenLoopController.LANDING_POSITION[1]  <= 0){
+                    break;
+                }
+            }
+            //System.out.println(i + "seconds: " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
             if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)>previousDistance)
             {
                // System.out.println("-----------------------------------------" + i);

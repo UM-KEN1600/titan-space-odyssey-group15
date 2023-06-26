@@ -46,7 +46,7 @@ public class FeedbackController implements iController{
     private double turnTime = 0;
     private double halfTurn = 0;
     private double currentThrust = 0;
-    private double turnAngle = 1.3; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
+    private double turnAngle = 1.6; //Angle at which the probe will be positioned at when turning. Will be written as an addition to PI/2 radians
     private double thrustTime = 0;
     private double tempThrust = 0;
     private double halfThrust = 0;
@@ -242,6 +242,7 @@ public class FeedbackController implements iController{
      */
     private void yCorrection(){
         double height = currentPosition[1] - LANDING_POSITION[1];
+        System.out.println(height);
         
         //Here it checks how long it takes to fall
         //If the deceleration time needed at max thrust + 50 seconds is smaller than the fallTime left, the y deceleration would kick in

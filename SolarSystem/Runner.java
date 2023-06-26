@@ -45,8 +45,7 @@ public class Runner {
                             
                             //when the first step of the simulation ends, we open up the landing frame
                             mainFrame.dispose();
-                           LandingRunner.run();
-                       
+                            LandingRunner.run();
                          }
                     });
                 }

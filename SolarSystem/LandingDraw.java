@@ -112,7 +112,8 @@ public class LandingDraw extends JPanel {
         // Draw Titan
         titanX = -300; // x-coordinate for Titan
         titanY = 400; // y-coordinate for Titan
-                
+        
+        //if statement checking what iteration we are on 
         if(i < 100){
 
         titanCenterX = titanX + titan.getWidth(null) / 2;
@@ -196,8 +197,8 @@ public class LandingDraw extends JPanel {
      */
     public void rotateTitan(double degrees) {
         titanRotationAngle = degrees;
-    repaint();
-}
+        repaint();
+    }
 
 
 

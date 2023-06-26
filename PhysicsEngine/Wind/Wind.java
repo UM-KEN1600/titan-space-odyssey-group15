@@ -57,7 +57,7 @@ public abstract class Wind {
         double startAngle = angleBoundaries[randomIndex * 2];
         double endAngle = angleBoundaries[randomIndex * 2 + 1];
         
-        //randomizing a wind strength in the boundaries 1-maxWindVelocity, always in km/s
+        //randomizing a wind strength in the boundaries 1 to maxWindVelocity, always in km/s
         double windVelocity = random.nextDouble() * (maxWindVelocity - 1) + 1;
 
         //randomly finding the angle the wind arrives from 
@@ -72,6 +72,7 @@ public abstract class Wind {
     }
 
     /**
+     * Adapts the wind velocity depending on the atmosphere of Titan that the probe is in
      * Adapts the wind velocity depending on the atmosphere of Titan that the probe is in(proportion is based on below data)
      * @param windVelocity the randomised current wind velocity 
      * @param currentDistanceFromSurface the probe's distance from Titan's surface
@@ -89,16 +90,16 @@ public abstract class Wind {
         int mesosphereDistance = 210;
 
         if (currentDistanceFromSurface <= troposphereDistance) {  //Troposphere
-            return ((1/4) * windVelocity);
+            return (windVelocity/4);
 
         } else if (currentDistanceFromSurface <= stratosphereDistance) { //Stratosphere
-            return ((4/4) * windVelocity);
+            return (windVelocity);
 
         } else if (currentDistanceFromSurface <= mesosphereDistance) { //Mesosphere
-            return ((2/4) * windVelocity);
+            return (2*windVelocity/4);
 
         } else {     //Thermosphere over 210km
-            return ((1/8) * windVelocity);
+            return (windVelocity/8);
         } 
     }
 

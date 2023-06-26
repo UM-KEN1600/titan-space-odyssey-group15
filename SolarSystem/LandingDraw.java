@@ -21,7 +21,7 @@ public class LandingDraw extends JPanel {
     int spaceshipCenterX;
     int spaceshipCenterY; 
     int spaceshipX; 
-    int spaceshipY; 
+    static int spaceshipY; 
     
     //Arrow
     int arrowX = 0;
@@ -103,6 +103,7 @@ public class LandingDraw extends JPanel {
             rotateArrow(-90);
         }
 
+        //rotates arrow in the GUI
         AffineTransform arrowTransform = g2.getTransform();
         g2.rotate(Math.toRadians(rotationAngle), arrowCenterX, arrowCenterY);
         g2.drawImage(arrow, arrowX, arrowY, null);
@@ -117,6 +118,8 @@ public class LandingDraw extends JPanel {
         titanCenterX = titanX + titan.getWidth(null) / 2;
         titanCenterY = titanY + titan.getHeight(null) / 2;
 
+
+        //rotates Titan in the GUI
         AffineTransform titanTransform = g2.getTransform();
         g2.rotate(Math.toRadians(titanRotationAngle+(i/10)), titanCenterX, titanCenterY);
         g2.drawImage(titan, titanX, titanY, null);
@@ -126,6 +129,7 @@ public class LandingDraw extends JPanel {
         spaceshipCenterX = spaceshipX + spaceShip.getWidth(null) / 2;
         spaceshipCenterY = spaceshipY + spaceShip.getHeight(null) / 2;
 
+        //rotates Spaceship in the GUI
         AffineTransform oldTransform = g2.getTransform();
         g2.rotate(Math.toRadians(rotationAngle)+State.landingPositionsAngle[i][2], spaceshipCenterX, spaceshipCenterY);
         spaceshipX =(int)(CelestialBody.scaleDownLanding(State.landingPositionsAngle[i][0])) + 485;

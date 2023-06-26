@@ -133,7 +133,7 @@ public class Simulation {
             newUV = controller.getUV(initialState,i);
 
             // LeftAndRightWind, RightWind, LeftWind
-            Wind wind = new LeftAndRightWind(10);
+            Wind wind = new LeftWind(10);
             //applywind to velocities
             initialState[1] = wind.applyWind(initialState[1]);
 
@@ -158,12 +158,14 @@ public class Simulation {
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
 
+            System.out.println(i + "seconds: " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+            System.out.println(Arrays.deepToString(initialState));
             if(!openLoop){
                 if(probePosition[1] - OpenLoopController.LANDING_POSITION[1]  <= 0){
                     break;
                 }
             }
-            //System.out.println(i + "seconds: " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+            
             if(VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION)>previousDistance)
             {
                // System.out.println("-----------------------------------------" + i);

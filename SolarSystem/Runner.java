@@ -6,6 +6,10 @@ import java.util.TimerTask;
 import PhysicsEngine.Simulations.Simulation;
 import PhysicsEngine.Solvers.iSolver;
 
+/**
+ * This class represents the trajectory of the spaceship from Earth to Titan
+ */
+
 public class Runner {
 
     public static CelestialBody body = new CelestialBody();

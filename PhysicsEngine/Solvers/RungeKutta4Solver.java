@@ -169,16 +169,34 @@ public class RungeKutta4Solver implements iSolver
     return kx;
   }
     
+  /**
+   * Calculates the x acceleration relating to the formula x'' = u * sin(theta)
+   * @param u
+   * @param theta
+   * @return
+   */
   private double calculateXAcceleration(double u, double theta)
     {
         return u * Math.sin(theta);
     }
 
+    /**
+     * Calculates the y acceleration relating to the formula y'' = u * cos(theta) - g
+     * @param u
+     * @param theta
+     * @return
+     */
     private double calculateYAcceleration(double u, double theta)
     {
         return u * Math.cos(theta) - g;
     }
 
+    /**
+     * Adds the kx state matrix calculated above in the getK method to the current state of the spaceship
+     * @param currentState
+     * @param kx
+     * @return
+     */
     private double[][] addKToState(double[][] currentState, double[][] kx)
     {
       return MatrixOperations.matrixAddition(currentState, kx);

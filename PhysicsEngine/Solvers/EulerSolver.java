@@ -136,6 +136,14 @@ public class EulerSolver implements iSolver {
         return newState;
     }
 
+    /**
+     * Calculates the next state of the spaceship during the landing 
+     * @param oldState previous state of the spaceship
+     * @param mainThrust
+     * @param torque
+     * @param timestep
+     * @return
+     */
     public double[][] landSolve(double[][] oldState, double mainThrust, double torque, double timestep){
 
         double[][] newState = new double[2][3];
@@ -152,6 +160,12 @@ public class EulerSolver implements iSolver {
         return newState;
     }
 
+    /**
+     * Calculates the x acceleration relating to the formula x'' = u * sin(theta)
+     * @param u
+     * @param theta
+     * @return
+     */
     private double calculateXAcceleration(double u, double theta)
     {   
 
@@ -159,6 +173,12 @@ public class EulerSolver implements iSolver {
         
     }
 
+    /**
+     * Calculates the y acceleration relating to the formula y'' = u * cos(theta) - g
+     * @param u
+     * @param theta
+     * @return
+     */
     private double calculateYAcceleration(double u, double theta)
     {
         return u * Math.cos(theta) - g;

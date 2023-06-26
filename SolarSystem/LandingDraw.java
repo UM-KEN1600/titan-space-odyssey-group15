@@ -67,7 +67,6 @@ public class LandingDraw extends JPanel {
 
     /**
      * Displays one frame for the given coordinates which are retrieved from the allPositions array in the State class
-     * 
      * @param Graphics
      * @return
      */

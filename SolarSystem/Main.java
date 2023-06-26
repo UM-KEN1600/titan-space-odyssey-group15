@@ -12,7 +12,7 @@ import PhysicsEngine.Solvers.*;
 
 public class Main {
     
-    public static  String[] solvers = {"Euler" , "Runge-Kutta4" , "Runge-Kutta2", "Adam-Bashforth" , "Heuns" };
+    public static  String[] solvers = {"Euler" , "Runge-Kutta4" , "Runge-Kutta2", "Adams-Bashforth" , "Heuns" };
     static iSolver solver;
     static Simulation sim;
     static JFrame solverChooser;

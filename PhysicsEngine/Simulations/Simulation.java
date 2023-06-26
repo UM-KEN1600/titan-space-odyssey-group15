@@ -163,8 +163,6 @@ public class Simulation {
             probePosition[0] = initialState[0][0];
             probePosition[1] = initialState[0][1];
 
-            System.out.println(i + "seconds: " + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
-            System.out.println(Arrays.deepToString(initialState));
             if(!openLoop){
                 if(probePosition[1] - OpenLoopController.LANDING_POSITION[1]  <= 0){
                     break;

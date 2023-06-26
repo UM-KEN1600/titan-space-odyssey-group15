@@ -241,9 +241,7 @@ public class FeedbackController implements iController{
      * Main method to calculate for how long and how much to decelerate
      */
     private void yCorrection(){
-        System.out.println("Correcting the y");
         double height = currentPosition[1] - LANDING_POSITION[1];
-        System.out.println(height);
         
         //Here it checks how long it takes to fall
         //If the deceleration time needed at max thrust + 50 seconds is smaller than the fallTime left, the y deceleration would kick in
@@ -358,7 +356,7 @@ public class FeedbackController implements iController{
     }
 
     public boolean testYVelocity(){
-        return (Math.abs(currentVelocity[1]) < yVelocityFINAL);
+        return (Math.abs(currentVelocity[1]) < yVelocityFINAL) && (fallTime() > 2);
     }
 
     public boolean testXPosition(){
@@ -391,7 +389,6 @@ public class FeedbackController implements iController{
         }
     
         if(!testYVelocity() && (turnTime == 0)){
-            System.out.println("y correction");
             yCorrection();
         }
     }

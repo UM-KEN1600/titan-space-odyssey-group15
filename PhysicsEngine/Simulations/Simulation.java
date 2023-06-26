@@ -41,7 +41,7 @@ public class Simulation {
     int secondsOfTravel = 31536000; //seconds in a year //
     int secondsOfLanding = 500;// 433; //seconds for landing for the Open Loop
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
-    boolean openLoop = false;
+    boolean openLoop = true;
 
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back

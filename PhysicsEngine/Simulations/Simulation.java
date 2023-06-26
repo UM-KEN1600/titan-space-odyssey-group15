@@ -13,6 +13,7 @@ import PhysicsEngine.JourneyPhase.TravelPhase;
 import PhysicsEngine.JourneyPhase.iJourneyPhase;
 import PhysicsEngine.Solvers.iSolver;
 import PhysicsEngine.States.State;
+import PhysicsEngine.Operations.MatrixOperations;
 import PhysicsEngine.Operations.VectorOperations;
 import SolarSystem.CelestialBody;
 import PhysicsEngine.Wind.*;
@@ -33,11 +34,14 @@ public class Simulation {
     //controls the timestep and solver used in respective phases
     iJourneyPhase journeyPhase;
 
+    boolean areGivenState = false;
+    double[][] givenState = {{-50, 200, Math.PI/2}, {0.1,0,0}};
+
     double framesTotal = 200;
     int secondsOfTravel = 31536000; //seconds in a year //
     int secondsOfLanding = 500;// 433; //seconds for landing for the Open Loop
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
-    boolean openLoop = false;
+    boolean openLoop = true;
 
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
@@ -126,6 +130,7 @@ public class Simulation {
         }
 
         double[] newUV = new double[2];
+        Wind wind = new LeftAndRightWind(10);
 
         for(int i = 0 ; i < (secondsOfLanding); i++)
         {
@@ -135,7 +140,8 @@ public class Simulation {
             // LeftAndRightWind, RightWind, LeftWind
             Wind wind = new LeftWind(10);
             //applywind to velocities
-            initialState[1] = wind.applyWind(initialState[1]);
+            //initialState[1] = wind.applyWind(initialState[1]);
+            //initialState[1] = wind.applyWind(initialState[1], initialState[0][1] - OpenLoopController.LANDING_POSITION[1]);
 
             //passes UV into the solver to apply UV on the current state
             if(openLoop){
@@ -174,9 +180,17 @@ public class Simulation {
 
             probePosition[0] = initialState[1][0];
             probePosition[1] = initialState[1][1];
-          //  System.out.println(Arrays.toString(probePosition));
+          // System.out.println(Arrays.toString(probePosition));
+
             
         }
+
+            double[] probePosition = new double[2];
+            probePosition[0] = initialState[0][0];
+            probePosition[1] = initialState[0][1];
+            
+            System.out.println("The final distance is: km" + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
+            System.out.println("The final velocities are: " + Arrays.toString(initialState[1]));
     }
 
     private double previousDistance = Integer.MAX_VALUE;
@@ -195,6 +209,18 @@ public class Simulation {
         newState[1][0] = state[8][1][0];
         newState[1][1] = state[8][1][1];
         newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0],newState[1][1]}, new double[] {10,0});
+
+        if(areGivenState)
+        {
+
+        newState[0][0] = state[7][0][0] + givenState[0][0];
+        newState[0][1] = state[7][0][1] + CelestialBody.bodyList[7].getRadius() + givenState[0][1];
+
+        newState[1][0] = givenState[1][0];
+        newState[1][1] = givenState[1][1];
+        newState[0][2] = VectorOperations.calculateAngle(new double[] {newState[1][0],newState[1][1]}, new double[] {10,0});
+
+        }
         return newState;
 
     }

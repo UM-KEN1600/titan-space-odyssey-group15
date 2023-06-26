@@ -89,10 +89,7 @@ public abstract class Wind {
         int stratosphereDistance = 100;
         int mesosphereDistance = 210;
         
-        if(currentDistanceFromSurface <= 2){ // near the surface the wind is 0
-            return 0;
-        }
-        else if(currentDistanceFromSurface <= troposphereDistance) {  //Troposphere
+        if(currentDistanceFromSurface <= troposphereDistance) {  //Troposphere
             return (windVelocity/4);
 
         } else if (currentDistanceFromSurface <= stratosphereDistance) { //Stratosphere

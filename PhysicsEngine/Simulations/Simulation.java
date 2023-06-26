@@ -128,7 +128,7 @@ public class Simulation {
         System.out.println(initialState[0][1] - landingSpot[1]);
 
 
-        for(int i = 0 ; i < 1700/journeyPhase.getStepSize(); i++)
+        for(int i = 0 ; i < 2000/journeyPhase.getStepSize(); i++)
         {
 
             newUV = controller.getUV(initialState,i);

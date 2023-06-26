@@ -6,6 +6,7 @@ import javax.transaction.xa.Xid;
 
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import SolarSystem.CelestialBody;
+import PhysicsEngine.Functions;
 
 public class FeedbackController implements iController{
 
@@ -72,40 +73,18 @@ public class FeedbackController implements iController{
         this.currentAngle = currentPosition[2];
         this.currentAngularVelocity = currentVelocity[2];
 
-        
-        System.out.println("Positions");
-        System.out.println(Arrays.toString(currentPosition));
-
-        System.out.println("Velocity");
-        System.out.println(Arrays.toString(currentVelocity));
-
-        System.out.println("Angle:");
-        System.out.println(currentPosition[2]);
-
         double xDistanceProbeLandingPoint = LANDING_POSITION[0] - currentPosition[0];
         
-        System.out.println("Movement: ");
-        System.out.println(xDistanceProbeLandingPoint);
-        
-        System.out.println("Thrust time");
-        System.out.println(thrustTime);
         rotatingController();
 
         //Sets and controls any parameters that are needed for a successful x displacement
         thrustController();
         testOnce();
 
-    
-        
         double nextState[] = new double[2];
         nextState[0] = currentThrust;
         nextState[1] = torque;
 
-        System.out.println("Current thrust:");
-        System.out.println(currentThrust);
-
-        System.out.println("Torque:");
-        System.out.println(torque);
         return nextState;
     }
 
@@ -113,13 +92,12 @@ public class FeedbackController implements iController{
      * If at halftime, it starts the deceleration phase
      * else If the time is zero, it finishes.
      */
-    //DO NOT REMOVE
     private void thrustController(){
         if(thrustTime == 0){
             currentThrust = 0; //X movement has been finished
             thrustTime = 0;
             halfThrust = 0;
-            tempThrust = 0;
+            tempThrust = 0; //tempthrust is just to store the thrust when it stops in the rotation
         }
         if(thrustTime >= 1 && (currentThrust == 0) && (turnTime == 0)){
             currentThrust = tempThrust;
@@ -165,73 +143,52 @@ public class FeedbackController implements iController{
      * Finds a suitable angle for the rocket to be at or uses the existing one
      * Plans out exactly for how long to run the engine to accelerate and then decelerate until it reaches the wanted position
      */
-    //DO NOT REMOVE
     private void xCorrection(){
         double movement = LANDING_POSITION[0] - currentPosition[0];
-
-        System.out.println("Current X Position:");
-        System.out.println(currentPosition[0]);
-            
+    
         double movementAngle = (turnAngle * Math.signum(movement));
         if(Math.signum(movementAngle) == -1){
             movementAngle += 2*Math.PI;
         }
-        System.out.println("movement angle");
-        System.out.println(movementAngle);
+
         if(!((currentAngle > movementAngle-thetaDifference) && (currentAngle < movementAngle+thetaDifference))  && (turnTime == 0)){
-            System.out.println("modifed movement angle");
             doRotation(movementAngle);
             return;
         }
-
-        System.out.println("Movement2: ");
-        System.out.println(movement);
         doMovement(movement);
-        System.out.println("half thurst");
-        System.out.println(halfThrust);
     }
 
 
     /**
      * Sets any necessary values for the rocket to move in the x axis
+     * So this works by first calculating the time that would be needed at max thrust to achieve the displacement
+     * Then it calculates the thrust needed with a full amount of time since the stepsizes will be integers
      * @param movement displacement amount
      */
     private void doMovement(double movement){
-        System.out.println("doMovement:");
-        System.out.println(movement);
+        //It divides the distance by 2 to first to the acceleration phase and then the deceleration phase
         double halfDistance = movement/2;
         currentThrust = maxThrust;
         double time = Math.ceil(xTime(halfDistance));
         double thrust = xThrust(time, halfDistance);
-        System.out.println("Half thrust");
-        System.out.println(thrust);
         currentThrust = thrust;
-        
+
+        //this is needed for the thrust controller to work correctly
         halfThrust = time;
-        thrustTime = (halfThrust * 2) -2;
-        if(thrustTime < 2){
-            thrustTime = halfThrust+1;
-            currentThrust = (movement/4)/Math.sin(currentAngle);
-        }
+        thrustTime = (halfThrust * 2);
         tempThrust = (currentThrust+1)-1;
-    
     }
 
     /**
      * Calculates how long it would take for the spacecraft to move a certain distance at max thrust
+     * based on the formula s = 0.5*a*t^2
+     * rearranged to t = (2s/a)^0.5
      * @param movement displacement
      * @return the time needed 
      */
     private double xTime(double movement){
-        System.out.println("xTime values");
-        System.out.println(movement);
         double acceleration = Math.abs(currentThrust * Math.sin(currentAngle));
-        System.out.println(acceleration);
-        System.out.println("Angle:");
-        System.out.println(Math.sin(currentAngle));
-        double time = Math.sqrt(Math.abs(((movement-currentVelocity[0])*2)/acceleration));
-        System.out.println("xTime:");
-        System.out.println(time);
+        double time = Math.sqrt(Math.abs((movement*2)/acceleration));
         return time;
     }
 
@@ -242,13 +199,21 @@ public class FeedbackController implements iController{
      * @return the thrust needed to push the rocket by for it to get to the deisre position
      */
     private double xThrust(double time, double movement){
+        //Following two lines are basially legacy code but are maintained to show the formulas that the code is based on
+        //The real formula being used for the thrust calculations is a modified version that does take into account the rotating time of the probe
         double acceleration = ((movement-currentVelocity[0])*2) / (time*time);
         double thrust = Math.abs(acceleration/Math.sin(currentAngle));
-        System.out.println("xThrust:");
-        System.out.println(thrust);
-        System.out.println("xTIme thrust");
-        System.out.println(time);
-        double correctedThrust = Math.abs((movement / (((time*time)/2) -8))/Math.sin(currentAngle));
+        double correctedThrust = thrust;
+        if(time > 4){
+            correctedThrust = Math.abs((movement / (((time*time)/2) -8))/Math.sin(currentAngle))/2;
+        } else { //This hardcoded block is needed since if the time is less or equal to 4 the thrust calculation would not work
+            if(time == 1){
+                correctedThrust = Math.abs((movement/4)/Math.sin(currentAngle));
+            }  else {
+                correctedThrust = Math.abs(((movement/(4*time))/Math.sin(currentAngle)));
+            }
+            
+        }
         return correctedThrust;
     }
 
@@ -263,13 +228,10 @@ public class FeedbackController implements iController{
                 velocityCorrection = maxThrust;
             }
             currentThrust = velocityCorrection;
-            System.out.println("correction thrust");
-            System.out.println(currentThrust);
-
             thrustTime = 0;
             halfThrust = 1;
         } else{
-
+            //Changes the angle until it is in the correct position for it to decelerate
             double movementAngle = 0 + turnAngle * -Math.signum(currentVelocity[0]);
             doRotation(movementAngle);
         }
@@ -280,26 +242,23 @@ public class FeedbackController implements iController{
      */
     private void yCorrection(){
         double height = currentPosition[1] - LANDING_POSITION[1];
-        System.out.println(ydecelerationTime(maxThrust));
-        if((ydecelerationTime(maxThrust) + 50 < fallTime() || height > 50) && (height >1)){
-            return;
+        //Here it checks how long it takes to fall
+        //If the deceleration time needed at max thrust + 50 seconds is smaller than the fallTime left, the y deceleration would kick in
+        if((ydecelerationTime(maxThrust) + 50 < fallTime() || height > 50) && (height > 0.5)){
+            return; 
         }
+        //After the velocity left is less than the maxThrust, the acceleration starts to vary
         if(Math.abs(currentVelocity[1]) < maxThrust - g){
-            System.out.println("WTF IS it DOING");
-            System.out.println(currentVelocity[1]);
             double time = fallTime();
             currentThrust = yAcceleration(time);
-            System.out.println("MAJOR FUCKUP POINT");
-            System.out.println(currentThrust);
         } else{
             currentThrust = maxThrust;
         }
+        //This last block just corrects the yvelocity just enough right in the end
+        //Has almost an emergency purpose
         if(fallTime() < 2){
             currentThrust = (Math.abs(currentVelocity[1]) + g) - 0.5*yVelocityFINAL;
         }
-        System.out.println("yCorrection thrust");
-        System.out.println(currentThrust);
-
     }
         
     /**
@@ -310,14 +269,8 @@ public class FeedbackController implements iController{
     //0 = -0.5gt^2 + v0t - s
     private double fallTime(){
         double height = currentPosition[1] - LANDING_POSITION[1];
-        System.out.println("wtf is the height even");
-        System.out.println(height);
         double currentYVelocity = currentVelocity[1];
-        System.out.println("WTF IS THE VELOCITY");
-        System.out.println(currentYVelocity);
-        double time = quadraticEquation(-0.5*g, currentYVelocity, height);
-        System.out.println("IS IT TIME?");
-        System.out.println(time);
+        double time = Functions.quadraticEquation(-0.5*g, currentYVelocity, height);
         return time;
     }
 
@@ -332,20 +285,7 @@ public class FeedbackController implements iController{
         return decelerationTime;
     }
 
-    /**
-     * Quadratic Equation solver
-     * ax^2 + bx + c = 0
-     * x = (-b + sqrt(b^2 -4ac))/2a
-     * @param a 
-     * @param b
-     * @param c
-     * @return solved equation for x
-     */
-    static public double quadraticEquation(double a, double b, double c){
-        double discriminant = Math.sqrt(Math.abs((b*b) - (4*a*c)));
-        double x = (-b - discriminant)/ (2*a);
-        return x;
-    }
+    
 
     /**
      * Calculates the acceleration that would be needed to decelerate in a given amount of time to 0
@@ -354,8 +294,8 @@ public class FeedbackController implements iController{
      */
     private double yAcceleration(double time){
         double currentYVelocity = currentVelocity[1];
-        double acceleration = currentYVelocity/time;
-        return acceleration + g;
+        double acceleration = Math.abs(currentYVelocity/time);
+        return acceleration;
     }
 
     //Rotates the probe back to vertical position
@@ -369,15 +309,9 @@ public class FeedbackController implements iController{
      * @param newAngle
      */
     private void direction(double newAngle){
-        System.out.println("direciton");
-        System.out.println(newAngle - currentAngle);
-        System.out.println(newAngle);
-        System.out.println(currentAngle);
         if (newAngle - currentAngle < 0){
             torque = -torque; 
         }
-        System.out.println("New torque");
-        System.out.println(torque);
     }
     
     /**
@@ -388,8 +322,6 @@ public class FeedbackController implements iController{
         //Find the amount of angle that needs to be displaced
         double changeInAngle = Math.abs(newAngle - currentAngle);
 
-        System.out.println("New Angle");
-        System.out.println(changeInAngle);
         //calculates for how long an amount of torque has to be applied to reach the wanted angle
         rotator.xRotationPlan(changeInAngle);
         turnTime = rotator.getRotationTime();
@@ -411,18 +343,6 @@ public class FeedbackController implements iController{
         }
     }
     
-    /* REDUNDANT SINCE IT'S ALREADY IN SIM
-    //Resets the angle to a 2PI base system (Prevents negative values or values above 2PI)
-    public void fullCircle(){
-        if (currentAngle < 0){
-            currentAngle += 2* Math.PI;
-        }
-        if(currentAngle > 0){
-            currentAngle -= 2* Math.PI;
-        }
-    }
-    */
-
 
     //Constraint Tester Block
     //---------------------------------------------------------------------------------------------------------
@@ -431,8 +351,7 @@ public class FeedbackController implements iController{
     }
 
     public boolean testXVelocity(){
-        //return Math.abs(currentVelocity[0]) < xVelocityFINAL;
-        return Math.abs(currentVelocity[0]) == 0;
+        return Math.abs(currentVelocity[0]) < xVelocityFINAL*0.01;
     }
 
     public boolean testYVelocity(){
@@ -441,8 +360,6 @@ public class FeedbackController implements iController{
 
     public boolean testXPosition(){
         double xdistance = Math.abs(LANDING_POSITION[0] - currentPosition[0]);
-        System.out.println("xdistance");
-        System.out.println(xdistance);
         return xdistance < xFINAL ;
     }
 
@@ -459,7 +376,7 @@ public class FeedbackController implements iController{
             System.out.println("xVelocityCorrection");
             xVelocityCorrection();
         }
-        if(!testXPosition() && (turnTime == 0) && (thrustTime == 0)){
+        if(!testXPosition() && (turnTime == 0) && (thrustTime == 0) && (halfThrust == 0)){
             System.out.println("xCorrection");
             xCorrection();
         }
@@ -478,8 +395,6 @@ public class FeedbackController implements iController{
             System.out.println("yCorrection");
             yCorrection();
         }
-        System.out.println("Rotation time");
-        System.out.println(turnTime);
     }
 
 

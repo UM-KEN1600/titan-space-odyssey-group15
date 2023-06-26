@@ -374,26 +374,21 @@ public class FeedbackController implements iController{
     public void testOnce(){
 
         if(!testXVelocity() && (thrustTime == 0) && (turnTime == 0)){
-            System.out.println("xVelocityCorrection");
             xVelocityCorrection();
         }
         if(!testXPosition() && (turnTime == 0) && (thrustTime == 0) && (halfThrust == 0)){
-            System.out.println("xCorrection");
             xCorrection();
         }
         
         if(!testAngle() && (thrustTime == 0) && (turnTime == 0) && (halfThrust == 0)){
-            System.out.println("AngleCorrection");
             rotationCorrection();
         }
 
         if(!testAngularVelocity() && (turnTime == 0)){
-            System.out.println("AngularCorrection");
             angularVelocityCorrection();
         }
     
         if(!testYVelocity() && (turnTime == 0)){
-            System.out.println("yCorrection");
             yCorrection();
         }
     }

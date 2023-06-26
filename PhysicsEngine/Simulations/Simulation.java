@@ -141,6 +141,7 @@ public class Simulation {
 
             //applywind to velocities
             //initialState[1] = wind.applyWind(initialState[1]);
+            //initialState[1] = wind.applyWind(initialState[1], initialState[0][1] - OpenLoopController.LANDING_POSITION[1]);
 
             //passes UV into the solver to apply UV on the current state
             if(openLoop){
@@ -168,9 +169,11 @@ public class Simulation {
                     break;
                 }
             }
-            
+
             probePosition[0] = initialState[1][0];
             probePosition[1] = initialState[1][1];
+          // System.out.println(Arrays.toString(probePosition));
+
             
         }
 

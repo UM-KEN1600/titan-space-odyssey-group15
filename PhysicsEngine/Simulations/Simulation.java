@@ -138,7 +138,6 @@ public class Simulation {
             newUV = controller.getUV(initialState,i);
 
             // LeftAndRightWind, RightWind, LeftWind
-            Wind wind = new LeftWind(10);
             //applywind to velocities
             //initialState[1] = wind.applyWind(initialState[1]);
             //initialState[1] = wind.applyWind(initialState[1], initialState[0][1] - OpenLoopController.LANDING_POSITION[1]);

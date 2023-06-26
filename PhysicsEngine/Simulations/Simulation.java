@@ -2,8 +2,10 @@ package PhysicsEngine.Simulations;
 import java.util.Arrays;
 
 import PhysicsEngine.Functions;
+import PhysicsEngine.Solvers.EulerSolver;
 import PhysicsEngine.Solvers.RungeKutta4Solver;
 import PhysicsEngine.Thrust;
+import PhysicsEngine.Controller.FeedbackController;
 import PhysicsEngine.Controller.OpenLoopController;
 import PhysicsEngine.Controller.iController;
 import PhysicsEngine.JourneyPhase.LandingPhase;
@@ -33,8 +35,10 @@ public class Simulation {
 
     double framesTotal = 200;
     int secondsOfTravel = 31536000; //seconds in a year //
-    final int secondsOfLanding = 500;// 433; //seconds for landing DO NOT CHANGE
+    int secondsOfLanding = 500;// 433; //seconds for landing for the Open Loop
     int totalSecondsOfTravel = secondsOfLanding + secondsOfTravel;
+    boolean openLoop = true;
+
 
     //These are the velocities that have to be changed to modify the probe at the beginning or at the point to go back
     double[] startingVelocity = {49.58306860517117, 38.2950835525803, 1.9666795395409593};
@@ -96,6 +100,9 @@ public class Simulation {
         journeyPhase = new LandingPhase();
         int storePositionsEveryXSeconds = 5;
 
+        if(!openLoop){
+            EulerSolver eulerSolver = new EulerSolver();
+        }
         RungeKutta4Solver RK4Solver = new RungeKutta4Solver();
 
         double[] landingSpot = new double[2];
@@ -111,6 +118,11 @@ public class Simulation {
         initialState[1][0] = 0;
         initialState[1][1] = 0;
 
+        EulerSolver eulerSolver = new EulerSolver();
+        if(!openLoop){
+            controller = new FeedbackController(1, landingSpot);
+            secondsOfLanding = 2000;
+        }
 
         double[] newUV = new double[2];
 
@@ -125,7 +137,11 @@ public class Simulation {
             initialState[1] = wind.applyWind(initialState[1]);
 
             //passes UV into the solver to apply UV on the current state
-            initialState = RK4Solver.solve(initialState,newUV[0],newUV[1], journeyPhase.getStepSize());
+            if(openLoop){
+                initialState = RK4Solver.solve(initialState,newUV[0],newUV[1], journeyPhase.getStepSize());
+            } if(!openLoop) {
+                initialState = eulerSolver.landSolve(initialState,newUV[0],newUV[1], journeyPhase.getStepSize());
+            }
             initialState[0][2] = fullCircle(initialState[0][2]);
 
 

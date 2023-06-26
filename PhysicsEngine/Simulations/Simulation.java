@@ -179,8 +179,6 @@ public class Simulation {
             probePosition[1] = initialState[0][1];
             
             System.out.println("The final distance is: km" + VectorOperations.euclideanForm(probePosition, OpenLoopController.LANDING_POSITION));
-            VectorOperations.vectorSubtraction(probePosition, OpenLoopController.LANDING_POSITION);
-            System.out.println("The final positions are: " + Arrays.toString(probePosition));
             System.out.println("The final velocities are: " + Arrays.toString(initialState[1]));
     }
 

@@ -26,7 +26,10 @@ Option A:
 
 1. Using terminal/cmd navigate to the directory where the repository is
 
-2. When in the folder for the project write the following in the terminal
+2. When in the folder for the project write the following in the terminal/cmd
+    - javac -Xlint ./SolarSystem/Main.java 
+
+2. Afterwards write the following command in the terminal/cmd
     - javac ./SolarSystem/Main.java
 
 3. Followed by
@@ -36,7 +39,7 @@ Option A:
 
 5. After selecting your preferred solver and pressing run you will run the similation
 
-6. After the Simulation runs you will get an ending screen showing the fuel consumption and closest distance to Titan
+6. Once the journey to the orbit is complete a landing screen will pop up, displaying the landing of the spaceship on Titan
 
 
 
@@ -53,4 +56,4 @@ Option B:
 
 4. After selecting your preferred solver and pressing run you will run the similation
 
-5. After the Simulation runs you will get an ending screen showing the fuel consumption and closest distance to Titan
+5. Once the journey to the orbit is complete a landing screen will pop up, displaying the landing of the spaceship on Titan

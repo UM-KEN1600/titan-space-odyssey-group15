@@ -135,7 +135,7 @@ public class Simulation {
             // LeftAndRightWind, RightWind, LeftWind
             Wind wind = new LeftAndRightWind(10);
             //applywind to velocities
-            initialState[1] = wind.applyWind(initialState[1]);
+            initialState[1] = wind.applyWind(initialState[1], initialState[0][1] - OpenLoopController.LANDING_POSITION[1]);
 
             //passes UV into the solver to apply UV on the current state
             if(openLoop){

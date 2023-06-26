@@ -29,17 +29,17 @@ Option A:
 2. When in the folder for the project write the following in the terminal/cmd
     - javac -Xlint ./SolarSystem/Main.java 
 
-2. Afterwards write the following command in the terminal/cmd
+3. Afterwards write the following command in the terminal/cmd
     - javac ./SolarSystem/Main.java
 
-3. Followed by
+4. Followed by
     - java SolarSystem.Main
 
-4. You will now have a solver selection screen
+5. You will now have a solver selection screen
 
-5. After selecting your preferred solver and pressing run you will run the similation
+6. After selecting your preferred solver and pressing run you will run the similation
 
-6. Once the journey to the orbit is complete a landing screen will pop up, displaying the landing of the spaceship on Titan
+7. Once the journey to the orbit is complete a landing screen will pop up, displaying the landing of the spaceship on Titan
 
 
 

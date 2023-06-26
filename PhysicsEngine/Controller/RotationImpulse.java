@@ -92,7 +92,7 @@ public class RotationImpulse {
     public void xRotationPlan(double newAngle){
 
         //calculates half the newAngle since the rotation will have 2 phases (acceleration and deceleration)
-        double halfAngle = Math.ceil(newAngle/2);
+        double halfAngle = newAngle/2;
     
         //calculates the full amount of acceleration time needed
         double averageAccelerationAngle = halfAngle;
@@ -118,7 +118,7 @@ public class RotationImpulse {
      * @return the amount of time that the rocket has to accelerate to achieve the necessary velocity
      */
     public double calculateAccelerationTime(double newAngle){
-        double time = Math.sqrt(newAngle);
+        double time = Math.sqrt(newAngle*2);
         return time;
     }
 
@@ -129,7 +129,7 @@ public class RotationImpulse {
      * @return the acceleration needed 
      */
     public double calculateAcceleration(double newAngle, double time){
-        double acceleration = newAngle / time;
+        double acceleration = (newAngle*2) / (time*time);
         return acceleration;
     }
 

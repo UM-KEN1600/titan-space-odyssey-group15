@@ -200,4 +200,19 @@ public class Functions {
 
         return VectorOperations.vectorScalarMultiplication(b, a);
     }
+
+    /**
+     * Quadratic Equation solver
+     * ax^2 + bx + c = 0
+     * x = (-b + sqrt(b^2 -4ac))/2a
+     * @param a 
+     * @param b
+     * @param c
+     * @return solved equation for x
+     */
+    static public double quadraticEquation(double a, double b, double c){
+        double discriminant = Math.sqrt(Math.abs((b*b) - (4*a*c)));
+        double x = (-b - discriminant)/ (2*a);
+        return x;
+    }
 }

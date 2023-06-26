@@ -1,5 +1,5 @@
 README
-Simulation of a probe launch from Earth to Titan - Group 15
+Simulation of a probe launch from Earth to Titan and landing on the surface - Group 15
 Requirements: Java installed on computer that is used
 
 
@@ -36,7 +36,11 @@ Option A:
 
 5. After selecting your preferred solver and pressing run you will run the similation
 
+<<<<<<< Updated upstream
 6. After the Simulation runs you will get an ending screen showing the fuel consumption and closest distance to Titan
+=======
+6. Once the journey to the orbit is complete a landing screen will pop up, displaying the landing of the spaceship on Titan
+>>>>>>> Stashed changes
 
 
 
@@ -52,5 +56,10 @@ Option B:
 3. You will now have a solver selection screen
 
 4. After selecting your preferred solver and pressing run you will run the similation
+<<<<<<< Updated upstream
 
 5. After the Simulation runs you will get an ending screen showing the fuel consumption and closest distance to Titan
+=======
+ 
+5. Once the journey to the orbit is complete a landing screen will pop up, displaying the landing of the spaceship on Titan
+>>>>>>> Stashed changes

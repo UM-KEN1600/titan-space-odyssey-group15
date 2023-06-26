@@ -22,15 +22,9 @@ public class LandingDraw extends JPanel {
     int spaceshipCenterY; 
     int spaceshipX; 
     static int spaceshipY; 
-    
-    //Arrow
-    int arrowX = 0;
-    int arrowY = 0;
-    int permX = 0;
-    int permY = 0;
+   
 
     //Angle rotation for every image used
-    double arrowRotate = 0.0;
     double titanRotationAngle = 0.0;
     double rotationAngle = 0.0;
 
@@ -38,7 +32,6 @@ public class LandingDraw extends JPanel {
     Image titan;
     Image spaceShip;
     Image background;
-    Image arrow;
 
     public LandingDraw() {
         // Scaling Titan and spaceship to appropriate sizes
@@ -56,11 +49,6 @@ public class LandingDraw extends JPanel {
         Image edit2 = temp.getImage();
         Image finalImg2 = edit2.getScaledInstance(1000, 600, java.awt.Image.SCALE_SMOOTH);
         background = new ImageIcon(finalImg2).getImage();
-
-        temp = new ImageIcon("arrow.png");
-        Image edit3 = temp.getImage();
-        Image finalImg3 = edit3.getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH);
-        arrow = new ImageIcon(finalImg3).getImage();
 
         setFocusable(true);
     }
@@ -84,29 +72,7 @@ public class LandingDraw extends JPanel {
 
         g2.drawImage(background, 0, 0, null);
 
-        //perm are the coordinates that are used to position the letters
-        permX = 875;
-        permY = 75;
-        //these coordinates are used to draw the arrow
-        arrowX = 883;
-        arrowY = 67;
 
-        //Calculates the center of the arrow
-        int arrowCenterX = permX + arrow.getWidth(null) / 2;
-        int arrowCenterY = permY + arrow.getHeight(null) / 2;
-        
-        //Arrow is drawn depending on the way the wind is blowing
-        if(Wind.getDirection() == true){
-            rotateArrow(90);
-        } else {
-            rotateArrow(-90);
-        }
-
-        //rotates arrow in the GUI
-        AffineTransform arrowTransform = g2.getTransform();
-        g2.rotate(Math.toRadians(rotationAngle), arrowCenterX, arrowCenterY);
-        g2.drawImage(arrow, arrowX, arrowY, null);
-        g2.setTransform(arrowTransform);
 
         // Draw Titan
         titanX = -300; // x-coordinate for Titan
@@ -151,16 +117,6 @@ public class LandingDraw extends JPanel {
         g2.setTransform(oldTransform);
         }    
 
-        Font font = new Font("Arial", Font.BOLD, 16);
-        g2.setFont(font);
-        g2.setColor(Color.RED);
-        int textOffset = 75;
-
-        // Drawing the North, South, East, West labels around the arrow
-        g2.drawString("N", arrowCenterX, arrowCenterY - textOffset );
-        g2.drawString("S", arrowCenterX, arrowCenterY + textOffset);
-        g2.drawString("E", arrowCenterX + textOffset, arrowCenterY);
-        g2.drawString("W", arrowCenterX - textOffset, arrowCenterY);
 
         i++;
     }
@@ -173,18 +129,6 @@ public class LandingDraw extends JPanel {
      */
     public void rotateSpaceship(double degrees) {
         rotationAngle = degrees;
-        repaint();
-    }
-
-
-    /**
-     * rotates the arrow
-     * 
-     * @param double
-     * @return
-     */
-    public void rotateArrow(double degrees) {
-        arrowRotate = degrees;
         repaint();
     }
 
